@@ -1,15 +1,19 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet} from 'react-native';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
+
+export const textColor = '#000000';
+export const bgColor = '#ffffff';
+
 export const BasicStyles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: bgColor,
     flex: 1,
   },
   header: {
     fontSize: 36,
     fontFamily: 'Montserrat-ExtraBold',
-    color: 'black',
+    color:  textColor,
     lineHeight: 40,
   },
   subheader: {
@@ -30,11 +34,12 @@ export const BasicStyles = StyleSheet.create({
     borderRadius: 16,
     marginTop: 5,
     marginBottom: 5,
+    borderColor:textColor
   },
   statBtnText: {
     fontSize: 17,
     lineHeight: 24,
-    color: '#000',
+    color: textColor,
     margin: 15,
     marginTop: 10,
     marginBottom: 10,
@@ -47,6 +52,7 @@ export const BasicStyles = StyleSheet.create({
     borderWidth: 2,
     alignSelf: 'center',
     borderRadius: 16,
+    borderColor:textColor
   },
 });
 

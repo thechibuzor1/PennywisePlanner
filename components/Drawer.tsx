@@ -16,9 +16,9 @@ import MenuDrawer from 'react-native-side-drawer';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
-import {BasicStyles} from '../contants';
+import { BasicStyles, bgColor, textColor } from '../contants';
 
-const Drawer = (props) => {
+const Drawer = props => {
   const width = Dimensions.get('window').width;
   const overlay = true;
   const position = 'left';
@@ -29,10 +29,10 @@ const Drawer = (props) => {
       flex: 1,
       display: 'flex',
 
-      backgroundColor: '#000000',
+      backgroundColor: bgColor,
       borderStyle: 'solid',
       borderWidth: 2,
-      borderColor: 'black',
+      borderColor: textColor,
     };
 
     return (
@@ -40,7 +40,7 @@ const Drawer = (props) => {
         <View
           style={{
             flexDirection: 'column',
-            backgroundColor: '#ffffff',
+            backgroundColor: bgColor,
             flex: 1,
             padding: 20,
           }}>
@@ -55,7 +55,7 @@ const Drawer = (props) => {
             <FontAwesomeIcon
               icon={solid('xmark')}
               size={32}
-              color={'#000000'}
+              color={textColor}
             />
           </TouchableOpacity>
           <View
@@ -63,12 +63,14 @@ const Drawer = (props) => {
               paddingTop: 20,
             }}>
             <TouchableOpacity
+              onPress={props.toggleDrawer}
               activeOpacity={0.5}
               style={{marginTop: 20, marginBottom: 20}}>
               <Text
                 style={[
                   BasicStyles.header,
                   {
+                    color: '#44D7A8',
                     fontSize: 44,
                     lineHeight: 54,
                   },
@@ -92,6 +94,7 @@ const Drawer = (props) => {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
+              onPress={() => props.navigation.navigate('Settings')}
               activeOpacity={0.5}
               style={{marginTop: 20, marginBottom: 20}}>
               <Text
@@ -103,20 +106,6 @@ const Drawer = (props) => {
                   },
                 ]}>
                 Settings
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={0.5}
-              style={{marginTop: 20, marginBottom: 20}}>
-              <Text
-                style={[
-                  BasicStyles.header,
-                  {
-                    fontSize: 44,
-                    lineHeight: 54,
-                  },
-                ]}>
-                Account
               </Text>
             </TouchableOpacity>
           </View>
@@ -131,49 +120,13 @@ const Drawer = (props) => {
       drawerContent={drawerContent()}
       position={position}
       drawerPercentage={100}
-      animationTime={100}
+      animationTime={200}
       overlay={overlay}
       opacity={1}>
       {props.children}
     </MenuDrawer>
   );
 };
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: 'blue',
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyItems: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    padding: 30,
-  },
-  text: {
-    paddingTop: 20,
-  },
-  textLink: {
-    paddingTop: 20,
-    color: 'blue',
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+ 
 
 export default Drawer;

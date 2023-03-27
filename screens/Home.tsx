@@ -10,14 +10,14 @@ import {
   FlatList,
 } from 'react-native';
 import React, {useState} from 'react';
-import {BasicStyles, overViewData} from '../contants';
+import {BasicStyles, overViewData, textColor, bgColor} from '../contants';
 import * as Progress from 'react-native-progress';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import Drawer from '../components/Drawer';
 
-export default function Home({ navigation }) {
+export default function Home({navigation}) {
   const isDarkMode = useColorScheme() === 'dark';
   const width = Dimensions.get('window').width;
   const [openDrawer, setDrawerOpen] = useState<boolean>(false);
@@ -43,11 +43,13 @@ export default function Home({ navigation }) {
           marginRight: 15,
           backgroundColor: props.backgroundColor,
           borderRadius: 30,
+          borderWidth: 2,
+          borderColor: textColor,
         }}>
         <FontAwesomeIcon
-          icon={solid('cart-shopping')}
+          icon={props.icon}
           size={30}
-          color={'#000000'}
+          color={textColor}
           style={{margin: 10}}
         />
       </View>
@@ -79,14 +81,14 @@ export default function Home({ navigation }) {
               BasicStyles.header,
               {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
             ]}>
-            Spent: <Text style={{color: '#000000'}}>${props.spent}</Text>
+            Spent: <Text style={{color: textColor}}>${props.spent}</Text>
           </Text>
           <Text
             style={[
               BasicStyles.header,
               {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
             ]}>
-            Budget: <Text style={{color: '#000000'}}>${props.budget}</Text>
+            Budget: <Text style={{color: textColor}}>${props.budget}</Text>
           </Text>
         </View>
       </View>
@@ -95,7 +97,10 @@ export default function Home({ navigation }) {
 
   return (
     <SafeAreaProvider>
-      <Drawer navigation={ navigation } open={openDrawer} toggleDrawer={toggleDrawer}>
+      <Drawer
+        navigation={navigation}
+        open={openDrawer}
+        toggleDrawer={toggleDrawer}>
         <SafeAreaView style={BasicStyles.container}>
           <StatusBar
             barStyle={isDarkMode ? 'light-content' : 'dark-content'}
@@ -108,18 +113,32 @@ export default function Home({ navigation }) {
               marginRight: 15,
               marginTop: 30,
             }}>
-            <TouchableOpacity
-              onPress={toggleDrawer}
-              activeOpacity={0.5}
-              style={{
-                marginBottom: 20,
-              }}>
-              <FontAwesomeIcon
-                icon={solid('bars')}
-                size={30}
-                color={'#000000'}
-              />
-            </TouchableOpacity>
+            <View style={BasicStyles.spaceBtw}>
+              <TouchableOpacity
+                onPress={toggleDrawer}
+                activeOpacity={0.5}
+                style={{
+                  marginBottom: 20,
+                }}>
+                <FontAwesomeIcon
+                  icon={solid('bars')}
+                  size={30}
+                  color={textColor}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.5}
+                style={{
+                  marginBottom: 20,
+                }}>
+                <FontAwesomeIcon
+                  icon={regular('bell')}
+                  size={30}
+                  color={textColor}
+                />
+              </TouchableOpacity>
+            </View>
+
             <Text
               style={[
                 BasicStyles.header,
@@ -149,13 +168,13 @@ export default function Home({ navigation }) {
             <View style={BasicStyles.spaceBtw}>
               <Text style={BasicStyles.subheader}>
                 Spent:{' '}
-                <Text style={[BasicStyles.subheader, {color: '#000000'}]}>
+                <Text style={[BasicStyles.subheader, {color: textColor}]}>
                   $13,000
                 </Text>
               </Text>
               <Text style={BasicStyles.subheader}>
                 Budget:{' '}
-                <Text style={[BasicStyles.subheader, {color: '#000000'}]}>
+                <Text style={[BasicStyles.subheader, {color: textColor}]}>
                   $33,000
                 </Text>
               </Text>
@@ -181,6 +200,7 @@ export default function Home({ navigation }) {
               elevation: 16, */
               borderWidth: 2,
               borderBottomWidth: 4,
+              borderColor: textColor,
             }}>
             <TouchableOpacity
               activeOpacity={0.5}
@@ -193,20 +213,44 @@ export default function Home({ navigation }) {
               <FontAwesomeIcon
                 icon={solid('xmark')}
                 size={30}
-                color={'#000000'}
+                color={textColor}
               />
             </TouchableOpacity>
             <Text
               style={[
                 BasicStyles.header,
-                {color: '#000000', margin: 20, marginTop: 5},
+                {color: textColor, margin: 20, marginTop: 5},
               ]}>
               Your Budget for the next{' '}
-              <Text style={{color: '#ffffff'}}>6 days</Text> is{' '}
-              <Text style={{color: '#ffffff'}}>$260 per day.</Text> Spend
-              Wisely.
+              <Text style={{color: bgColor}}>6 days</Text> is{' '}
+              <Text style={{color: bgColor}}>$260 per day.</Text> Spend Wisely.
             </Text>
           </View>
+
+          <TouchableOpacity
+            activeOpacity={0.5}
+            style={{
+              marginBottom: 20,
+              position: 'absolute',
+              bottom: 10,
+              alignSelf: 'center',
+              zIndex: 999,
+              borderWidth: 2,
+              borderBottomWidth: 4,
+              borderRadius: 30,
+              backgroundColor: bgColor,
+              borderColor: textColor,
+            }}>
+            <FontAwesomeIcon
+              icon={solid('plus')}
+              size={22}
+              color={textColor}
+              style={{
+                margin: 15,
+              }}
+            />
+          </TouchableOpacity>
+
           <View
             style={[
               BasicStyles.spaceBtw,
@@ -214,12 +258,11 @@ export default function Home({ navigation }) {
                 marginLeft: 15,
                 marginRight: 15,
                 marginTop: 30,
-                marginBottom: 20,
               },
             ]}>
             <Text style={BasicStyles.subheader}>OverView</Text>
             <TouchableOpacity activeOpacity={0.5}>
-              <Text style={[BasicStyles.subheader, {color: '#000000'}]}>
+              <Text style={[BasicStyles.subheader, {color: textColor}]}>
                 View all
               </Text>
             </TouchableOpacity>
