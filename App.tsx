@@ -18,6 +18,8 @@ import {
 } from 'react-native';
 
 import Home from './screens/Home';
+import Stats from './screens/Stats';
+import Navigation from './navigation';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -26,7 +28,7 @@ type SectionProps = PropsWithChildren<{
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
-  return <Home />;
+  return <Navigation />;
 }
 
 export default App;

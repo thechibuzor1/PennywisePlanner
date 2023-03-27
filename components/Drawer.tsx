@@ -18,7 +18,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {BasicStyles} from '../contants';
 
-const Drawer = props => {
+const Drawer = (props) => {
   const width = Dimensions.get('window').width;
   const overlay = true;
   const position = 'left';
@@ -77,6 +77,7 @@ const Drawer = props => {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
+              onPress={() => props.navigation.navigate('Stats')}
               activeOpacity={0.5}
               style={{marginTop: 20, marginBottom: 20}}>
               <Text

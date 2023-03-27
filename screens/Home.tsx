@@ -7,17 +7,17 @@ import {
   useColorScheme,
   Dimensions,
   TouchableOpacity,
-  ScrollView,
+  FlatList,
 } from 'react-native';
 import React, {useState} from 'react';
-import {BasicStyles} from '../contants';
+import {BasicStyles, overViewData} from '../contants';
 import * as Progress from 'react-native-progress';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import Drawer from '../components/Drawer';
 
-export default function Home() {
+export default function Home({ navigation }) {
   const isDarkMode = useColorScheme() === 'dark';
   const width = Dimensions.get('window').width;
   const [openDrawer, setDrawerOpen] = useState<boolean>(false);
@@ -26,9 +26,76 @@ export default function Home() {
   const toggleDrawer = () => {
     setDrawerOpen(!openDrawer);
   };
+
+  const Blocks = ({props}) => (
+    <TouchableOpacity
+      activeOpacity={0.5}
+      style={{
+        marginLeft: 15,
+        marginRight: 15,
+        marginBottom: 30,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+      }}>
+      <View
+        style={{
+          marginRight: 15,
+          backgroundColor: props.backgroundColor,
+          borderRadius: 30,
+        }}>
+        <FontAwesomeIcon
+          icon={solid('cart-shopping')}
+          size={30}
+          color={'#000000'}
+          style={{margin: 10}}
+        />
+      </View>
+
+      <View style={{flex: 1}}>
+        <View style={BasicStyles.spaceBtw}>
+          <Text style={[BasicStyles.header, {fontSize: 21, lineHeight: 28}]}>
+            {props.name}
+          </Text>
+          <Text
+            style={[
+              BasicStyles.header,
+              {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
+            ]}>
+            Left: <Text style={{color: '#000000'}}>${props.left}</Text>
+          </Text>
+        </View>
+        <Progress.Bar
+          progress={Number(props.spent) / Number(props.budget)}
+          height={3}
+          color={'#44D7A8'}
+          unfilledColor={'white'}
+          width={width - 100}
+          style={{marginTop: 10}}
+        />
+        <View style={BasicStyles.spaceBtw}>
+          <Text
+            style={[
+              BasicStyles.header,
+              {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
+            ]}>
+            Spent: <Text style={{color: '#000000'}}>${props.spent}</Text>
+          </Text>
+          <Text
+            style={[
+              BasicStyles.header,
+              {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
+            ]}>
+            Budget: <Text style={{color: '#000000'}}>${props.budget}</Text>
+          </Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+
   return (
     <SafeAreaProvider>
-      <Drawer open={openDrawer} toggleDrawer={toggleDrawer}>
+      <Drawer navigation={ navigation } open={openDrawer} toggleDrawer={toggleDrawer}>
         <SafeAreaView style={BasicStyles.container}>
           <StatusBar
             barStyle={isDarkMode ? 'light-content' : 'dark-content'}
@@ -104,14 +171,16 @@ export default function Home() {
               marginTop: 30,
               alignItems: 'center',
               justifyContent: 'center',
-              shadowColor: '#000000',
+              /* shadowColor: '#000000',
               shadowOffset: {
                 width: 0,
                 height: 2,
               },
               shadowOpacity: 1,
               shadowRadius: 10,
-              elevation: 16,
+              elevation: 16, */
+              borderWidth: 2,
+              borderBottomWidth: 4,
             }}>
             <TouchableOpacity
               activeOpacity={0.5}
@@ -156,281 +225,12 @@ export default function Home() {
             </TouchableOpacity>
           </View>
 
-          <ScrollView
+          <FlatList
             showsVerticalScrollIndicator={false}
-            style={{paddingTop: 15}}>
-            <TouchableOpacity
-              activeOpacity={0.5}
-              style={{
-                marginLeft: 15,
-                marginRight: 15,
-                marginBottom: 30,
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <View
-                style={{
-                  marginRight: 15,
-                  backgroundColor: '#F95A2C',
-                  borderRadius: 30,
-                }}>
-                <FontAwesomeIcon
-                  icon={solid('basket-shopping')}
-                  size={30}
-                  color={'#000000'}
-                  style={{margin: 10}}
-                />
-              </View>
-
-              <View style={{flex: 1}}>
-                <View style={BasicStyles.spaceBtw}>
-                  <Text
-                    style={[
-                      BasicStyles.header,
-                      {fontSize: 21, lineHeight: 28},
-                    ]}>
-                    Grocery
-                  </Text>
-                  <Text
-                    style={[
-                      BasicStyles.header,
-                      {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
-                    ]}>
-                    Left: <Text style={{color: '#000000'}}>$150</Text>
-                  </Text>
-                </View>
-                <Progress.Bar
-                  progress={240 / 400}
-                  height={3}
-                  color={'#44D7A8'}
-                  unfilledColor={'white'}
-                  width={width - 100}
-                  style={{marginTop: 10}}
-                />
-                <View style={BasicStyles.spaceBtw}>
-                  <Text
-                    style={[
-                      BasicStyles.header,
-                      {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
-                    ]}>
-                    Spent: <Text style={{color: '#000000'}}>$240</Text>
-                  </Text>
-                  <Text
-                    style={[
-                      BasicStyles.header,
-                      {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
-                    ]}>
-                    Budget: <Text style={{color: '#000000'}}>$400</Text>
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              activeOpacity={0.5}
-              style={{
-                marginLeft: 15,
-                marginRight: 15,
-                marginBottom: 30,
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <View
-                style={{
-                  marginRight: 15,
-                  backgroundColor: '#44D7A8',
-                  borderRadius: 30,
-                }}>
-                <FontAwesomeIcon
-                  icon={solid('cart-shopping')}
-                  size={30}
-                  color={'#000000'}
-                  style={{margin: 10}}
-                />
-              </View>
-
-              <View style={{flex: 1}}>
-                <View style={BasicStyles.spaceBtw}>
-                  <Text
-                    style={[
-                      BasicStyles.header,
-                      {fontSize: 21, lineHeight: 28},
-                    ]}>
-                    Shopping
-                  </Text>
-                  <Text
-                    style={[
-                      BasicStyles.header,
-                      {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
-                    ]}>
-                    Left: <Text style={{color: '#000000'}}>$275</Text>
-                  </Text>
-                </View>
-                <Progress.Bar
-                  progress={925 / 1200}
-                  height={3}
-                  color={'#44D7A8'}
-                  unfilledColor={'white'}
-                  width={width - 100}
-                  style={{marginTop: 10}}
-                />
-                <View style={BasicStyles.spaceBtw}>
-                  <Text
-                    style={[
-                      BasicStyles.header,
-                      {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
-                    ]}>
-                    Spent: <Text style={{color: '#000000'}}>$925</Text>
-                  </Text>
-                  <Text
-                    style={[
-                      BasicStyles.header,
-                      {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
-                    ]}>
-                    Budget: <Text style={{color: '#000000'}}>$1200</Text>
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              activeOpacity={0.5}
-              style={{
-                marginLeft: 15,
-                marginRight: 15,
-                marginBottom: 30,
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <View
-                style={{
-                  marginRight: 15,
-                  backgroundColor: '#FFBD12',
-                  borderRadius: 30,
-                }}>
-                <FontAwesomeIcon
-                  icon={solid('plane-departure')}
-                  size={30}
-                  color={'#000000'}
-                  style={{margin: 10}}
-                />
-              </View>
-
-              <View style={{flex: 1}}>
-                <View style={BasicStyles.spaceBtw}>
-                  <Text
-                    style={[
-                      BasicStyles.header,
-                      {fontSize: 21, lineHeight: 28},
-                    ]}>
-                    Travel
-                  </Text>
-                  <Text
-                    style={[
-                      BasicStyles.header,
-                      {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
-                    ]}>
-                    Left: <Text style={{color: '#000000'}}>$1880</Text>
-                  </Text>
-                </View>
-                <Progress.Bar
-                  progress={120 / 2000}
-                  height={3}
-                  color={'#44D7A8'}
-                  unfilledColor={'white'}
-                  width={width - 100}
-                  style={{marginTop: 10}}
-                />
-                <View style={BasicStyles.spaceBtw}>
-                  <Text
-                    style={[
-                      BasicStyles.header,
-                      {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
-                    ]}>
-                    Spent: <Text style={{color: '#000000'}}>$120</Text>
-                  </Text>
-                  <Text
-                    style={[
-                      BasicStyles.header,
-                      {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
-                    ]}>
-                    Budget: <Text style={{color: '#000000'}}>$2000</Text>
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              activeOpacity={0.5}
-              style={{
-                marginLeft: 15,
-                marginRight: 15,
-                marginBottom: 30,
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <View
-                style={{
-                  marginRight: 15,
-                  backgroundColor: '#1947E5',
-                  borderRadius: 30,
-                }}>
-                <FontAwesomeIcon
-                  icon={solid('utensils')}
-                  size={30}
-                  color={'#000000'}
-                  style={{margin: 10}}
-                />
-              </View>
-
-              <View style={{flex: 1}}>
-                <View style={BasicStyles.spaceBtw}>
-                  <Text
-                    style={[
-                      BasicStyles.header,
-                      {fontSize: 21, lineHeight: 28},
-                    ]}>
-                    Food
-                  </Text>
-                  <Text
-                    style={[
-                      BasicStyles.header,
-                      {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
-                    ]}>
-                    Left: <Text style={{color: '#000000'}}>$2579</Text>
-                  </Text>
-                </View>
-                <Progress.Bar
-                  progress={921 / 3500}
-                  height={3}
-                  color={'#44D7A8'}
-                  unfilledColor={'white'}
-                  width={width - 100}
-                  style={{marginTop: 10}}
-                />
-                <View style={BasicStyles.spaceBtw}>
-                  <Text
-                    style={[
-                      BasicStyles.header,
-                      {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
-                    ]}>
-                    Spent: <Text style={{color: '#000000'}}>$921</Text>
-                  </Text>
-                  <Text
-                    style={[
-                      BasicStyles.header,
-                      {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
-                    ]}>
-                    Budget: <Text style={{color: '#000000'}}>$3500</Text>
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          </ScrollView>
+            style={{paddingTop: 15}}
+            data={overViewData}
+            renderItem={data => <Blocks props={data.item} />}
+          />
         </SafeAreaView>
       </Drawer>
     </SafeAreaProvider>
