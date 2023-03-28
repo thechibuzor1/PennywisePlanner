@@ -2,12 +2,32 @@
 import {StyleSheet} from 'react-native';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
 
-export const textColor = '#000000';
-export const bgColor = '#ffffff';
+let textColor = '#000000';
+let bgColor = '#464646';
+
+let colors = {
+  background: '#464646',
+  textColor: '#000000',
+};
+
+function setBg(value: string) {
+  bgColor = value;
+}
+export {textColor, bgColor, setBg, colors};
+
+/* '#fcf4e7' -- offwhite
+  #7388b8 -- blue
+  #ea400e -- red
+  #046574 -- darkBlue
+  #5eab6e -- green
+  #e09c2c -- orange
+  #ec9aa2 -- pink
+#c4aaf5 -- purple
+#464646 -- dark
+*/
 
 export const BasicStyles = StyleSheet.create({
   container: {
-    backgroundColor: bgColor,
     flex: 1,
   },
   header: {
@@ -66,6 +86,12 @@ export const BasicStyles = StyleSheet.create({
     alignItems: 'center',
     borderColor: textColor,
   },
+  modalBgCon: {
+    display: 'flex',
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0,0,0,0.7)',
+  },
 });
 
 interface overview {
@@ -110,6 +136,4 @@ export const overViewData: overview[] = [
     backgroundColor: '#1947E5',
     icon: solid('utensils'),
   },
-  
-  
 ];

@@ -12,7 +12,13 @@ import {
   Modal,
 } from 'react-native';
 import React, {useState} from 'react';
-import {BasicStyles, overViewData, textColor, bgColor} from '../contants';
+import {
+  BasicStyles,
+  overViewData,
+  textColor,
+  bgColor,
+  colors,
+} from '../contants';
 import * as Progress from 'react-native-progress';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
@@ -37,10 +43,11 @@ export default function Home({navigation}) {
         navigation={navigation}
         open={openDrawer}
         toggleDrawer={toggleDrawer}>
-        <SafeAreaView style={BasicStyles.container}>
+        <SafeAreaView
+          style={[BasicStyles.container, {backgroundColor: colors.background}]}>
           <StatusBar
             barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-            backgroundColor={isDarkMode ? '#000000' : '#ffffff'}
+            backgroundColor={colors.background}
           />
 
           <View
@@ -141,15 +148,22 @@ export default function Home({navigation}) {
                 {color: textColor, margin: 20, marginTop: 5},
               ]}>
               Your Budget for the next{' '}
-              <Text style={{color: bgColor}}>6 days</Text> is{' '}
-              <Text style={{color: bgColor}}>$260 per day.</Text> Spend Wisely.
+              <Text style={{color: colors.background}}>6 days</Text> is{' '}
+              <Text style={{color: colors.background}}>$260 per day.</Text>{' '}
+              Spend Wisely.
             </Text>
           </View>
 
           <TouchableOpacity
             onPress={() => setAdd(true)}
             activeOpacity={0.5}
-            style={[styles.plus, {display: add ? 'none' : 'flex'}]}>
+            style={[
+              styles.plus,
+              {
+                display: add ? 'none' : 'flex',
+                backgroundColor: colors.background,
+              },
+            ]}>
             <FontAwesomeIcon
               icon={solid('plus')}
               size={22}
@@ -189,7 +203,7 @@ export default function Home({navigation}) {
             visible={add}
             transparent
             onRequestClose={() => setAdd(false)}>
-            {<Add />}
+            {<Add setAdd={setAdd} />}
           </Modal>
         </SafeAreaView>
       </Drawer>
@@ -226,7 +240,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderBottomWidth: 4,
     borderRadius: 30,
-    backgroundColor: bgColor,
+
     borderColor: textColor,
   },
 });

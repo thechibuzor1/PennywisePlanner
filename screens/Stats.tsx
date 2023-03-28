@@ -10,7 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
-import {BasicStyles, bgColor, overViewData, textColor} from '../contants';
+import {BasicStyles, colors, overViewData, textColor} from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {BarChart} from 'react-native-gifted-charts';
@@ -52,7 +52,7 @@ export default function Stats({navigation}) {
         <Text
           style={[
             BasicStyles.header,
-            {fontSize: 17, lineHeight: 24, color: bgColor},
+            {fontSize: 17, lineHeight: 24, color: colors.background},
           ]}>
           {props.name}
         </Text>
@@ -115,7 +115,8 @@ export default function Stats({navigation}) {
   );
 
   return (
-    <SafeAreaView style={BasicStyles.container}>
+    <SafeAreaView
+      style={[BasicStyles.container, {backgroundColor: colors.background}]}>
       <View style={{marginTop: 30, paddingBottom: 15}}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
@@ -188,7 +189,8 @@ export default function Stats({navigation}) {
             style={[
               BasicStyles.statBtns,
               {
-                backgroundColor: active === '1w' ? '#44D7A8' : bgColor,
+                backgroundColor:
+                  active === '1w' ? '#44D7A8' : colors.background,
                 borderBottomWidth: active === '1w' ? 2 : 4,
               },
             ]}>
@@ -202,7 +204,8 @@ export default function Stats({navigation}) {
             style={[
               BasicStyles.statBtns,
               {
-                backgroundColor: active === '1m' ? '#44D7A8' : bgColor,
+                backgroundColor:
+                  active === '1m' ? '#44D7A8' : colors.background,
                 borderBottomWidth: active === '1m' ? 2 : 4,
               },
             ]}>
@@ -216,7 +219,8 @@ export default function Stats({navigation}) {
             style={[
               BasicStyles.statBtns,
               {
-                backgroundColor: active === '1y' ? '#44D7A8' : bgColor,
+                backgroundColor:
+                  active === '1y' ? '#44D7A8' : colors.background,
                 borderBottomWidth: active === '1y' ? 2 : 4,
               },
             ]}>
@@ -230,7 +234,8 @@ export default function Stats({navigation}) {
             style={[
               BasicStyles.statBtns,
               {
-                backgroundColor: active === 'all' ? '#44D7A8' : bgColor,
+                backgroundColor:
+                  active === 'all' ? '#44D7A8' : colors.background,
                 borderBottomWidth: active === 'all' ? 2 : 4,
               },
             ]}>
@@ -313,7 +318,7 @@ export default function Stats({navigation}) {
         <View
           style={{
             display: closeMessage ? 'none' : 'flex',
-            backgroundColor: bgColor,
+            backgroundColor: colors.background,
             width: 350,
             borderRadius: 16,
             alignSelf: 'center',

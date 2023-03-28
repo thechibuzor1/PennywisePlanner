@@ -16,7 +16,7 @@ import MenuDrawer from 'react-native-side-drawer';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
-import { BasicStyles, bgColor, textColor } from '../contants';
+import { BasicStyles, bgColor, colors, textColor } from '../contants';
 
 const Drawer = props => {
   const width = Dimensions.get('window').width;
@@ -29,7 +29,7 @@ const Drawer = props => {
       flex: 1,
       display: 'flex',
 
-      backgroundColor: bgColor,
+      backgroundColor: colors.background,
       borderStyle: 'solid',
       borderWidth: 2,
       borderColor: textColor,
@@ -40,7 +40,7 @@ const Drawer = props => {
         <View
           style={{
             flexDirection: 'column',
-            backgroundColor: bgColor,
+            backgroundColor: colors.background,
             flex: 1,
             padding: 20,
           }}>

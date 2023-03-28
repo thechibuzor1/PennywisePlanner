@@ -6,25 +6,36 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
 import React, {useState} from 'react';
-import {BasicStyles, textColor, bgColor, overViewData} from '../contants';
+import {
+  BasicStyles,
+  textColor,
+  bgColor,
+  overViewData,
+  colors,
+} from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
+import MoneySquares from './MoneySquares';
 
-export default function Add() {
-  const [active, setActive] = useState<string>('in');
+export default function Add({setAdd}) {
+  const [active, setActive] = useState<string>('out');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedAmount, setSelectedAmount] = useState<string>('');
 
   const Blocks = ({props}) => (
     <TouchableOpacity
+      onPress={() => setSelectedCategory(props.name)}
       activeOpacity={0.8}
       style={{
         flex: 1,
         borderRadius: 16,
         borderWidth: 2,
-        borderBottomWidth: 4,
+        borderBottomWidth: selectedCategory === props.name ? 2 : 4,
         padding: 16,
         margin: 5,
         height: 175,
@@ -33,6 +44,12 @@ export default function Add() {
         borderColor: textColor,
         justifyContent: 'center',
         alignItems: 'center',
+        opacity:
+          selectedCategory === ''
+            ? 1
+            : selectedCategory === props.name
+            ? 1
+            : 0.5,
       }}>
       <FontAwesomeIcon
         icon={props.icon}
@@ -44,7 +61,7 @@ export default function Add() {
         <Text
           style={[
             BasicStyles.header,
-            {fontSize: 17, lineHeight: 24, color: bgColor},
+            {fontSize: 17, lineHeight: 24, color: colors.background},
           ]}>
           {props.name}
         </Text>
@@ -53,14 +70,9 @@ export default function Add() {
   );
 
   return (
-    <View
-      style={{
-        display: 'flex',
-        flex: 1,
-        justifyContent: 'flex-end',
-        backgroundColor: 'rgba(0,0,0,0.7)',
-      }}>
-      <SafeAreaView style={BasicStyles.container}>
+    <View style={BasicStyles.modalBgCon}>
+      <SafeAreaView
+        style={[BasicStyles.container, {backgroundColor: colors.background}]}>
         <View style={{marginTop: 30, paddingBottom: 15, marginLeft: 15}}>
           <Text
             style={[
@@ -83,9 +95,10 @@ export default function Add() {
                 lineHeight: 54,
               },
             ]}>
-            To Logs
+            to logs
           </Text>
           <TouchableOpacity
+            onPress={() => setAdd(false)}
             activeOpacity={0.5}
             style={[BasicStyles.backBtn, {right: 15}]}>
             <FontAwesomeIcon
@@ -99,7 +112,7 @@ export default function Add() {
         <View
           style={{
             marginTop: 15,
-            width: 350,
+            maxWidth: 400,
             alignSelf: 'center',
             borderWidth: 2,
             flexDirection: 'row',
@@ -113,7 +126,10 @@ export default function Add() {
             onPress={() => setActive('in')}
             style={[
               styles.btn,
-              {backgroundColor: active === 'in' ? '#1947E5' : bgColor},
+              {
+                backgroundColor:
+                  active === 'in' ? '#44D7A8' : colors.background,
+              },
             ]}>
             <Text
               style={[
@@ -123,7 +139,7 @@ export default function Add() {
                   alignSelf: 'center',
                   fontSize: 21,
                   lineHeight: 28,
-                  color: active === 'in' ? bgColor : textColor,
+                  color: active === 'in' ? colors.background : textColor,
                 },
               ]}>
               Income
@@ -134,7 +150,10 @@ export default function Add() {
             onPress={() => setActive('out')}
             style={[
               styles.btn,
-              {backgroundColor: active === 'out' ? '#1947E5' : bgColor},
+              {
+                backgroundColor:
+                  active === 'out' ? '#44D7A8' : colors.background,
+              },
             ]}>
             <Text
               style={[
@@ -144,7 +163,7 @@ export default function Add() {
                   alignSelf: 'center',
                   fontSize: 21,
                   lineHeight: 28,
-                  color: active === 'out' ? bgColor : textColor,
+                  color: active === 'out' ? colors.background : textColor,
                 },
               ]}>
               Spent
@@ -153,6 +172,30 @@ export default function Add() {
         </View>
 
         <ScrollView showsHorizontalScrollIndicator={false}>
+          {active === 'out' && (
+            <>
+              <Text
+                style={[
+                  BasicStyles.header,
+                  {
+                    margin: 15,
+                    fontSize: 27,
+                    lineHeight: 32,
+                  },
+                ]}>
+                Select a category
+              </Text>
+              <View style={styles.app}>
+                <FlatList
+                  data={overViewData}
+                  numColumns={2}
+                  renderItem={data => <Blocks props={data.item} />}
+                  keyExtractor={item => item.name}
+                />
+              </View>
+            </>
+          )}
+
           <Text
             style={[
               BasicStyles.header,
@@ -162,27 +205,68 @@ export default function Add() {
                 lineHeight: 32,
               },
             ]}>
-            Select a category
+            How much?
           </Text>
-          <TouchableOpacity activeOpacity={0.8} style={styles.plus}>
-            <FontAwesomeIcon
-              icon={solid('plus')}
-              size={22}
-              color={textColor}
-              style={{
-                margin: 15,
-              }}
-            />
-          </TouchableOpacity>
 
-          <View style={styles.app}>
-            <FlatList
-              data={overViewData}
-              numColumns={2}
-              renderItem={data => <Blocks props={data.item} />}
-              keyExtractor={item => item.name}
+          <TextInput
+            keyboardType="number-pad"
+            value={selectedAmount}
+            onChangeText={text =>
+              setSelectedAmount(text.replace(/[^0-9]/g, ''))
+            }
+            placeholder="Enter amount"
+            style={styles.textInput}
+          />
+
+          <View style={styles.moneyGrid}>
+            <MoneySquares
+              selected={selectedAmount}
+              setSelected={setSelectedAmount}
+              amount={'500'}
+            />
+            <MoneySquares
+              selected={selectedAmount}
+              setSelected={setSelectedAmount}
+              amount={'1000'}
+            />
+            <MoneySquares
+              selected={selectedAmount}
+              setSelected={setSelectedAmount}
+              amount={'2000'}
+            />
+            <MoneySquares
+              selected={selectedAmount}
+              setSelected={setSelectedAmount}
+              amount={'5000'}
             />
           </View>
+
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={[
+              styles.btn,
+              {
+                backgroundColor: '#44D7A8',
+                borderRadius: 16,
+                borderWidth: 2,
+                width: 400,
+                alignSelf: 'center',
+                margin: 16,
+              },
+            ]}>
+            <Text
+              style={[
+                BasicStyles.header,
+                {
+                  textAlign: 'center',
+                  alignSelf: 'center',
+                  fontSize: 21,
+                  lineHeight: 28,
+                },
+              ]}>
+              Add
+            </Text>
+          </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
     </View>
@@ -206,7 +290,27 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderBottomWidth: 4,
     borderRadius: 30,
-    backgroundColor: bgColor,
+    backgroundColor: colors.background,
     borderColor: textColor,
+  },
+  textInput: {
+    width: 200,
+    alignSelf: 'center',
+    borderWidth: 2,
+    borderBottomWidth: 4,
+    borderRadius: 16,
+    fontSize: 21,
+    color: textColor,
+    lineHeight: 28,
+    fontFamily: 'Montserrat-Regular',
+    padding: 16,
+  },
+  moneyGrid: {
+    alignSelf: 'center',
+    marginTop: 15,
+    marginHorizontal: 'auto',
+    width: 400,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
 });

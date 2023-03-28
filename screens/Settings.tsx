@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import {
   StyleSheet,
@@ -5,15 +6,28 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
+  ScrollView,
+  Modal,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
-import {BasicStyles, textColor} from '../contants';
+import {BasicStyles, colors, textColor} from '../contants';
+import ThemeModal from '../components/ThemeModal';
 
 export default function Settings({navigation}) {
+  const [showThemeModal, setShowThemeModal] = useState<boolean>(false);
   return (
-    <SafeAreaView style={BasicStyles.container}>
+    <SafeAreaView
+      style={[BasicStyles.container, {backgroundColor: colors.background}]}>
+      <Modal
+        animated
+        animationType="slide"
+        visible={showThemeModal}
+        transparent
+        onRequestClose={() => setShowThemeModal(false)}>
+        {<ThemeModal setShowThemeModal={setShowThemeModal} />}
+      </Modal>
       <View style={{marginTop: 30, paddingBottom: 15}}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
@@ -40,191 +54,187 @@ export default function Settings({navigation}) {
         </Text>
       </View>
 
-      <Text
-        style={[
-          BasicStyles.subheader,
-          {
-            marginTop: 20,
-            marginLeft: 15,
-            fontSize: 21,
-            lineHeight: 28,
-          },
-        ]}>
-        General
-      </Text>
-      <View
-        style={{
-          padding: 18,
-          borderWidth: 2,
-          margin: 15,
-          borderRadius: 16,
-          borderBottomWidth: 4,
-          borderColor: textColor,
-        }}>
-        <TouchableOpacity
-          activeOpacity={0.5}
-          style={[BasicStyles.spaceBtw, {alignItems: 'center', marginTop: 5}]}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              margin: 15,
-            }}>
+      <ScrollView showsHorizontalScrollIndicator={false}>
+        <Text style={[BasicStyles.subheader, styles.graySubHeader]}>
+          General
+        </Text>
+        <View style={styles.sectionCon}>
+          <TouchableOpacity
+            onPress={() => setShowThemeModal(true)}
+            activeOpacity={0.5}
+            style={[
+              BasicStyles.spaceBtw,
+              {alignItems: 'center', marginTop: 5},
+            ]}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                margin: 15,
+              }}>
+              <FontAwesomeIcon
+                icon={solid('circle')}
+                size={20}
+                color={'#44D7A8'}
+              />
+              <Text
+                style={[
+                  BasicStyles.header,
+                  {
+                    marginLeft: 10,
+                    fontSize: 17,
+                    lineHeight: 24,
+                  },
+                ]}>
+                Theme
+              </Text>
+            </View>
+
             <FontAwesomeIcon
-              icon={solid('circle')}
+              icon={solid('chevron-right')}
               size={20}
-              color={'#44D7A8'}
+              color={textColor}
             />
-            <Text
-              style={[
-                BasicStyles.header,
-                {
-                  marginLeft: 10,
-                  fontSize: 17,
-                  lineHeight: 24,
-                },
-              ]}>
-              Theme
-            </Text>
-          </View>
+          </TouchableOpacity>
 
-          <FontAwesomeIcon
-            icon={solid('chevron-right')}
-            size={20}
-            color={textColor}
-          />
-        </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            style={[
+              BasicStyles.spaceBtw,
+              {alignItems: 'center', marginTop: 5},
+            ]}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                margin: 15,
+              }}>
+              <FontAwesomeIcon
+                icon={solid('circle')}
+                size={20}
+                color={'#44D7A8'}
+              />
+              <Text
+                style={[
+                  BasicStyles.header,
+                  {
+                    marginLeft: 10,
+                    fontSize: 17,
+                    lineHeight: 24,
+                  },
+                ]}>
+                Color
+              </Text>
+            </View>
 
-        <TouchableOpacity
-          activeOpacity={0.5}
-          style={[BasicStyles.spaceBtw, {alignItems: 'center', marginTop: 5}]}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              margin: 15,
-            }}>
             <FontAwesomeIcon
-              icon={solid('circle')}
+              icon={solid('chevron-right')}
               size={20}
-              color={'#44D7A8'}
+              color={textColor}
             />
-            <Text
-              style={[
-                BasicStyles.header,
-                {
-                  marginLeft: 10,
-                  fontSize: 17,
-                  lineHeight: 24,
-                },
-              ]}>
-              Color
-            </Text>
-          </View>
+          </TouchableOpacity>
+        </View>
 
-          <FontAwesomeIcon
-            icon={solid('chevron-right')}
-            size={20}
-            color={textColor}
-          />
-        </TouchableOpacity>
-      </View>
+        <Text style={[BasicStyles.subheader, styles.graySubHeader]}>
+          Your Data
+        </Text>
+        <View style={styles.sectionCon}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            style={[
+              BasicStyles.spaceBtw,
+              {alignItems: 'center', marginTop: 5},
+            ]}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                margin: 15,
+              }}>
+              <FontAwesomeIcon
+                icon={solid('circle')}
+                size={20}
+                color={'#44D7A8'}
+              />
+              <Text
+                style={[
+                  BasicStyles.header,
+                  {
+                    marginLeft: 10,
+                    fontSize: 17,
+                    lineHeight: 24,
+                  },
+                ]}>
+                Account
+              </Text>
+            </View>
 
-      <Text
-        style={[
-          BasicStyles.subheader,
-          {
-            marginTop: 20,
-            marginLeft: 15,
-            fontSize: 21,
-            lineHeight: 28,
-          },
-        ]}>
-        Your Data
-      </Text>
-      <View
-        style={{
-          padding: 18,
-          borderWidth: 2,
-          margin: 15,
-          borderRadius: 16,
-          borderBottomWidth: 4,
-          borderColor: textColor,
-        }}>
-        <TouchableOpacity
-          activeOpacity={0.5}
-          style={[BasicStyles.spaceBtw, {alignItems: 'center', marginTop: 5}]}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              margin: 15,
-            }}>
             <FontAwesomeIcon
-              icon={solid('circle')}
+              icon={solid('chevron-right')}
               size={20}
-              color={'#44D7A8'}
+              color={textColor}
             />
-            <Text
-              style={[
-                BasicStyles.header,
-                {
-                  marginLeft: 10,
-                  fontSize: 17,
-                  lineHeight: 24,
-                },
-              ]}>
-              Account
-            </Text>
-          </View>
+          </TouchableOpacity>
 
-          <FontAwesomeIcon
-            icon={solid('chevron-right')}
-            size={20}
-            color={textColor}
-          />
-        </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            style={[
+              BasicStyles.spaceBtw,
+              {alignItems: 'center', marginTop: 5},
+            ]}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                margin: 15,
+              }}>
+              <FontAwesomeIcon
+                icon={solid('circle')}
+                size={20}
+                color={'#FF9692'}
+              />
+              <Text
+                style={[
+                  BasicStyles.header,
+                  {
+                    marginLeft: 10,
+                    fontSize: 17,
+                    lineHeight: 24,
+                  },
+                ]}>
+                Delete all Data
+              </Text>
+            </View>
 
-        <TouchableOpacity
-          activeOpacity={0.5}
-          style={[BasicStyles.spaceBtw, {alignItems: 'center', marginTop: 5}]}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              margin: 15,
-            }}>
             <FontAwesomeIcon
-              icon={solid('circle')}
+              icon={solid('chevron-right')}
               size={20}
-              color={'#FF9692'}
+              color={textColor}
             />
-            <Text
-              style={[
-                BasicStyles.header,
-                {
-                  marginLeft: 10,
-                  fontSize: 17,
-                  lineHeight: 24,
-                },
-              ]}>
-              Delete all Data
-            </Text>
-          </View>
-
-          <FontAwesomeIcon
-            icon={solid('chevron-right')}
-            size={20}
-            color={textColor}
-          />
-        </TouchableOpacity>
-      </View>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  graySubHeader: {
+    marginTop: 20,
+    marginLeft: 15,
+    fontSize: 21,
+    lineHeight: 28,
+  },
+  sectionCon: {
+    padding: 18,
+    borderWidth: 2,
+    margin: 15,
+    borderRadius: 16,
+    borderBottomWidth: 4,
+    borderColor: textColor,
+  },
+});
