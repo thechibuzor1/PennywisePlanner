@@ -13,7 +13,7 @@ export const BasicStyles = StyleSheet.create({
   header: {
     fontSize: 36,
     fontFamily: 'Montserrat-ExtraBold',
-    color:  textColor,
+    color: textColor,
     lineHeight: 40,
   },
   subheader: {
@@ -34,7 +34,7 @@ export const BasicStyles = StyleSheet.create({
     borderRadius: 16,
     marginTop: 5,
     marginBottom: 5,
-    borderColor:textColor
+    borderColor: textColor,
   },
   statBtnText: {
     fontSize: 17,
@@ -52,7 +52,19 @@ export const BasicStyles = StyleSheet.create({
     borderWidth: 2,
     alignSelf: 'center',
     borderRadius: 16,
-    borderColor:textColor
+    borderColor: textColor,
+  },
+  backBtn: {
+    position: 'absolute',
+    marginLeft: 15,
+    borderWidth: 2,
+    borderBottomWidth: 4,
+    borderRadius: 30,
+    width: 48,
+    height: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: textColor,
   },
 });
 
@@ -98,4 +110,6 @@ export const overViewData: overview[] = [
     backgroundColor: '#1947E5',
     icon: solid('utensils'),
   },
+  
+  
 ];

@@ -9,7 +9,7 @@ import {
 import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
-import { BasicStyles, textColor } from '../contants';
+import {BasicStyles, textColor} from '../contants';
 
 export default function Settings({navigation}) {
   return (
@@ -18,18 +18,7 @@ export default function Settings({navigation}) {
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           activeOpacity={0.5}
-          style={{
-            position: 'absolute',
-            marginLeft: 15,
-            borderWidth: 2,
-            borderBottomWidth: 4,
-            borderRadius: 30,
-            width: 48,
-            height: 48,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderColor:textColor
-          }}>
+          style={BasicStyles.backBtn}>
           <FontAwesomeIcon
             icon={solid('chevron-left')}
             size={22}
@@ -70,7 +59,7 @@ export default function Settings({navigation}) {
           margin: 15,
           borderRadius: 16,
           borderBottomWidth: 4,
-          borderColor:textColor
+          borderColor: textColor,
         }}>
         <TouchableOpacity
           activeOpacity={0.5}
@@ -162,7 +151,7 @@ export default function Settings({navigation}) {
           margin: 15,
           borderRadius: 16,
           borderBottomWidth: 4,
-          borderColor:textColor
+          borderColor: textColor,
         }}>
         <TouchableOpacity
           activeOpacity={0.5}
