@@ -9,25 +9,36 @@ import {
 } from 'react-native';
 import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {BasicStyles, textColor} from '../contants';
+import {BasicStyles, colors} from '../contants';
 import * as Progress from 'react-native-progress';
 
-export default function HomeBlocks({props}) {
+export default function HomeBlocks({props}: any) {
   const width = Dimensions.get('window').width;
   return (
     <TouchableOpacity activeOpacity={0.5} style={styles.con}>
-      <View style={[styles.iconBg, {backgroundColor: props.backgroundColor}]}>
+      <View
+        style={[
+          styles.iconBg,
+          {
+            backgroundColor: props.backgroundColor,
+            borderColor: colors.textColor,
+          },
+        ]}>
         <FontAwesomeIcon
           icon={props.icon}
           size={30}
-          color={textColor}
+          color={colors.textColor}
           style={{margin: 10}}
         />
       </View>
 
       <View style={{flex: 1}}>
         <View style={BasicStyles.spaceBtw}>
-          <Text style={[BasicStyles.header, {fontSize: 21, lineHeight: 28}]}>
+          <Text
+            style={[
+              BasicStyles.header,
+              {fontSize: 21, lineHeight: 28, color: colors.textColor},
+            ]}>
             {props.name}
           </Text>
           <Text
@@ -35,13 +46,13 @@ export default function HomeBlocks({props}) {
               BasicStyles.header,
               {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
             ]}>
-            Left: <Text style={{color: '#000000'}}>${props.left}</Text>
+            Left: <Text style={{color: '#000000'}}>₦{props.left}</Text>
           </Text>
         </View>
         <Progress.Bar
           progress={Number(props.spent) / Number(props.budget)}
           height={3}
-          color={'#44D7A8'}
+          color={colors.themeColor}
           unfilledColor={'white'}
           width={width - 100}
           style={{marginTop: 10}}
@@ -52,14 +63,15 @@ export default function HomeBlocks({props}) {
               BasicStyles.header,
               {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
             ]}>
-            Spent: <Text style={{color: textColor}}>${props.spent}</Text>
+            Spent: <Text style={{color: colors.textColor}}>₦{props.spent}</Text>
           </Text>
           <Text
             style={[
               BasicStyles.header,
               {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
             ]}>
-            Budget: <Text style={{color: textColor}}>${props.budget}</Text>
+            Budget:{' '}
+            <Text style={{color: colors.textColor}}>₦{props.budget}</Text>
           </Text>
         </View>
       </View>
@@ -80,6 +92,5 @@ const styles = StyleSheet.create({
     marginRight: 15,
     borderRadius: 30,
     borderWidth: 2,
-    borderColor: textColor,
   },
 });

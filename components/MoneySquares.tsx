@@ -2,9 +2,9 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {BasicStyles, bgColor, textColor} from '../contants';
+import {BasicStyles, colors} from '../contants';
 
-export default function MoneySquares(props) {
+export default function MoneySquares(props: any) {
   return (
     <TouchableOpacity
       onPress={() => props.setSelected(props.amount)}
@@ -12,6 +12,7 @@ export default function MoneySquares(props) {
       style={[
         styles.con,
         {
+          borderColor: colors.textColor,
           borderBottomWidth: props.selected === props.amount ? 2 : 4,
           opacity:
             props.selected === ''
@@ -24,9 +25,9 @@ export default function MoneySquares(props) {
       <Text
         style={[
           BasicStyles.header,
-          {fontSize: 17, lineHeight: 24, color: textColor, padding: 16},
+          {fontSize: 17, lineHeight: 24, color: colors.textColor, padding: 16},
         ]}>
-        ${props.amount}
+        ₦{props.amount}
       </Text>
     </TouchableOpacity>
   );

@@ -12,11 +12,18 @@ import {
 import React, {useState} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
-import {BasicStyles, colors, textColor} from '../contants';
+import {BasicStyles, colors} from '../contants';
 import ThemeModal from '../components/ThemeModal';
+import ColorsModal from '../components/ColorsModal';
+import SettinngsBtns from '../components/SettinngsBtns';
+import DeleteAllData from '../components/DeleteAllData';
+import Account from '../components/Account';
 
 export default function Settings({navigation}) {
   const [showThemeModal, setShowThemeModal] = useState<boolean>(false);
+  const [showColorsModal, setShowColorsModal] = useState<boolean>(false);
+  const [deleteAllData, setDeleteAllData] = useState<boolean>(false);
+  const [accountModal, setAccountModal] = useState<boolean>(false);
   return (
     <SafeAreaView
       style={[BasicStyles.container, {backgroundColor: colors.background}]}>
@@ -28,21 +35,46 @@ export default function Settings({navigation}) {
         onRequestClose={() => setShowThemeModal(false)}>
         {<ThemeModal setShowThemeModal={setShowThemeModal} />}
       </Modal>
+      <Modal
+        animated
+        animationType="slide"
+        visible={showColorsModal}
+        transparent
+        onRequestClose={() => setShowColorsModal(false)}>
+        {<ColorsModal setShowColorsModal={setShowColorsModal} />}
+      </Modal>
+      <Modal
+        animated
+        animationType="slide"
+        visible={deleteAllData}
+        transparent
+        onRequestClose={() => setDeleteAllData(false)}>
+        {<DeleteAllData setDeleteAll={setDeleteAllData} />}
+      </Modal>
+      <Modal
+        animated
+        animationType="slide"
+        visible={accountModal}
+        transparent
+        onRequestClose={() => setAccountModal(false)}>
+        {<Account setAccountModal={setAccountModal} />}
+      </Modal>
       <View style={{marginTop: 30, paddingBottom: 15}}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           activeOpacity={0.5}
-          style={BasicStyles.backBtn}>
+          style={[BasicStyles.backBtn, {borderColor: colors.textColor}]}>
           <FontAwesomeIcon
             icon={solid('chevron-left')}
             size={22}
-            color={textColor}
+            color={colors.textColor}
           />
         </TouchableOpacity>
         <Text
           style={[
             BasicStyles.header,
             {
+              color: colors.textColor,
               marginTop: 10,
               textAlign: 'center',
               alignSelf: 'center',
@@ -58,164 +90,19 @@ export default function Settings({navigation}) {
         <Text style={[BasicStyles.subheader, styles.graySubHeader]}>
           General
         </Text>
-        <View style={styles.sectionCon}>
-          <TouchableOpacity
-            onPress={() => setShowThemeModal(true)}
-            activeOpacity={0.5}
-            style={[
-              BasicStyles.spaceBtw,
-              {alignItems: 'center', marginTop: 5},
-            ]}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                margin: 15,
-              }}>
-              <FontAwesomeIcon
-                icon={solid('circle')}
-                size={20}
-                color={'#44D7A8'}
-              />
-              <Text
-                style={[
-                  BasicStyles.header,
-                  {
-                    marginLeft: 10,
-                    fontSize: 17,
-                    lineHeight: 24,
-                  },
-                ]}>
-                Theme
-              </Text>
-            </View>
+        <View style={[styles.sectionCon, {borderColor: colors.textColor}]}>
+          <SettinngsBtns setModal={setShowThemeModal} name={'Theme'} />
 
-            <FontAwesomeIcon
-              icon={solid('chevron-right')}
-              size={20}
-              color={textColor}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            activeOpacity={0.5}
-            style={[
-              BasicStyles.spaceBtw,
-              {alignItems: 'center', marginTop: 5},
-            ]}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                margin: 15,
-              }}>
-              <FontAwesomeIcon
-                icon={solid('circle')}
-                size={20}
-                color={'#44D7A8'}
-              />
-              <Text
-                style={[
-                  BasicStyles.header,
-                  {
-                    marginLeft: 10,
-                    fontSize: 17,
-                    lineHeight: 24,
-                  },
-                ]}>
-                Color
-              </Text>
-            </View>
-
-            <FontAwesomeIcon
-              icon={solid('chevron-right')}
-              size={20}
-              color={textColor}
-            />
-          </TouchableOpacity>
+          <SettinngsBtns setModal={setShowColorsModal} name={'Colors'} />
         </View>
 
         <Text style={[BasicStyles.subheader, styles.graySubHeader]}>
           Your Data
         </Text>
-        <View style={styles.sectionCon}>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            style={[
-              BasicStyles.spaceBtw,
-              {alignItems: 'center', marginTop: 5},
-            ]}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                margin: 15,
-              }}>
-              <FontAwesomeIcon
-                icon={solid('circle')}
-                size={20}
-                color={'#44D7A8'}
-              />
-              <Text
-                style={[
-                  BasicStyles.header,
-                  {
-                    marginLeft: 10,
-                    fontSize: 17,
-                    lineHeight: 24,
-                  },
-                ]}>
-                Account
-              </Text>
-            </View>
+        <View style={[styles.sectionCon, {borderColor: colors.textColor}]}>
+          <SettinngsBtns setModal={setAccountModal} name={'Account'} />
 
-            <FontAwesomeIcon
-              icon={solid('chevron-right')}
-              size={20}
-              color={textColor}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            activeOpacity={0.5}
-            style={[
-              BasicStyles.spaceBtw,
-              {alignItems: 'center', marginTop: 5},
-            ]}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                margin: 15,
-              }}>
-              <FontAwesomeIcon
-                icon={solid('circle')}
-                size={20}
-                color={'#FF9692'}
-              />
-              <Text
-                style={[
-                  BasicStyles.header,
-                  {
-                    marginLeft: 10,
-                    fontSize: 17,
-                    lineHeight: 24,
-                  },
-                ]}>
-                Delete all Data
-              </Text>
-            </View>
-
-            <FontAwesomeIcon
-              icon={solid('chevron-right')}
-              size={20}
-              color={textColor}
-            />
-          </TouchableOpacity>
+          <SettinngsBtns setModal={setDeleteAllData} name={'Delete all Data'} />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -235,6 +122,5 @@ const styles = StyleSheet.create({
     margin: 15,
     borderRadius: 16,
     borderBottomWidth: 4,
-    borderColor: textColor,
   },
 });

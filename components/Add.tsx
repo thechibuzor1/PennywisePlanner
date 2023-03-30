@@ -11,13 +11,7 @@ import {
   View,
 } from 'react-native';
 import React, {useState} from 'react';
-import {
-  BasicStyles,
-  textColor,
-  bgColor,
-  overViewData,
-  colors,
-} from '../contants';
+import {BasicStyles, overViewData, colors} from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import MoneySquares from './MoneySquares';
@@ -36,12 +30,11 @@ export default function Add({setAdd}) {
         borderRadius: 16,
         borderWidth: 2,
         borderBottomWidth: selectedCategory === props.name ? 2 : 4,
-        padding: 16,
+        padding: 32,
         margin: 5,
-        height: 175,
-        Width: 155,
+
         backgroundColor: props.backgroundColor,
-        borderColor: textColor,
+        borderColor: colors.textColor,
         justifyContent: 'center',
         alignItems: 'center',
         opacity:
@@ -54,14 +47,14 @@ export default function Add({setAdd}) {
       <FontAwesomeIcon
         icon={props.icon}
         size={35}
-        style={{}}
-        color={textColor}
+        style={{marginTop: 15}}
+        color={colors.textColor}
       />
       <View style={{marginTop: 15}}>
         <Text
           style={[
             BasicStyles.header,
-            {fontSize: 17, lineHeight: 24, color: colors.background},
+            {fontSize: 17, lineHeight: 24, color: colors.componentTxtColor},
           ]}>
           {props.name}
         </Text>
@@ -78,6 +71,7 @@ export default function Add({setAdd}) {
             style={[
               BasicStyles.header,
               {
+                color: colors.textColor,
                 fontFamily: 'Montserrat-Regular',
                 fontSize: 44,
                 lineHeight: 54,
@@ -90,7 +84,7 @@ export default function Add({setAdd}) {
               BasicStyles.header,
               {
                 marginTop: 5,
-
+                color: colors.textColor,
                 fontSize: 44,
                 lineHeight: 54,
               },
@@ -100,11 +94,14 @@ export default function Add({setAdd}) {
           <TouchableOpacity
             onPress={() => setAdd(false)}
             activeOpacity={0.5}
-            style={[BasicStyles.backBtn, {right: 15}]}>
+            style={[
+              BasicStyles.backBtn,
+              {right: 15, borderColor: colors.textColor},
+            ]}>
             <FontAwesomeIcon
               icon={solid('xmark')}
               size={22}
-              color={textColor}
+              color={colors.textColor}
             />
           </TouchableOpacity>
         </View>
@@ -113,6 +110,7 @@ export default function Add({setAdd}) {
           style={{
             marginTop: 15,
             maxWidth: 400,
+            margin: 15,
             alignSelf: 'center',
             borderWidth: 2,
             flexDirection: 'row',
@@ -120,6 +118,7 @@ export default function Add({setAdd}) {
             alignItems: 'center',
             borderRadius: 30,
             marginBottom: 5,
+            borderColor: colors.textColor,
           }}>
           <TouchableOpacity
             activeOpacity={0.8}
@@ -128,7 +127,7 @@ export default function Add({setAdd}) {
               styles.btn,
               {
                 backgroundColor:
-                  active === 'in' ? '#44D7A8' : colors.background,
+                  active === 'in' ? colors.themeColor : colors.background,
               },
             ]}>
             <Text
@@ -139,7 +138,10 @@ export default function Add({setAdd}) {
                   alignSelf: 'center',
                   fontSize: 21,
                   lineHeight: 28,
-                  color: active === 'in' ? colors.background : textColor,
+                  color:
+                    active === 'in'
+                      ? colors.componentTxtColor
+                      : colors.textColor,
                 },
               ]}>
               Income
@@ -152,7 +154,7 @@ export default function Add({setAdd}) {
               styles.btn,
               {
                 backgroundColor:
-                  active === 'out' ? '#44D7A8' : colors.background,
+                  active === 'out' ? colors.themeColor : colors.background,
               },
             ]}>
             <Text
@@ -163,7 +165,10 @@ export default function Add({setAdd}) {
                   alignSelf: 'center',
                   fontSize: 21,
                   lineHeight: 28,
-                  color: active === 'out' ? colors.background : textColor,
+                  color:
+                    active === 'out'
+                      ? colors.componentTxtColor
+                      : colors.textColor,
                 },
               ]}>
               Spent
@@ -181,11 +186,12 @@ export default function Add({setAdd}) {
                     margin: 15,
                     fontSize: 27,
                     lineHeight: 32,
+                    color: colors.textColor,
                   },
                 ]}>
                 Select a category
               </Text>
-              <View style={styles.app}>
+              <View style={styles.moneyGrid}>
                 <FlatList
                   data={overViewData}
                   numColumns={2}
@@ -203,6 +209,7 @@ export default function Add({setAdd}) {
                 margin: 15,
                 fontSize: 27,
                 lineHeight: 32,
+                color: colors.textColor,
               },
             ]}>
             How much?
@@ -215,7 +222,11 @@ export default function Add({setAdd}) {
               setSelectedAmount(text.replace(/[^0-9]/g, ''))
             }
             placeholder="Enter amount"
-            style={styles.textInput}
+            placeholderTextColor={colors.textColor}
+            style={[
+              styles.textInput,
+              {color: colors.textColor, borderColor: colors.textColor},
+            ]}
           />
 
           <View style={styles.moneyGrid}>
@@ -246,18 +257,20 @@ export default function Add({setAdd}) {
             style={[
               styles.btn,
               {
-                backgroundColor: '#44D7A8',
+                backgroundColor: colors.themeColor,
                 borderRadius: 16,
                 borderWidth: 2,
                 width: 400,
                 alignSelf: 'center',
                 margin: 16,
+                borderColor: colors.textColor,
               },
             ]}>
             <Text
               style={[
                 BasicStyles.header,
                 {
+                  color: colors.textColor,
                   textAlign: 'center',
                   alignSelf: 'center',
                   fontSize: 21,
@@ -285,14 +298,6 @@ const styles = StyleSheet.create({
     width: 400,
     alignSelf: 'center',
   },
-  plus: {
-    alignSelf: 'center',
-    borderWidth: 2,
-    borderBottomWidth: 4,
-    borderRadius: 30,
-    backgroundColor: colors.background,
-    borderColor: textColor,
-  },
   textInput: {
     width: 200,
     alignSelf: 'center',
@@ -300,7 +305,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 4,
     borderRadius: 16,
     fontSize: 21,
-    color: textColor,
+
     lineHeight: 28,
     fontFamily: 'Montserrat-Regular',
     padding: 16,
@@ -309,8 +314,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 15,
     marginHorizontal: 'auto',
-    width: 400,
+    maxWidth: 400,
     flexDirection: 'row',
+    margin: 15,
     flexWrap: 'wrap',
   },
 });

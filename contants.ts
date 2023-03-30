@@ -2,18 +2,19 @@
 import {StyleSheet} from 'react-native';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
 
-let textColor = '#000000';
 let bgColor = '#464646';
 
 let colors = {
-  background: '#464646',
+  background: '#fcf4e7',
   textColor: '#000000',
+  themeColor: '#44D7A8',
+  componentTxtColor: '#ffffff',
 };
 
 function setBg(value: string) {
   bgColor = value;
 }
-export {textColor, bgColor, setBg, colors};
+export {bgColor, setBg, colors};
 
 /* '#fcf4e7' -- offwhite
   #7388b8 -- blue
@@ -33,7 +34,6 @@ export const BasicStyles = StyleSheet.create({
   header: {
     fontSize: 36,
     fontFamily: 'Montserrat-ExtraBold',
-    color: textColor,
     lineHeight: 40,
   },
   subheader: {
@@ -54,12 +54,11 @@ export const BasicStyles = StyleSheet.create({
     borderRadius: 16,
     marginTop: 5,
     marginBottom: 5,
-    borderColor: textColor,
   },
   statBtnText: {
     fontSize: 17,
     lineHeight: 24,
-    color: textColor,
+
     margin: 15,
     marginTop: 10,
     marginBottom: 10,
@@ -72,7 +71,6 @@ export const BasicStyles = StyleSheet.create({
     borderWidth: 2,
     alignSelf: 'center',
     borderRadius: 16,
-    borderColor: textColor,
   },
   backBtn: {
     position: 'absolute',
@@ -84,7 +82,6 @@ export const BasicStyles = StyleSheet.create({
     height: 48,
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: textColor,
   },
   modalBgCon: {
     display: 'flex',

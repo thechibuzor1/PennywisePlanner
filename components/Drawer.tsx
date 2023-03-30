@@ -16,10 +16,9 @@ import MenuDrawer from 'react-native-side-drawer';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
-import { BasicStyles, bgColor, colors, textColor } from '../contants';
+import {BasicStyles, bgColor, colors} from '../contants';
 
 const Drawer = props => {
-  const width = Dimensions.get('window').width;
   const overlay = true;
   const position = 'left';
 
@@ -32,7 +31,7 @@ const Drawer = props => {
       backgroundColor: colors.background,
       borderStyle: 'solid',
       borderWidth: 2,
-      borderColor: textColor,
+      borderColor: colors.textColor,
     };
 
     return (
@@ -55,7 +54,7 @@ const Drawer = props => {
             <FontAwesomeIcon
               icon={solid('xmark')}
               size={32}
-              color={textColor}
+              color={colors.textColor}
             />
           </TouchableOpacity>
           <View
@@ -70,7 +69,7 @@ const Drawer = props => {
                 style={[
                   BasicStyles.header,
                   {
-                    color: '#44D7A8',
+                    color: colors.themeColor,
                     fontSize: 44,
                     lineHeight: 54,
                   },
@@ -86,6 +85,7 @@ const Drawer = props => {
                 style={[
                   BasicStyles.header,
                   {
+                    color: colors.textColor,
                     fontSize: 44,
                     lineHeight: 54,
                   },
@@ -101,6 +101,7 @@ const Drawer = props => {
                 style={[
                   BasicStyles.header,
                   {
+                    color: colors.textColor,
                     fontSize: 44,
                     lineHeight: 54,
                   },
@@ -127,6 +128,5 @@ const Drawer = props => {
     </MenuDrawer>
   );
 };
- 
 
 export default Drawer;

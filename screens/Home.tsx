@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import {
@@ -12,13 +13,7 @@ import {
   Modal,
 } from 'react-native';
 import React, {useState} from 'react';
-import {
-  BasicStyles,
-  overViewData,
-  textColor,
-  bgColor,
-  colors,
-} from '../contants';
+import {BasicStyles, overViewData, colors} from '../contants';
 import * as Progress from 'react-native-progress';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
@@ -28,7 +23,7 @@ import HomeBlocks from '../components/HomeBlocks';
 import Add from '../components/Add';
 
 export default function Home({navigation}) {
-  const isDarkMode = useColorScheme() === 'dark';
+  /* const isDarkMode = useColorScheme() === 'dark'; */
   const width = Dimensions.get('window').width;
   const [openDrawer, setDrawerOpen] = useState<boolean>(false);
   const [closeMessage, setCloseMessage] = useState<boolean>(false);
@@ -46,7 +41,13 @@ export default function Home({navigation}) {
         <SafeAreaView
           style={[BasicStyles.container, {backgroundColor: colors.background}]}>
           <StatusBar
-            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            barStyle={
+              colors.background === '#000000'
+                ? 'light-content'
+                : colors.textColor === '#ffffff'
+                ? 'light-content'
+                : 'dark-content'
+            }
             backgroundColor={colors.background}
           />
 
@@ -55,29 +56,35 @@ export default function Home({navigation}) {
               marginLeft: 15,
               marginRight: 15,
               marginTop: 30,
+              marginBottom: 5,
             }}>
             <View style={BasicStyles.spaceBtw}>
               <TouchableOpacity
                 onPress={toggleDrawer}
                 activeOpacity={0.5}
                 style={{
-                  marginBottom: 20,
+                  marginBottom: 5,
+                  padding: 16,
+                  paddingLeft: 0,
                 }}>
                 <FontAwesomeIcon
                   icon={solid('bars')}
                   size={30}
-                  color={textColor}
+                  style={{}}
+                  color={colors.textColor}
                 />
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={0.5}
                 style={{
-                  marginBottom: 20,
+                  marginBottom: 5,
+                  padding: 16,
+                  paddingRight: 0,
                 }}>
                 <FontAwesomeIcon
-                  icon={regular('bell')}
+                  icon={solid('money-bills')}
                   size={30}
-                  color={textColor}
+                  color={colors.textColor}
                 />
               </TouchableOpacity>
             </View>
@@ -86,6 +93,7 @@ export default function Home({navigation}) {
               style={[
                 BasicStyles.header,
                 {
+                  color: colors.textColor,
                   fontFamily: 'Montserrat-Regular',
                   fontSize: 36,
                   lineHeight: 40,
@@ -93,16 +101,22 @@ export default function Home({navigation}) {
               ]}>
               Hello,
             </Text>
-            <Text style={BasicStyles.header}>Chibuzor</Text>
+            <Text style={[BasicStyles.header, {color: colors.textColor}]}>
+              Chibuzor
+            </Text>
             <Text style={BasicStyles.subheader}>Current Balance</Text>
-            <Text style={[BasicStyles.header, {fontSize: 40, marginTop: 5}]}>
-              $20,000
+            <Text
+              style={[
+                BasicStyles.header,
+                {color: colors.textColor, fontSize: 40, marginTop: 5},
+              ]}>
+              ₦20,000
             </Text>
 
             <Progress.Bar
               progress={20000 / 33000}
               height={3}
-              color={'#44D7A8'}
+              color={colors.themeColor}
               unfilledColor={'white'}
               width={width - 30}
               style={{marginTop: 30}}
@@ -111,47 +125,19 @@ export default function Home({navigation}) {
             <View style={BasicStyles.spaceBtw}>
               <Text style={BasicStyles.subheader}>
                 Spent:{' '}
-                <Text style={[BasicStyles.subheader, {color: textColor}]}>
-                  $13,000
+                <Text
+                  style={[BasicStyles.subheader, {color: colors.textColor}]}>
+                  ₦13,000
                 </Text>
               </Text>
               <Text style={BasicStyles.subheader}>
                 Budget:{' '}
-                <Text style={[BasicStyles.subheader, {color: textColor}]}>
-                  $33,000
+                <Text
+                  style={[BasicStyles.subheader, {color: colors.textColor}]}>
+                  ₦33,000
                 </Text>
               </Text>
             </View>
-          </View>
-          <View
-            style={[
-              styles.messagecon,
-              {display: closeMessage ? 'none' : 'flex'},
-            ]}>
-            <TouchableOpacity
-              activeOpacity={0.5}
-              style={{
-                alignSelf: 'flex-end',
-                marginRight: 15,
-                marginTop: 15,
-              }}
-              onPress={() => setCloseMessage(true)}>
-              <FontAwesomeIcon
-                icon={solid('xmark')}
-                size={30}
-                color={textColor}
-              />
-            </TouchableOpacity>
-            <Text
-              style={[
-                BasicStyles.header,
-                {color: textColor, margin: 20, marginTop: 5},
-              ]}>
-              Your Budget for the next{' '}
-              <Text style={{color: colors.background}}>6 days</Text> is{' '}
-              <Text style={{color: colors.background}}>$260 per day.</Text>{' '}
-              Spend Wisely.
-            </Text>
           </View>
 
           <TouchableOpacity
@@ -162,36 +148,83 @@ export default function Home({navigation}) {
               {
                 display: add ? 'none' : 'flex',
                 backgroundColor: colors.background,
+                borderColor: colors.textColor,
               },
             ]}>
             <FontAwesomeIcon
               icon={solid('plus')}
               size={22}
-              color={textColor}
+              color={colors.textColor}
               style={{
                 margin: 15,
               }}
             />
           </TouchableOpacity>
 
-          <View
-            style={[
-              BasicStyles.spaceBtw,
-              {
-                marginLeft: 15,
-                marginRight: 15,
-                marginTop: 30,
-              },
-            ]}>
-            <Text style={BasicStyles.subheader}>OverView</Text>
-            <TouchableOpacity activeOpacity={0.5}>
-              <Text style={[BasicStyles.subheader, {color: textColor}]}>
-                View all
-              </Text>
-            </TouchableOpacity>
-          </View>
-
           <FlatList
+            ListHeaderComponent={
+              <>
+                <View
+                  style={[
+                    styles.messagecon,
+                    {
+                      display: closeMessage ? 'none' : 'flex',
+                      backgroundColor: colors.themeColor,
+                      borderColor: colors.textColor,
+                    },
+                  ]}>
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    style={{
+                      alignSelf: 'flex-end',
+                      marginRight: 15,
+                      marginTop: 15,
+                    }}
+                    onPress={() => setCloseMessage(true)}>
+                    <FontAwesomeIcon
+                      icon={solid('xmark')}
+                      size={30}
+                      color={colors.textColor}
+                    />
+                  </TouchableOpacity>
+                  <Text
+                    style={[
+                      BasicStyles.header,
+                      {color: colors.textColor, margin: 20, marginTop: 5},
+                    ]}>
+                    Your Budget for the next{' '}
+                    <Text style={{color: colors.componentTxtColor}}>
+                      6 days
+                    </Text>{' '}
+                    is{' '}
+                    <Text style={{color: colors.componentTxtColor}}>
+                      ₦260 per day.
+                    </Text>{' '}
+                    Spend Wisely.
+                  </Text>
+                </View>
+                <View
+                  style={[
+                    BasicStyles.spaceBtw,
+                    {
+                      marginLeft: 15,
+                      marginRight: 15,
+                      marginTop: 30,
+                    },
+                  ]}>
+                  <Text style={BasicStyles.subheader}>OverView</Text>
+                  <TouchableOpacity activeOpacity={0.5}>
+                    <Text
+                      style={[
+                        BasicStyles.subheader,
+                        {color: colors.textColor},
+                      ]}>
+                      View all
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            }
             showsVerticalScrollIndicator={false}
             style={{paddingTop: 15}}
             data={overViewData}
@@ -212,8 +245,8 @@ export default function Home({navigation}) {
 }
 const styles = StyleSheet.create({
   messagecon: {
-    backgroundColor: '#44D7A8',
-    width: 350,
+    maxWidth: 400,
+    margin: 15,
     borderRadius: 16,
     alignSelf: 'center',
     marginTop: 30,
@@ -229,7 +262,6 @@ const styles = StyleSheet.create({
     elevation: 16, */
     borderWidth: 2,
     borderBottomWidth: 4,
-    borderColor: textColor,
   },
   plus: {
     marginBottom: 20,
@@ -240,7 +272,5 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderBottomWidth: 4,
     borderRadius: 30,
-
-    borderColor: textColor,
   },
 });

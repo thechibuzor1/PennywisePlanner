@@ -6,14 +6,11 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import React, {useState} from 'react';
-import {BasicStyles, bgColor, colors, setBg, textColor} from '../contants';
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-  RadioButtonLabel,
-} from 'react-native-simple-radio-button';
+import {BasicStyles, colors} from '../contants';
+import RadioForm from 'react-native-simple-radio-button';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 
@@ -22,16 +19,17 @@ export default function ThemeModal({setShowThemeModal}) {
   let initial = 0;
 
   let radio_props = [
-    {label: 'Off-white', value: '#fcf4e7'},
+    {label: 'Off white', value: '#fcf4e7'},
     {label: 'White', value: '#ffffff'},
     {label: 'Blue', value: '#7388b8'},
-    {label: 'green', value: '#5eab6e'},
-    {label: 'red', value: '#ea400e'},
-    {label: 'darkBlue', value: '#046574'},
-    {label: 'orange', value: '#e09c2c'},
-    {label: 'pink', value: '#ec9aa2'},
-    {label: 'purple', value: '#c4aaf5'},
-    {label: 'dark', value: '#464646'},
+    {label: 'Green', value: '#5eab6e'},
+    {label: 'Red', value: '#ea400e'},
+    {label: 'Dark blue', value: '#046574'},
+    {label: 'Orange', value: '#e09c2c'},
+    {label: 'Pink', value: '#ec9aa2'},
+    {label: 'Purple', value: '#c4aaf5'},
+    {label: 'Dark', value: '#464646'},
+    {label: 'Lights out', value: '#000000'},
   ];
 
   radio_props.forEach(element => {
@@ -39,6 +37,19 @@ export default function ThemeModal({setShowThemeModal}) {
       initial = radio_props.indexOf(element);
     }
   });
+
+  function handleThemes(val: string) {
+    colors.background = val;
+    if (val === '#000000') {
+      colors.textColor = '#ffffff';
+      StatusBar.setBarStyle('light-content');
+    } else {
+      colors.textColor = '#000000';
+      StatusBar.setBarStyle('dark-content');
+    }
+
+    setValue(val);
+  }
 
   return (
     <View style={BasicStyles.modalBgCon}>
@@ -48,7 +59,7 @@ export default function ThemeModal({setShowThemeModal}) {
           borderTopRightRadius: 16,
           borderTopLeftRadius: 16,
           borderWidth: 2,
-          borderColor: textColor,
+          borderColor: colors.textColor,
         }}>
         <View
           style={{
@@ -58,11 +69,13 @@ export default function ThemeModal({setShowThemeModal}) {
             alignItems: 'center',
             justifyContent: 'space-between',
             borderBottomWidth: 2,
+            borderColor: colors.textColor,
           }}>
           <Text
             style={[
               BasicStyles.header,
               {
+                color: colors.textColor,
                 marginTop: 5,
                 marginLeft: 15,
                 fontSize: 24,
@@ -78,16 +91,13 @@ export default function ThemeModal({setShowThemeModal}) {
             <FontAwesomeIcon
               icon={solid('xmark')}
               size={25}
-              color={textColor}
+              color={colors.textColor}
             />
           </TouchableOpacity>
         </View>
         <RadioForm
           radio_props={radio_props}
-          onPress={value => {
-            colors.background = value;
-            setValue(value);
-          }}
+          onPress={(val: string) => handleThemes(val)}
           initial={initial}
           labelStyle={[
             BasicStyles.header,
@@ -95,11 +105,12 @@ export default function ThemeModal({setShowThemeModal}) {
               fontSize: 17,
               lineHeight: 24,
               marginBottom: 18,
+              color: colors.textColor,
             },
           ]}
           buttonSize={16}
-          buttonColor={textColor}
-          selectedButtonColor={textColor}
+          buttonColor={colors.textColor}
+          selectedButtonColor={colors.textColor}
           style={{
             padding: 16,
             marginTop: 10,
