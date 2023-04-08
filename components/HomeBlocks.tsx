@@ -1,12 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {BasicStyles, colors} from '../contants';
@@ -15,7 +9,7 @@ import * as Progress from 'react-native-progress';
 export default function HomeBlocks({props}: any) {
   const width = Dimensions.get('window').width;
   return (
-    <TouchableOpacity activeOpacity={0.5} style={styles.con}>
+    <View style={styles.con}>
       <View
         style={[
           styles.iconBg,
@@ -44,7 +38,7 @@ export default function HomeBlocks({props}: any) {
           <Text
             style={[
               BasicStyles.header,
-              {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
+              {fontSize: 17, lineHeight: 24, color: colors.themeColor},
             ]}>
             Left: <Text style={{color: '#000000'}}>₦{props.left}</Text>
           </Text>
@@ -61,21 +55,21 @@ export default function HomeBlocks({props}: any) {
           <Text
             style={[
               BasicStyles.header,
-              {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
+              {fontSize: 17, lineHeight: 24, color: colors.themeColor},
             ]}>
             Spent: <Text style={{color: colors.textColor}}>₦{props.spent}</Text>
           </Text>
           <Text
             style={[
               BasicStyles.header,
-              {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
+              {fontSize: 17, lineHeight: 24, color: colors.themeColor},
             ]}>
             Budget:{' '}
             <Text style={{color: colors.textColor}}>₦{props.budget}</Text>
           </Text>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 }
 

@@ -86,8 +86,13 @@ export default function Settings({navigation}) {
         </Text>
       </View>
 
-      <ScrollView showsHorizontalScrollIndicator={false}>
-        <Text style={[BasicStyles.subheader, styles.graySubHeader]}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Text
+          style={[
+            BasicStyles.subheader,
+            styles.graySubHeader,
+            {color: colors.themeColor},
+          ]}>
           General
         </Text>
         <View style={[styles.sectionCon, {borderColor: colors.textColor}]}>
@@ -96,7 +101,12 @@ export default function Settings({navigation}) {
           <SettinngsBtns setModal={setShowColorsModal} name={'Colors'} />
         </View>
 
-        <Text style={[BasicStyles.subheader, styles.graySubHeader]}>
+        <Text
+          style={[
+            BasicStyles.subheader,
+            styles.graySubHeader,
+            {color: colors.themeColor},
+          ]}>
           Your Data
         </Text>
         <View style={[styles.sectionCon, {borderColor: colors.textColor}]}>

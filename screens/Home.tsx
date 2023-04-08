@@ -21,6 +21,8 @@ import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import Drawer from '../components/Drawer';
 import HomeBlocks from '../components/HomeBlocks';
 import Add from '../components/Add';
+import Categories from '../components/Categories';
+import Budget from '../components/Budget';
 
 export default function Home({navigation}) {
   /* const isDarkMode = useColorScheme() === 'dark'; */
@@ -28,6 +30,9 @@ export default function Home({navigation}) {
   const [openDrawer, setDrawerOpen] = useState<boolean>(false);
   const [closeMessage, setCloseMessage] = useState<boolean>(false);
   const [add, setAdd] = useState<boolean>(false);
+  const [showCategoriesodal, setShowCategoriesodal] = useState<boolean>(false);
+  const [budgetModal, setBudgetModal] = useState<boolean>(false);
+
   const toggleDrawer = () => {
     setDrawerOpen(!openDrawer);
   };
@@ -75,6 +80,7 @@ export default function Home({navigation}) {
                 />
               </TouchableOpacity>
               <TouchableOpacity
+                onPress={() => setBudgetModal(true)}
                 activeOpacity={0.5}
                 style={{
                   marginBottom: 5,
@@ -104,7 +110,9 @@ export default function Home({navigation}) {
             <Text style={[BasicStyles.header, {color: colors.textColor}]}>
               Chibuzor
             </Text>
-            <Text style={BasicStyles.subheader}>Current Balance</Text>
+            <Text style={[BasicStyles.subheader, {color: colors.themeColor}]}>
+              Current Balance
+            </Text>
             <Text
               style={[
                 BasicStyles.header,
@@ -123,14 +131,14 @@ export default function Home({navigation}) {
             />
 
             <View style={BasicStyles.spaceBtw}>
-              <Text style={BasicStyles.subheader}>
+              <Text style={[BasicStyles.subheader, {color: colors.themeColor}]}>
                 Spent:{' '}
                 <Text
                   style={[BasicStyles.subheader, {color: colors.textColor}]}>
                   ₦13,000
                 </Text>
               </Text>
-              <Text style={BasicStyles.subheader}>
+              <Text style={[BasicStyles.subheader, {color: colors.themeColor}]}>
                 Budget:{' '}
                 <Text
                   style={[BasicStyles.subheader, {color: colors.textColor}]}>
@@ -144,7 +152,7 @@ export default function Home({navigation}) {
             onPress={() => setAdd(true)}
             activeOpacity={0.5}
             style={[
-              styles.plus,
+              BasicStyles.plusIcon,
               {
                 display: add ? 'none' : 'flex',
                 backgroundColor: colors.background,
@@ -210,10 +218,16 @@ export default function Home({navigation}) {
                       marginLeft: 15,
                       marginRight: 15,
                       marginTop: 30,
+                      marginBottom: 15,
                     },
                   ]}>
-                  <Text style={BasicStyles.subheader}>OverView</Text>
-                  <TouchableOpacity activeOpacity={0.5}>
+                  <Text
+                    style={[BasicStyles.subheader, {color: colors.themeColor}]}>
+                    OverView
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => setShowCategoriesodal(true)}
+                    activeOpacity={0.5}>
                     <Text
                       style={[
                         BasicStyles.subheader,
@@ -237,6 +251,22 @@ export default function Home({navigation}) {
             transparent
             onRequestClose={() => setAdd(false)}>
             {<Add setAdd={setAdd} />}
+          </Modal>
+          <Modal
+            animated
+            animationType="slide"
+            visible={showCategoriesodal}
+            transparent
+            onRequestClose={() => setShowCategoriesodal(false)}>
+            {<Categories setShowCategoriesodal={setShowCategoriesodal} />}
+          </Modal>
+          <Modal
+            animated
+            animationType="slide"
+            visible={budgetModal}
+            transparent
+            onRequestClose={() => setBudgetModal(false)}>
+            {<Budget setBudgetModal={setBudgetModal} />}
           </Modal>
         </SafeAreaView>
       </Drawer>
@@ -262,15 +292,5 @@ const styles = StyleSheet.create({
     elevation: 16, */
     borderWidth: 2,
     borderBottomWidth: 4,
-  },
-  plus: {
-    marginBottom: 20,
-    position: 'absolute',
-    bottom: 10,
-    alignSelf: 'center',
-    zIndex: 999,
-    borderWidth: 2,
-    borderBottomWidth: 4,
-    borderRadius: 30,
   },
 });

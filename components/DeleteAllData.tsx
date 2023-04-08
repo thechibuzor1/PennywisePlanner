@@ -31,7 +31,7 @@ export default function DeleteAllData({setDeleteAll}) {
         <Text
           style={{
             fontFamily: 'Montserrat-Regular',
-            color: 'gray',
+            color: colors.themeColor,
           }}>
           Once you delete this you are not alllowed to restore.
         </Text>

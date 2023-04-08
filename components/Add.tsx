@@ -17,7 +17,7 @@ import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import MoneySquares from './MoneySquares';
 
 export default function Add({setAdd}) {
-  const [active, setActive] = useState<string>('out');
+  /*  const [active, setActive] = useState<string>('out'); */
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedAmount, setSelectedAmount] = useState<string>('');
 
@@ -106,7 +106,7 @@ export default function Add({setAdd}) {
           </TouchableOpacity>
         </View>
 
-        <View
+        {/*  <View
           style={{
             marginTop: 15,
             maxWidth: 400,
@@ -174,33 +174,34 @@ export default function Add({setAdd}) {
               Spent
             </Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
-        <ScrollView showsHorizontalScrollIndicator={false}>
-          {active === 'out' && (
-            <>
-              <Text
-                style={[
-                  BasicStyles.header,
-                  {
-                    margin: 15,
-                    fontSize: 27,
-                    lineHeight: 32,
-                    color: colors.textColor,
-                  },
-                ]}>
-                Select a category
-              </Text>
-              <View style={styles.moneyGrid}>
-                <FlatList
-                  data={overViewData}
-                  numColumns={2}
-                  renderItem={data => <Blocks props={data.item} />}
-                  keyExtractor={item => item.name}
-                />
-              </View>
-            </>
-          )}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {/*   {active === 'out' && (
+            <> */}
+          <Text
+            style={[
+              BasicStyles.header,
+              {
+                margin: 15,
+                fontSize: 27,
+                lineHeight: 32,
+                color: colors.textColor,
+              },
+            ]}>
+            Select a category
+          </Text>
+          <View style={styles.moneyGrid}>
+            <FlatList
+              showsHorizontalScrollIndicator={false}
+              data={overViewData}
+              numColumns={2}
+              renderItem={data => <Blocks props={data.item} />}
+              keyExtractor={item => item.name}
+            />
+          </View>
+          {/*      </>
+          )} */}
 
           <Text
             style={[

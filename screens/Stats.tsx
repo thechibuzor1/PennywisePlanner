@@ -148,7 +148,7 @@ export default function Stats({navigation}) {
           <Text
             style={[
               BasicStyles.header,
-              {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
+              {fontSize: 17, lineHeight: 24, color: colors.themeColor},
             ]}>
             30 May 2023
           </Text>
@@ -253,16 +253,6 @@ export default function Stats({navigation}) {
                   <RenderLegend key={item.value} props={item} />
                 ))}
               </View>
-              <Text
-                style={{
-                  color: colors.textColor,
-                  fontSize: 21,
-                  fontFamily: 'Montserrat-Regular',
-                  lineHeight: 28,
-                  textAlign: 'center',
-                }}>
-                Your highest expense <Text>{textInfo}</Text> is Shopping.
-              </Text>
             </>
           ) : (
             <>
@@ -283,6 +273,18 @@ export default function Stats({navigation}) {
               />
             </>
           )}
+          <Text
+            style={{
+              color: colors.textColor,
+              fontSize: 21,
+              fontFamily: 'Montserrat-Regular',
+              lineHeight: 28,
+              textAlign: 'center',
+            }}>
+            {showPie
+              ? ` Your highest expense ${textInfo} is Shopping.`
+              : 'You spent the most this week on wednesday.'}
+          </Text>
         </View>
 
         <Divider
@@ -390,47 +392,51 @@ export default function Stats({navigation}) {
             </TouchableOpacity>
           </View>
         )}
+
         <View
           style={[
-            BasicStyles.spaceBtw,
-            {width: '90%', alignSelf: 'center', marginTop: 15},
+            {
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              marginTop: 15,
+            },
           ]}>
-          <View style={[BasicStyles.spaceBtw, {alignItems: 'center'}]}>
-            <View
-              style={{
-                borderWidth: 2,
-                borderBottomWidth: 4,
-                borderRadius: 15,
-                width: 52,
-                height: 52,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderColor: colors.textColor,
-              }}>
-              <FontAwesomeIcon
-                icon={solid('arrow-up-long')}
-                size={22}
-                color={colors.textColor}
-              />
-            </View>
-            <View style={{marginLeft: 5}}>
-              <Text
-                style={[
-                  BasicStyles.header,
-                  {fontSize: 17, lineHeight: 24, color: '#9FA4B4'},
-                ]}>
-                Spending
-              </Text>
-              <Text
-                style={[
-                  BasicStyles.header,
-                  {fontSize: 21, lineHeight: 28, color: colors.textColor},
-                ]}>
-                ₦580
-              </Text>
-            </View>
+          <View
+            style={{
+              borderWidth: 2,
+              borderBottomWidth: 4,
+              borderRadius: 15,
+              width: 52,
+              height: 52,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderColor: colors.textColor,
+            }}>
+            <FontAwesomeIcon
+              icon={solid('arrow-up-long')}
+              size={22}
+              color={colors.textColor}
+            />
           </View>
-          <View style={[BasicStyles.spaceBtw, {alignItems: 'center'}]}>
+          <View style={{marginLeft: 5}}>
+            <Text
+              style={[
+                BasicStyles.header,
+                {fontSize: 17, lineHeight: 24, color: colors.themeColor},
+              ]}>
+              Spent
+            </Text>
+            <Text
+              style={[
+                BasicStyles.header,
+                {fontSize: 21, lineHeight: 28, color: colors.textColor},
+              ]}>
+              ₦580
+            </Text>
+          </View>
+        </View>
+        {/* <View style={[BasicStyles.spaceBtw, {alignItems: 'center'}]}>
             <View
               style={{
                 borderWidth: 2,
@@ -464,8 +470,7 @@ export default function Stats({navigation}) {
                 ₦900
               </Text>
             </View>
-          </View>
-        </View>
+          </View> */}
 
         <View
           style={{
