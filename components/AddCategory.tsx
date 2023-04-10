@@ -1,69 +1,112 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
-import {BasicStyles, colors} from '../contants';
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React from 'react';
+import {BasicStyles, Categories, colors, overViewData} from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
-import * as Progress from 'react-native-progress';
-export default function AddCategory({props}) {
-  const [selected, setSelected] = useState<boolean>(false);
+import HomeBlocks from './HomeBlocks';
+import AddCategoriesBlocks from './AddCategoriesBlocks';
+export default function AddCategory({setAdd}) {
   return (
-    <TouchableOpacity
-      onPress={() => setSelected(!selected)}
-      activeOpacity={0.8}
-      style={{
-        flex: 1,
-        borderRadius: 16,
-        borderWidth: 2,
-        borderBottomWidth: selected ? 2 : 4,
-        padding: 16,
-        margin: 5,
-
-        borderColor: !selected ? colors.textColor : colors.themeColor,
-        justifyContent: 'center',
-        alignItems: 'center',
-        /*  opacity: edit
-          ? 0.5
-          : selectedCategory === ''
-          ? 1
-          : selectedCategory === props.name
-          ? 1
-          : 0.5, */
-      }}>
-      <View
+    <View style={BasicStyles.modalBgCon}>
+      <TouchableOpacity
+        onPress={() => setAdd(false)}
+        activeOpacity={0.5}
         style={{
+          alignSelf: 'center',
+          borderColor: colors.textColor,
           borderWidth: 2,
-          borderRadius: 30,
-          marginTop: 5,
-          alignSelf: 'flex-start',
-          alignItems: 'center',
+          borderRadius: 24,
+          height: 48,
+          width: 48,
+          backgroundColor: colors.background,
           justifyContent: 'center',
-          backgroundColor: props.backgroundColor,
+          alignItems: 'center',
+          marginBottom: 8,
         }}>
         <FontAwesomeIcon
-          icon={props.icon}
-          size={35}
-          style={{margin: 7}}
+          icon={solid('xmark')}
+          size={25}
           color={colors.textColor}
         />
-      </View>
-      <View
+      </TouchableOpacity>
+      <SafeAreaView
         style={{
-          marginTop: 15,
-          alignSelf: 'flex-start',
-          alignItems: 'center',
+          backgroundColor: colors.background,
+          borderTopRightRadius: 16,
+          borderTopLeftRadius: 16,
+          borderWidth: 2,
+          borderTopWidth: 6,
+          borderColor: colors.textColor,
         }}>
-        <Text
-          style={[
-            BasicStyles.header,
-            {fontSize: 17, lineHeight: 24, color: colors.textColor},
-          ]}>
-          {props.name}
-        </Text>
-      </View>
-    </TouchableOpacity>
+        <View
+          style={{
+            marginTop: 30,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+          <Text
+            style={[
+              BasicStyles.header,
+              {
+                color: colors.textColor,
+                marginTop: 5,
+                marginLeft: 15,
+                fontSize: 24,
+                lineHeight: 28,
+              },
+            ]}>
+            Select a category
+          </Text>
+        </View>
+
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={BasicStyles.moneyGrid}>
+            {Categories.map((item, i) => (
+              <AddCategoriesBlocks key={i} props={item} />
+            ))}
+          </View>
+          {/*  <TouchableOpacity
+            activeOpacity={0.5}
+            style={[
+              styles.plus,
+              {
+                backgroundColor: colors.background,
+                borderColor: colors.textColor,
+              },
+            ]}>
+            <FontAwesomeIcon
+              icon={solid('plus')}
+              size={22}
+              color={colors.textColor}
+              style={{
+                margin: 15,
+              }}
+            />
+          </TouchableOpacity> */}
+        </ScrollView>
+      </SafeAreaView>
+    </View>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  plus: {
+    marginBottom: 20,
+    marginTop: 20,
+    alignSelf: 'center',
+
+    borderWidth: 2,
+    borderBottomWidth: 4,
+    borderRadius: 30,
+  },
+});

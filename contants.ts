@@ -7,7 +7,7 @@ let bgColor = '#464646';
 let colors = {
   background: '#fcf4e7',
   textColor: '#000000',
-  themeColor: '#44D7A8',
+  themeColor: '#1947E5',
   componentTxtColor: '#ffffff',
   subTextColor: '#1947E5',
 };
@@ -99,6 +99,15 @@ export const BasicStyles = StyleSheet.create({
     borderBottomWidth: 4,
     borderRadius: 30,
   },
+  moneyGrid: {
+    alignSelf: 'center',
+    marginTop: 15,
+    marginHorizontal: 'auto',
+    maxWidth: 400,
+    flexDirection: 'row',
+    margin: 15,
+    flexWrap: 'wrap',
+  },
 });
 
 interface overview {
@@ -119,39 +128,39 @@ export interface categories {
 export const overViewData: overview[] = [
   {
     name: 'Grocery',
-    left: '150',
-    spent: '240',
-    budget: '400',
+    left: '15000',
+    spent: '24000',
+    budget: '40000',
     backgroundColor: '#F95A2C',
     icon: solid('basket-shopping'),
   },
   {
     name: 'Shopping',
-    left: '275',
-    spent: '925',
-    budget: '1200',
+    left: '2750',
+    spent: '9250',
+    budget: '12000',
     backgroundColor: '#44D7A8',
     icon: solid('cart-shopping'),
   },
   {
     name: 'Travel',
-    left: '1880',
-    spent: '120',
-    budget: '2000',
+    left: '80000',
+    spent: '120000',
+    budget: '200000',
     backgroundColor: '#FFBD12',
     icon: solid('plane-departure'),
   },
   {
     name: 'Food',
-    left: '2579',
-    spent: '921',
-    budget: '3500',
+    left: '25750',
+    spent: '9250',
+    budget: '35000',
     backgroundColor: '#1947E5',
     icon: solid('utensils'),
   },
   {
     name: 'Other',
-    left: '4579',
+    left: '2500',
     spent: '1000',
     budget: '3500',
     backgroundColor: '#474A57',

@@ -11,16 +11,13 @@ export default function BudgetCategories({
   props,
   setSelectedCategory,
   selectedCategory,
-  edit,
 }) {
   function handlePress(name: string) {
-    if (!edit) {
-      if (name === selectedCategory) {
-        setSelectedCategory('');
-        return;
-      }
-      setSelectedCategory(props.name);
+    if (name === selectedCategory) {
+      setSelectedCategory('');
+      return;
     }
+    setSelectedCategory(props.name);
   }
 
   return (
@@ -38,13 +35,12 @@ export default function BudgetCategories({
         borderColor: colors.textColor,
         justifyContent: 'center',
         alignItems: 'center',
-        opacity: edit
-          ? 0.5
-          : selectedCategory === ''
-          ? 1
-          : selectedCategory === props.name
-          ? 1
-          : 0.5,
+        opacity:
+          selectedCategory === ''
+            ? 1
+            : selectedCategory === props.name
+            ? 1
+            : 0.5,
       }}>
       {selectedCategory !== props.name ? (
         <>

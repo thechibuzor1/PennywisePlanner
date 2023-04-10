@@ -7,22 +7,34 @@ import {
   TouchableOpacity,
   View,
   FlatList,
+  Modal,
   ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
 import {BasicStyles, Categories, colors, overViewData} from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
+import {regular, solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import BudgetCategories from './BudgetCategories';
 import AddCategory from './AddCategory';
+import moment from 'moment';
 
 export default function Budget({setBudgetModal}) {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const [edit, setEdit] = useState<boolean>(false);
-
+  const [add, setAdd] = useState<boolean>(false);
+  /* var ld = Date.today().clearTime().moveToLastDayOfMonth();
+var lastday = ld.toString("MM/dd/yyyy");
+alert(lastday); */
   return (
     <View style={BasicStyles.modalBgCon}>
+      <Modal
+        animated
+        animationType="slide"
+        visible={add}
+        transparent
+        onRequestClose={() => setAdd(false)}>
+        {<AddCategory setAdd={setAdd} />}
+      </Modal>
       <SafeAreaView
         style={[BasicStyles.container, {backgroundColor: colors.background}]}>
         <View style={{marginTop: 30, paddingBottom: 15, marginLeft: 15}}>
@@ -86,7 +98,7 @@ export default function Budget({setBudgetModal}) {
             </Text>
             <TouchableOpacity activeOpacity={0.5}>
               <FontAwesomeIcon
-                icon={solid('gear')}
+                icon={regular('trash-can')}
                 size={30}
                 color={colors.themeColor}
               />
@@ -130,7 +142,7 @@ export default function Budget({setBudgetModal}) {
                     color: colors.textColor,
                   },
                 ]}>
-                This month's Available
+                This month's available
               </Text>
               <Text
                 style={[
@@ -146,6 +158,34 @@ export default function Budget({setBudgetModal}) {
                 <Text style={{fontFamily: 'Montserrat-Regular'}}>
                   {' '}
                   ₦20000/₦28000
+                </Text>
+              </Text>
+              <Text
+                style={[
+                  BasicStyles.header,
+                  {
+                    fontSize: 17,
+                    lineHeight: 24,
+                    marginBottom: 5,
+                    color: colors.textColor,
+                  },
+                ]}>
+                Days remaining before
+              </Text>
+              <Text
+                style={[
+                  BasicStyles.header,
+                  {
+                    fontSize: 17,
+                    lineHeight: 24,
+                    marginBottom: 5,
+                    color: colors.textColor,
+                  },
+                ]}>
+                reset:
+                <Text style={{fontFamily: 'Montserrat-Regular'}}>
+                  {' '}
+                  {moment().endOf('month').diff(moment(), 'days')}{' '}
                 </Text>
               </Text>
             </View>
@@ -182,22 +222,14 @@ export default function Budget({setBudgetModal}) {
               Categories
             </Text>
             <TouchableOpacity
-              onPress={() => setEdit(true)}
+              onPress={() => setAdd(true)}
               activeOpacity={0.5}
-              style={{display: edit ? 'none' : 'flex'}}>
-              <Text
-                style={[
-                  BasicStyles.header,
-                  {
-                    fontFamily: 'Montserrat-Regular',
-
-                    fontSize: 27,
-                    lineHeight: 32,
-                    color: colors.themeColor,
-                  },
-                ]}>
-                edit
-              </Text>
+              style={{display: add ? 'none' : 'flex'}}>
+              <FontAwesomeIcon
+                icon={solid('plus')}
+                size={30}
+                color={colors.themeColor}
+              />
             </TouchableOpacity>
           </View>
 
@@ -207,7 +239,6 @@ export default function Budget({setBudgetModal}) {
               numColumns={2}
               renderItem={data => (
                 <BudgetCategories
-                  edit={edit}
                   props={data.item}
                   setSelectedCategory={setSelectedCategory}
                   selectedCategory={selectedCategory}
@@ -217,7 +248,7 @@ export default function Budget({setBudgetModal}) {
             />
           </View>
 
-          {edit && (
+          {/*   {edit && (
             <>
               <Text
                 style={[
@@ -276,7 +307,7 @@ export default function Budget({setBudgetModal}) {
                 </TouchableOpacity>
               </View>
             </>
-          )}
+          )} */}
         </ScrollView>
       </SafeAreaView>
     </View>

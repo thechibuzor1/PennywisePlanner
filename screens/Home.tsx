@@ -118,11 +118,11 @@ export default function Home({navigation}) {
                 BasicStyles.header,
                 {color: colors.textColor, fontSize: 40, marginTop: 5},
               ]}>
-              ₦20,000
+              ₦162,000
             </Text>
 
             <Progress.Bar
-              progress={20000 / 33000}
+              progress={163500 / 325500}
               height={3}
               color={colors.themeColor}
               unfilledColor={'white'}
@@ -135,14 +135,14 @@ export default function Home({navigation}) {
                 Spent:{' '}
                 <Text
                   style={[BasicStyles.subheader, {color: colors.textColor}]}>
-                  ₦13,000
+                  ₦163,500
                 </Text>
               </Text>
               <Text style={[BasicStyles.subheader, {color: colors.themeColor}]}>
                 Budget:{' '}
                 <Text
                   style={[BasicStyles.subheader, {color: colors.textColor}]}>
-                  ₦33,000
+                  ₦325,500
                 </Text>
               </Text>
             </View>
@@ -206,7 +206,7 @@ export default function Home({navigation}) {
                     </Text>{' '}
                     is{' '}
                     <Text style={{color: colors.componentTxtColor}}>
-                      ₦260 per day.
+                      ₦6000 per day.
                     </Text>{' '}
                     Spend Wisely.
                   </Text>

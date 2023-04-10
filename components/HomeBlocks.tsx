@@ -38,7 +38,7 @@ export default function HomeBlocks({props}: any) {
           <Text
             style={[
               BasicStyles.header,
-              {fontSize: 17, lineHeight: 24, color: colors.themeColor},
+              {fontSize: 15, lineHeight: 24, color: colors.themeColor},
             ]}>
             Left: <Text style={{color: '#000000'}}>₦{props.left}</Text>
           </Text>
@@ -55,14 +55,14 @@ export default function HomeBlocks({props}: any) {
           <Text
             style={[
               BasicStyles.header,
-              {fontSize: 17, lineHeight: 24, color: colors.themeColor},
+              {fontSize: 15, lineHeight: 24, color: colors.themeColor},
             ]}>
             Spent: <Text style={{color: colors.textColor}}>₦{props.spent}</Text>
           </Text>
           <Text
             style={[
               BasicStyles.header,
-              {fontSize: 17, lineHeight: 24, color: colors.themeColor},
+              {fontSize: 15, lineHeight: 24, color: colors.themeColor},
             ]}>
             Budget:{' '}
             <Text style={{color: colors.textColor}}>₦{props.budget}</Text>
