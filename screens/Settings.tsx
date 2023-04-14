@@ -22,7 +22,7 @@ import Account from '../components/Account';
 export default function Settings({navigation}) {
   const [showThemeModal, setShowThemeModal] = useState<boolean>(false);
   const [showColorsModal, setShowColorsModal] = useState<boolean>(false);
-  const [deleteAllData, setDeleteAllData] = useState<boolean>(false);
+  const [deleteAllData, setDeleteAllData] = useState<boolean>(false); 
   const [accountModal, setAccountModal] = useState<boolean>(false);
   return (
     <SafeAreaView

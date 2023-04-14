@@ -49,7 +49,7 @@ export default function Account({setAccountModal}) {
                 activeOpacity={0.7}
                 style={{
                   padding: 16,
-                  backgroundColor: '#000000',
+                  backgroundColor: '#1D1D1F',
                   borderRadius: 16,
                   borderColor: colors.textColor,
                   borderWidth: 2,
@@ -57,7 +57,7 @@ export default function Account({setAccountModal}) {
                 }}>
                 <Text
                   style={{
-                    color: '#ffffff',
+                    color: '#F5F5F7',
 
                     fontFamily: 'Montserrat-Bold',
                   }}>

@@ -32,8 +32,8 @@ export default function ColorsModal({setShowColorsModal}) {
   let initial = 0;
 
   let radio_props = [
-    {label: 'Black', value: '#000000'},
-    {label: 'White', value: '#ffffff'},
+    {label: 'Black', value: '#1D1D1F'},
+    {label: 'White', value: '#F5F5F7'},
   ];
   radio_props.forEach(element => {
     if (element.value === colors.textColor) {
@@ -45,7 +45,7 @@ export default function ColorsModal({setShowColorsModal}) {
     if (val !== colors.background) {
       colors.textColor = val;
 
-      if (val === '#000000') {
+      if (val === '#1D1D1F') {
         StatusBar.setBarStyle('dark-content');
       } else {
         StatusBar.setBarStyle('light-content');

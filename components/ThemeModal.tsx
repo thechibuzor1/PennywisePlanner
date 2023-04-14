@@ -20,7 +20,7 @@ export default function ThemeModal({setShowThemeModal}) {
 
   let radio_props = [
     {label: 'Off white', value: '#fcf4e7'},
-    {label: 'White', value: '#ffffff'},
+    {label: 'White', value: '#F5F5F7'},
     {label: 'Blue', value: '#7388b8'},
     {label: 'Green', value: '#5eab6e'},
     {label: 'Red', value: '#ea400e'},
@@ -29,7 +29,7 @@ export default function ThemeModal({setShowThemeModal}) {
     {label: 'Pink', value: '#ec9aa2'},
     {label: 'Purple', value: '#c4aaf5'},
     {label: 'Dark', value: '#464646'},
-    {label: 'Lights out', value: '#000000'},
+    {label: 'Lights out', value: '#1D1D1F'},
   ];
 
   radio_props.forEach(element => {
@@ -40,11 +40,11 @@ export default function ThemeModal({setShowThemeModal}) {
 
   function handleThemes(val: string) {
     colors.background = val;
-    if (val === '#000000') {
-      colors.textColor = '#ffffff';
+    if (val === '#1D1D1F') {
+      colors.textColor = '#F5F5F7';
       StatusBar.setBarStyle('light-content');
     } else {
-      colors.textColor = '#000000';
+      colors.textColor = '#1D1D1F';
       StatusBar.setBarStyle('dark-content');
     }
 
@@ -55,6 +55,10 @@ export default function ThemeModal({setShowThemeModal}) {
     <View style={BasicStyles.modalBgCon}>
       <SafeAreaView
         style={{
+          width: 400,
+          margin: 5,
+          marginBottom: 0,
+          alignSelf: 'center',
           backgroundColor: colors.background,
           borderTopRightRadius: 16,
           borderTopLeftRadius: 16,

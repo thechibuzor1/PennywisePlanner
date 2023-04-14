@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   con: {
     flex: 1,
     minWidth: 100,
-    maxWidth: 100,
+    maxWidth: 120,
     borderRadius: 16,
     borderWidth: 2,
     borderBottomWidth: 4,

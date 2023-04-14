@@ -7,14 +7,19 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Modal,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {BasicStyles, Categories, colors, overViewData} from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import HomeBlocks from './HomeBlocks';
 import AddCategoriesBlocks from './AddCategoriesBlocks';
+import Allocate from './Allocate';
 export default function AddCategory({setAdd}) {
+  const [active, setActive] = useState<string>('out');
+  const [allocate, setAllocate] = useState<boolean>(false);
+  const [alloData, setAlloData] = useState({});
   return (
     <View style={BasicStyles.modalBgCon}>
       <TouchableOpacity
@@ -65,16 +70,104 @@ export default function AddCategory({setAdd}) {
                 lineHeight: 28,
               },
             ]}>
-            Select a category
+            Add a category
           </Text>
         </View>
-
+        <View
+          style={{
+            marginTop: 15,
+            maxWidth: 400,
+            margin: 15,
+            alignSelf: 'center',
+            borderWidth: 2,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            borderRadius: 30,
+            marginBottom: 5,
+            borderColor: colors.textColor,
+          }}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => setActive('in')}
+            style={[
+              styles.btn,
+              {
+                backgroundColor:
+                  active === 'in' ? colors.themeColor : colors.background,
+              },
+            ]}>
+            <Text
+              style={[
+                BasicStyles.header,
+                {
+                  textAlign: 'center',
+                  alignSelf: 'center',
+                  fontSize: 21,
+                  lineHeight: 28,
+                  color:
+                    active === 'in'
+                      ? colors.componentTxtColor
+                      : colors.textColor,
+                },
+              ]}>
+              Daily
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => setActive('out')}
+            style={[
+              styles.btn,
+              {
+                backgroundColor:
+                  active === 'out' ? colors.themeColor : colors.background,
+              },
+            ]}>
+            <Text
+              style={[
+                BasicStyles.header,
+                {
+                  textAlign: 'center',
+                  alignSelf: 'center',
+                  fontSize: 21,
+                  lineHeight: 28,
+                  color:
+                    active === 'out'
+                      ? colors.componentTxtColor
+                      : colors.textColor,
+                },
+              ]}>
+              Monthly
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <Modal
+          animated
+          animationType="slide"
+          visible={allocate}
+          transparent
+          onRequestClose={() => setAllocate(false)}>
+          {
+            <Allocate
+              alloData={alloData}
+              setAlloData={setAlloData}
+              setAllocate={setAllocate}
+            />
+          }
+        </Modal>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={BasicStyles.moneyGrid}>
             {Categories.map((item, i) => (
-              <AddCategoriesBlocks key={i} props={item} />
+              <AddCategoriesBlocks
+                setAlloData={setAlloData}
+                setAllocate={setAllocate}
+                key={i}
+                props={item}
+              />
             ))}
           </View>
+
           {/*  <TouchableOpacity
             activeOpacity={0.5}
             style={[
@@ -107,6 +200,11 @@ const styles = StyleSheet.create({
 
     borderWidth: 2,
     borderBottomWidth: 4,
+    borderRadius: 30,
+  },
+  btn: {
+    padding: 12,
+    flex: 1,
     borderRadius: 30,
   },
 });

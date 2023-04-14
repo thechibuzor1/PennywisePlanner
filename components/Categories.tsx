@@ -41,10 +41,14 @@ export default function Categories({setShowCategoriesodal}) {
       <SafeAreaView
         style={{
           flex: 0.9,
+          width: 400,
+          margin: 5,
+          marginBottom: 0,
           backgroundColor: colors.background,
           borderTopRightRadius: 16,
           borderTopLeftRadius: 16,
           borderWidth: 2,
+          alignSelf: 'center',
           borderTopWidth: 6,
           borderColor: colors.textColor,
         }}>

@@ -18,10 +18,12 @@ import CircularProgress from 'react-native-circular-progress-indicator';
 import BudgetCategories from './BudgetCategories';
 import AddCategory from './AddCategory';
 import moment from 'moment';
+import DeleteAllData from './DeleteAllData';
 
 export default function Budget({setBudgetModal}) {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [add, setAdd] = useState<boolean>(false);
+  const [deleteAllData, setDeleteAllData] = useState<boolean>(false);
   /* var ld = Date.today().clearTime().moveToLastDayOfMonth();
 var lastday = ld.toString("MM/dd/yyyy");
 alert(lastday); */
@@ -34,6 +36,14 @@ alert(lastday); */
         transparent
         onRequestClose={() => setAdd(false)}>
         {<AddCategory setAdd={setAdd} />}
+      </Modal>
+      <Modal
+        animated
+        animationType="slide"
+        visible={deleteAllData}
+        transparent
+        onRequestClose={() => setDeleteAllData(false)}>
+        {<DeleteAllData setDeleteAll={setDeleteAllData} />}
       </Modal>
       <SafeAreaView
         style={[BasicStyles.container, {backgroundColor: colors.background}]}>
@@ -96,7 +106,9 @@ alert(lastday); */
               ]}>
               Current budget
             </Text>
-            <TouchableOpacity activeOpacity={0.5}>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() => setDeleteAllData(true)}>
               <FontAwesomeIcon
                 icon={regular('trash-can')}
                 size={30}
@@ -239,6 +251,7 @@ alert(lastday); */
               numColumns={2}
               renderItem={data => (
                 <BudgetCategories
+                  setDeleteAllData={setDeleteAllData}
                   props={data.item}
                   setSelectedCategory={setSelectedCategory}
                   selectedCategory={selectedCategory}

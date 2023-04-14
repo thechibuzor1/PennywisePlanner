@@ -46,11 +46,11 @@ export default function Stats({navigation}) {
   const barData = [
     {value: 0, frontColor: '#E9E7FC'},
     {value: 400, frontColor: '#FFF4CC'},
-    {value: 800, frontColor: '#FFFFFF'},
+    {value: 800, frontColor: '#F5F5F7'},
     {value: 5000, frontColor: '#FFF3F8'},
     {value: 0, frontColor: '#D6FCF7'},
-    {value: 0, frontColor: '#FFFFFF'},
-    {value: 0, frontColor: '#FFFFFF'},
+    {value: 0, frontColor: '#F5F5F7'},
+    {value: 0, frontColor: '#F5F5F7'},
   ];
 
   const pieData = [

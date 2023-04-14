@@ -11,6 +11,7 @@ export default function BudgetCategories({
   props,
   setSelectedCategory,
   selectedCategory,
+  setDeleteAllData,
 }) {
   function handlePress(name: string) {
     if (name === selectedCategory) {
@@ -105,7 +106,10 @@ export default function BudgetCategories({
               color={colors.textColor}
             />
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.5} style={{marginTop: 10}}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => setDeleteAllData(true)}
+            style={{marginTop: 10}}>
             <FontAwesomeIcon
               icon={solid('trash-can')}
               size={35}

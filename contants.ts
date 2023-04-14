@@ -6,9 +6,9 @@ let bgColor = '#464646';
 
 let colors = {
   background: '#fcf4e7',
-  textColor: '#000000',
+  textColor: '#1D1D1F',
   themeColor: '#1947E5',
-  componentTxtColor: '#ffffff',
+  componentTxtColor: '#F5F5F7',
   subTextColor: '#1947E5',
 };
 

@@ -4,7 +4,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {BasicStyles, colors} from '../contants';
 
-export default function DeleteAllData({setDeleteAll}) {
+export default function DeleteAllData(props) {
   return (
     <View style={[BasicStyles.modalBgCon, {justifyContent: 'center'}]}>
       <View
@@ -47,7 +47,7 @@ export default function DeleteAllData({setDeleteAll}) {
             marginTop: 8,
           }}>
           <TouchableOpacity
-            onPress={() => setDeleteAll(false)}
+            onPress={() => props.setDeleteAll(false)}
             activeOpacity={0.7}
             style={{
               padding: 16,
@@ -68,14 +68,14 @@ export default function DeleteAllData({setDeleteAll}) {
             activeOpacity={0.7}
             style={{
               padding: 16,
-              backgroundColor: '#000000',
+              backgroundColor: '#1D1D1F',
               borderRadius: 16,
               borderColor: colors.textColor,
               borderWidth: 2,
             }}>
             <Text
               style={{
-                color: '#ffffff',
+                color: '#F5F5F7',
 
                 fontFamily: 'Montserrat-Bold',
               }}>

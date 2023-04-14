@@ -7,9 +7,14 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import * as Progress from 'react-native-progress';
 
-export default function AddCategoriesBlocks({props}) {
+export default function AddCategoriesBlocks({props, setAllocate, setAlloData}) {
+  function alloFunction() {
+    setAlloData(props);
+    setAllocate(true);
+  }
   return (
     <TouchableOpacity
+      onPress={alloFunction}
       activeOpacity={0.8}
       style={{
         borderRadius: 16,

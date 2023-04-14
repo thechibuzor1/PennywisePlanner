@@ -47,9 +47,9 @@ export default function Home({navigation}) {
           style={[BasicStyles.container, {backgroundColor: colors.background}]}>
           <StatusBar
             barStyle={
-              colors.background === '#000000'
+              colors.background === '#1D1D1F'
                 ? 'light-content'
-                : colors.textColor === '#ffffff'
+                : colors.textColor === '#F5F5F7'
                 ? 'light-content'
                 : 'dark-content'
             }
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     alignItems: 'center',
     justifyContent: 'center',
-    /* shadowColor: '#000000',
+    /* shadowColor: '#1D1D1F',
     shadowOffset: {
       width: 0,
       height: 2,
