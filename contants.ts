@@ -123,6 +123,7 @@ export interface categories {
   name: string;
   backgroundColor: string;
   icon: any;
+  tag: string;
   spent: number;
   budget: number;
 }
@@ -175,6 +176,7 @@ export const Categories: categories[] = [
     name: 'Grocery',
     backgroundColor: '#F95A2C',
     icon: solid('basket-shopping'),
+    tag: 'daily',
     spent: 0,
     budget: 0,
   },
@@ -182,6 +184,7 @@ export const Categories: categories[] = [
     name: 'Shopping',
     backgroundColor: '#44D7A8',
     icon: solid('cart-shopping'),
+    tag: 'daily',
     spent: 0,
     budget: 0,
   },
@@ -189,6 +192,7 @@ export const Categories: categories[] = [
     name: 'Travel',
     backgroundColor: '#FFBD12',
     icon: solid('plane-departure'),
+    tag: 'monthly',
     spent: 0,
     budget: 0,
   },
@@ -196,6 +200,7 @@ export const Categories: categories[] = [
     name: 'Food',
     backgroundColor: '#1947E5',
     icon: solid('utensils'),
+    tag: 'daily',
     spent: 0,
     budget: 0,
   },
@@ -204,6 +209,7 @@ export const Categories: categories[] = [
     name: 'Gym',
     backgroundColor: '#89cbc0',
     icon: solid('dumbbell'),
+    tag: 'monthly',
     spent: 0,
     budget: 0,
   },
@@ -211,6 +217,7 @@ export const Categories: categories[] = [
     name: 'Home',
     backgroundColor: '#b7b6db',
     icon: solid('house'),
+    tag: 'monthly',
     spent: 0,
     budget: 0,
   },
@@ -218,6 +225,7 @@ export const Categories: categories[] = [
     name: 'Car',
     backgroundColor: '#eedc69',
     icon: solid('car'),
+    tag: 'monthly',
     spent: 0,
     budget: 0,
   },
@@ -226,6 +234,7 @@ export const Categories: categories[] = [
     name: 'Health',
     backgroundColor: '#1947E5',
     icon: regular('hospital'),
+    tag: 'monthly',
     spent: 0,
     budget: 0,
   },
@@ -235,6 +244,15 @@ export const Categories: categories[] = [
     name: 'Other',
     backgroundColor: '#474A57',
     icon: solid('ellipsis'),
+    tag: 'daily',
+    spent: 0,
+    budget: 0,
+  },
+  {
+    name: 'Other',
+    backgroundColor: '#474A57',
+    icon: solid('ellipsis'),
+    tag: 'monthly',
     spent: 0,
     budget: 0,
   },
@@ -245,6 +263,7 @@ export const MyCategories: categories[] = [
     name: 'Grocery',
     backgroundColor: '#F95A2C',
     icon: solid('basket-shopping'),
+    tag: 'daily',
     spent: 500,
     budget: 5000,
   },
@@ -252,6 +271,7 @@ export const MyCategories: categories[] = [
     name: 'Shopping',
     backgroundColor: '#44D7A8',
     icon: solid('cart-shopping'),
+    tag: 'daily',
     spent: 3000,
     budget: 10000,
   },
@@ -259,8 +279,17 @@ export const MyCategories: categories[] = [
     name: 'Travel',
     backgroundColor: '#FFBD12',
     icon: solid('plane-departure'),
+    tag: 'monthly',
     spent: 30000,
     budget: 100000,
+  },
+  {
+    name: 'Other',
+    backgroundColor: '#474A57',
+    icon: solid('ellipsis'),
+    tag: 'daily',
+    spent: 0,
+    budget: 500,
   },
 ];
 

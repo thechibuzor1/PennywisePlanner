@@ -21,7 +21,7 @@ export default function Allocate(props) {
   const [selectedAmount, setSelectedAmount] = useState<string>('');
   return (
     <View style={BasicStyles.modalBgCon}>
-      <TouchableOpacity
+      {/*  <TouchableOpacity
         onPress={() => {
           props.setAlloData({});
           props.setAllocate(false);
@@ -44,7 +44,7 @@ export default function Allocate(props) {
           size={25}
           color={colors.textColor}
         />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <SafeAreaView
         style={{
           backgroundColor: colors.background,
@@ -170,7 +170,7 @@ export default function Allocate(props) {
           </View>
 
           {/* CHANGE TO TWO BUTTONS CHECK AMD X */}
-          <TouchableOpacity
+          {/* <TouchableOpacity
             activeOpacity={0.8}
             style={[
               styles.btn,
@@ -198,7 +198,39 @@ export default function Allocate(props) {
               ]}>
               Add
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'row',
+              marginBottom: 10,
+            }}>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              style={[styles.buttons, {backgroundColor: colors.themeColor}]}>
+              <FontAwesomeIcon
+                icon={solid('check')}
+                size={35}
+                style={{margin: 7}}
+                color={colors.textColor}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                props.setAlloData({});
+                props.setAllocate(false);
+              }}
+              activeOpacity={0.5}
+              style={[styles.buttons]}>
+              <FontAwesomeIcon
+                icon={solid('xmark')}
+                size={35}
+                style={{margin: 7}}
+                color={colors.textColor}
+              />
+            </TouchableOpacity>
+          </View>
         </ScrollView>
       </SafeAreaView>
     </View>
@@ -240,5 +272,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     margin: 15,
     flexWrap: 'wrap',
+  },
+  buttons: {
+    borderWidth: 2,
+    borderRadius: 30,
+    alignSelf: 'flex-start',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 5,
   },
 });

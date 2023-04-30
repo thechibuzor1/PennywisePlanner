@@ -9,13 +9,14 @@ import {
   View,
   Modal,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   BasicStyles,
   Categories,
   colors,
   overViewData,
   MyCategories,
+  categories,
 } from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
@@ -23,17 +24,33 @@ import HomeBlocks from './HomeBlocks';
 import AddCategoriesBlocks from './AddCategoriesBlocks';
 import Allocate from './Allocate';
 export default function AddCategory({setAdd}) {
-  const [active, setActive] = useState<string>('out');
+  const [active, setActive] = useState<string>('daily');
   const [allocate, setAllocate] = useState<boolean>(false);
   const [alloData, setAlloData] = useState({});
 
   function getAvailableCategories() {
-    //people.filter((person) => person.gender == 'm')
-    let myCatogoryNames = [];
+    let myCatogoryNames: string[] = [];
     MyCategories.forEach(ele => myCatogoryNames.push(ele.name));
     return Categories.filter(n => !myCatogoryNames.includes(n.name));
   }
-  let availableCategories = getAvailableCategories();
+  let availableCategoriesMain = getAvailableCategories();
+  const [availableCategories, setAvailableCategories] = useState(
+    availableCategoriesMain,
+  );
+
+  function activeSection(state: string) {
+    let activeSectionItems: categories[] = [];
+    availableCategoriesMain.forEach(ele => {
+      if (ele.tag === state) {
+        activeSectionItems.push(ele);
+      }
+    });
+    setActive(state);
+    setAvailableCategories(activeSectionItems);
+  }
+  useEffect(() => {
+    activeSection(active);
+  }, []);
 
   return (
     <View style={BasicStyles.modalBgCon}>
@@ -66,6 +83,7 @@ export default function AddCategory({setAdd}) {
           borderWidth: 2,
           borderTopWidth: 6,
           borderColor: colors.textColor,
+          flex: 0.6,
         }}>
         <View
           style={{
@@ -104,12 +122,12 @@ export default function AddCategory({setAdd}) {
           }}>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => setActive('in')}
+            onPress={() => activeSection('daily')}
             style={[
               styles.btn,
               {
                 backgroundColor:
-                  active === 'in' ? colors.themeColor : colors.background,
+                  active === 'daily' ? colors.themeColor : colors.background,
               },
             ]}>
             <Text
@@ -121,7 +139,7 @@ export default function AddCategory({setAdd}) {
                   fontSize: 21,
                   lineHeight: 28,
                   color:
-                    active === 'in'
+                    active === 'daily'
                       ? colors.componentTxtColor
                       : colors.textColor,
                 },
@@ -131,12 +149,12 @@ export default function AddCategory({setAdd}) {
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => setActive('out')}
+            onPress={() => activeSection('monthly')}
             style={[
               styles.btn,
               {
                 backgroundColor:
-                  active === 'out' ? colors.themeColor : colors.background,
+                  active === 'monthly' ? colors.themeColor : colors.background,
               },
             ]}>
             <Text
@@ -148,7 +166,7 @@ export default function AddCategory({setAdd}) {
                   fontSize: 21,
                   lineHeight: 28,
                   color:
-                    active === 'out'
+                    active === 'monthly'
                       ? colors.componentTxtColor
                       : colors.textColor,
                 },

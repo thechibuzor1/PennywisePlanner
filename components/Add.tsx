@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native';
 import React, {useState} from 'react';
-import {BasicStyles, overViewData, colors} from '../contants';
+import {BasicStyles, overViewData, colors, MyCategories} from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import MoneySquares from './MoneySquares';
@@ -194,7 +194,7 @@ export default function Add({setAdd}) {
           <View style={styles.moneyGrid}>
             <FlatList
               showsHorizontalScrollIndicator={false}
-              data={overViewData}
+              data={MyCategories}
               numColumns={2}
               renderItem={data => <Blocks props={data.item} />}
               keyExtractor={item => item.name}
