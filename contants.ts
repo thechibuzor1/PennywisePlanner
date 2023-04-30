@@ -293,16 +293,16 @@ export const MyCategories: categories[] = [
   },
 ];
 
-export function getBudget() {
+export function getBudget(data: categories[]) {
   let res: number = 0;
-  MyCategories.forEach(element => {
+  data.forEach(element => {
     res += element.budget;
   });
   return res;
 }
-export function getSpent() {
+export function getSpent(data: categories[]) {
   let res: number = 0;
-  MyCategories.forEach(element => {
+  data.forEach(element => {
     res += element.spent;
   });
   return res;

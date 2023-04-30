@@ -23,14 +23,14 @@ import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import HomeBlocks from './HomeBlocks';
 import AddCategoriesBlocks from './AddCategoriesBlocks';
 import Allocate from './Allocate';
-export default function AddCategory({setAdd}) {
+export default function AddCategory({setAdd, data, setData}) {
   const [active, setActive] = useState<string>('daily');
   const [allocate, setAllocate] = useState<boolean>(false);
   const [alloData, setAlloData] = useState({});
 
   function getAvailableCategories() {
     let myCatogoryNames: string[] = [];
-    MyCategories.forEach(ele => myCatogoryNames.push(ele.name));
+    data.forEach(ele => myCatogoryNames.push(ele.name));
     return Categories.filter(n => !myCatogoryNames.includes(n.name));
   }
   let availableCategoriesMain = getAvailableCategories();
@@ -186,6 +186,8 @@ export default function AddCategory({setAdd}) {
               alloData={alloData}
               setAlloData={setAlloData}
               setAllocate={setAllocate}
+              setData={setData}
+              data={data}
             />
           }
         </Modal>

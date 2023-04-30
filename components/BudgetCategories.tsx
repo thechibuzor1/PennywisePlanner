@@ -8,6 +8,8 @@ import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import * as Progress from 'react-native-progress';
 
 export default function BudgetCategories({
+  data,
+  setData,
   props,
   setSelectedCategory,
   selectedCategory,

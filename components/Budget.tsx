@@ -25,9 +25,9 @@ import BudgetCategories from './BudgetCategories';
 import AddCategory from './AddCategory';
 import moment from 'moment';
 import DeleteAllData from './DeleteAllData';
-import { getSpent, MyCategories } from '../contants';
+import {getSpent, MyCategories} from '../contants';
 
-export default function Budget({setBudgetModal}) {
+export default function Budget({setBudgetModal, data, setData}) {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [add, setAdd] = useState<boolean>(false);
   const [deleteAllData, setDeleteAllData] = useState<boolean>(false);
@@ -42,7 +42,7 @@ alert(lastday); */
         visible={add}
         transparent
         onRequestClose={() => setAdd(false)}>
-        {<AddCategory setAdd={setAdd} />}
+        {<AddCategory setData={setData} data={data} setAdd={setAdd} />}
       </Modal>
       <Modal
         animated
@@ -134,7 +134,7 @@ alert(lastday); */
                 color: colors.textColor,
               },
             ]}>
-            ₦{getBudget()}/month
+            ₦{getBudget(data)}/month
           </Text>
           <View
             style={[
@@ -176,7 +176,7 @@ alert(lastday); */
                 Balance:
                 <Text style={{fontFamily: 'Montserrat-Regular'}}>
                   {' '}
-                  ₦{getBudget() - getSpent()}/₦{getBudget()}
+                  ₦{getBudget(data) - getSpent(data)}/₦{getBudget(data)}
                 </Text>
               </Text>
               <Text
@@ -210,7 +210,7 @@ alert(lastday); */
             </View>
 
             <CircularProgress
-              value={(getSpent() / getBudget()) * 100}
+              value={(getSpent(data) / getBudget(data)) * 100}
               valueSuffix={'%'}
               inActiveStrokeColor={'black'}
               progressValueColor={colors.themeColor}
@@ -254,12 +254,14 @@ alert(lastday); */
 
           <View style={styles.moneyGrid}>
             <FlatList
-              data={MyCategories}
+              data={data}
               numColumns={2}
               renderItem={data => (
                 <BudgetCategories
                   setDeleteAllData={setDeleteAllData}
                   props={data.item}
+                  data={data}
+                  setData={setData}
                   setSelectedCategory={setSelectedCategory}
                   selectedCategory={selectedCategory}
                 />

@@ -19,6 +19,15 @@ import MoneySquares from './MoneySquares';
 
 export default function Allocate(props) {
   const [selectedAmount, setSelectedAmount] = useState<string>('');
+
+  function allocateNewCategory() {
+    const clonedData = [...props.data];
+    let newData = props.alloData;
+    newData.budget = Number(selectedAmount);
+    clonedData.push(newData);
+    props.setData(clonedData);
+  }
+
   return (
     <View style={BasicStyles.modalBgCon}>
       {/*  <TouchableOpacity
@@ -207,6 +216,7 @@ export default function Allocate(props) {
               marginBottom: 10,
             }}>
             <TouchableOpacity
+              onPress={allocateNewCategory}
               activeOpacity={0.5}
               style={[styles.buttons, {backgroundColor: colors.themeColor}]}>
               <FontAwesomeIcon

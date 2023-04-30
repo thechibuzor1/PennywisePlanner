@@ -20,6 +20,7 @@ import {
   MyCategories,
   getBudget,
   getSpent,
+  categories,
 } from '../contants';
 import * as Progress from 'react-native-progress';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -39,6 +40,8 @@ export default function Home({navigation}) {
   const [add, setAdd] = useState<boolean>(false);
   const [showCategoriesodal, setShowCategoriesodal] = useState<boolean>(false);
   const [budgetModal, setBudgetModal] = useState<boolean>(false);
+
+  const [data, setData] = useState<categories[]>(MyCategories);
 
   const toggleDrawer = () => {
     setDrawerOpen(!openDrawer);
@@ -125,11 +128,11 @@ export default function Home({navigation}) {
                 BasicStyles.header,
                 {color: colors.textColor, fontSize: 40, marginTop: 5},
               ]}>
-              ₦{getBudget() - getSpent()}
+              ₦{getBudget(data) - getSpent(data)}
             </Text>
 
             <Progress.Bar
-              progress={getSpent() / getBudget()}
+              progress={getSpent(data) / getBudget(data)}
               height={3}
               color={colors.themeColor}
               unfilledColor={'white'}
@@ -142,14 +145,14 @@ export default function Home({navigation}) {
                 Spent:{' '}
                 <Text
                   style={[BasicStyles.subheader, {color: colors.textColor}]}>
-                  ₦{getSpent()}
+                  ₦{getSpent(data)}
                 </Text>
               </Text>
               <Text style={[BasicStyles.subheader, {color: colors.themeColor}]}>
                 Budget:{' '}
                 <Text
                   style={[BasicStyles.subheader, {color: colors.textColor}]}>
-                  ₦{getBudget()}
+                  ₦{getBudget(data)}
                 </Text>
               </Text>
             </View>
@@ -213,7 +216,8 @@ export default function Home({navigation}) {
                     </Text>{' '}
                     is{' '}
                     <Text style={{color: colors.componentTxtColor}}>
-                      ₦{Math.round((getBudget() - getSpent()) / 1)} per day.
+                      ₦{Math.round((getBudget(data) - getSpent(data)) / 1)} per
+                      day.
                     </Text>{' '}
                     Spend Wisely.
                   </Text>
@@ -248,7 +252,7 @@ export default function Home({navigation}) {
             }
             showsVerticalScrollIndicator={false}
             style={{paddingTop: 15}}
-            data={MyCategories.slice(0, 2)}
+            data={data.slice(0, 2)}
             renderItem={data => <HomeBlocks props={data.item} />}
           />
           <Modal
@@ -257,7 +261,7 @@ export default function Home({navigation}) {
             visible={add}
             transparent
             onRequestClose={() => setAdd(false)}>
-            {<Add setAdd={setAdd} />}
+            {<Add data={data} setData={setData} setAdd={setAdd} />}
           </Modal>
           <Modal
             animated
@@ -265,7 +269,12 @@ export default function Home({navigation}) {
             visible={showCategoriesodal}
             transparent
             onRequestClose={() => setShowCategoriesodal(false)}>
-            {<Categories setShowCategoriesodal={setShowCategoriesodal} />}
+            {
+              <Categories
+                data={data}
+                setShowCategoriesodal={setShowCategoriesodal}
+              />
+            }
           </Modal>
           <Modal
             animated
@@ -273,7 +282,13 @@ export default function Home({navigation}) {
             visible={budgetModal}
             transparent
             onRequestClose={() => setBudgetModal(false)}>
-            {<Budget setBudgetModal={setBudgetModal} />}
+            {
+              <Budget
+                data={data}
+                setData={setData}
+                setBudgetModal={setBudgetModal}
+              />
+            }
           </Modal>
         </SafeAreaView>
       </Drawer>

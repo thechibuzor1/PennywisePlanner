@@ -16,7 +16,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import MoneySquares from './MoneySquares';
 
-export default function Add({setAdd}) {
+export default function Add({setAdd, setData, data}) {
   /*  const [active, setActive] = useState<string>('out'); */
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedAmount, setSelectedAmount] = useState<string>('');
@@ -61,6 +61,18 @@ export default function Add({setAdd}) {
       </View>
     </TouchableOpacity>
   );
+
+  function saveAdd() {
+    const clonedData = [...data];
+    clonedData.forEach(item => {
+      if (item.name === selectedCategory) {
+        item.spent += Number(selectedAmount);
+      }
+    });
+    setData(clonedData);
+    setSelectedCategory('');
+    setSelectedAmount('');
+  }
 
   return (
     <View style={BasicStyles.modalBgCon}>
@@ -194,7 +206,7 @@ export default function Add({setAdd}) {
           <View style={styles.moneyGrid}>
             <FlatList
               showsHorizontalScrollIndicator={false}
-              data={MyCategories}
+              data={data}
               numColumns={2}
               renderItem={data => <Blocks props={data.item} />}
               keyExtractor={item => item.name}
@@ -254,6 +266,7 @@ export default function Add({setAdd}) {
           </View>
 
           <TouchableOpacity
+            onPress={saveAdd}
             activeOpacity={0.8}
             style={[
               styles.btn,

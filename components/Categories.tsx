@@ -9,12 +9,12 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import { BasicStyles, colors, overViewData, MyCategories } from '../contants';
+import {BasicStyles, colors, overViewData, MyCategories} from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import HomeBlocks from './HomeBlocks';
 
-export default function Categories({setShowCategoriesodal}) {
+export default function Categories({setShowCategoriesodal, data}) {
   return (
     <View style={BasicStyles.modalBgCon}>
       <TouchableOpacity
@@ -78,7 +78,7 @@ export default function Categories({setShowCategoriesodal}) {
         <ScrollView
           style={{paddingTop: 16}}
           showsVerticalScrollIndicator={false}>
-          {MyCategories.map((item, i) => (
+          {data.map((item, i) => (
             <HomeBlocks key={i} props={item} />
           ))}
           {/*  <TouchableOpacity
