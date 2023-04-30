@@ -40,7 +40,7 @@ export default function HomeBlocks({props}: any) {
               BasicStyles.header,
               {fontSize: 15, lineHeight: 24, color: colors.themeColor},
             ]}>
-            Left: <Text style={{color: '#1D1D1F'}}>₦{props.left}</Text>
+            Left: <Text style={{color: '#1D1D1F'}}>₦{props.budget - props.spent}</Text>
           </Text>
         </View>
         <Progress.Bar

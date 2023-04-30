@@ -168,6 +168,8 @@ export default function Allocate(props) {
               amount={'50000'}
             />
           </View>
+
+          {/* CHANGE TO TWO BUTTONS CHECK AMD X */}
           <TouchableOpacity
             activeOpacity={0.8}
             style={[

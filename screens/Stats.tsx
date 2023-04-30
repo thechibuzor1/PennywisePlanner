@@ -11,7 +11,7 @@ import {
   ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
-import {BasicStyles, colors, overViewData} from '../contants';
+import { BasicStyles, colors, getSpent, overViewData, MyCategories } from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {BarChart, PieChart} from 'react-native-gifted-charts';
@@ -432,7 +432,7 @@ export default function Stats({navigation}) {
                 BasicStyles.header,
                 {fontSize: 21, lineHeight: 28, color: colors.textColor},
               ]}>
-              ₦580
+              ₦{getSpent()}
             </Text>
           </View>
         </View>
@@ -515,7 +515,7 @@ export default function Stats({navigation}) {
           style={{marginTop: 25, paddingLeft: 16}}
           horizontal
           showsHorizontalScrollIndicator={false}
-          data={overViewData}
+          data={MyCategories}
           renderItem={data => <Blocks props={data.item} />}
         />
 

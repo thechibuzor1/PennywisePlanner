@@ -13,7 +13,14 @@ import {
   Modal,
 } from 'react-native';
 import React, {useState} from 'react';
-import {BasicStyles, overViewData, colors} from '../contants';
+import {
+  BasicStyles,
+  overViewData,
+  colors,
+  MyCategories,
+  getBudget,
+  getSpent,
+} from '../contants';
 import * as Progress from 'react-native-progress';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
@@ -118,11 +125,11 @@ export default function Home({navigation}) {
                 BasicStyles.header,
                 {color: colors.textColor, fontSize: 40, marginTop: 5},
               ]}>
-              ₦162,000
+              ₦{getBudget() - getSpent()}
             </Text>
 
             <Progress.Bar
-              progress={163500 / 325500}
+              progress={getSpent() / getBudget()}
               height={3}
               color={colors.themeColor}
               unfilledColor={'white'}
@@ -135,14 +142,14 @@ export default function Home({navigation}) {
                 Spent:{' '}
                 <Text
                   style={[BasicStyles.subheader, {color: colors.textColor}]}>
-                  ₦163,500
+                  ₦{getSpent()}
                 </Text>
               </Text>
               <Text style={[BasicStyles.subheader, {color: colors.themeColor}]}>
                 Budget:{' '}
                 <Text
                   style={[BasicStyles.subheader, {color: colors.textColor}]}>
-                  ₦325,500
+                  ₦{getBudget()}
                 </Text>
               </Text>
             </View>
@@ -202,11 +209,11 @@ export default function Home({navigation}) {
                     ]}>
                     Your Budget for the next{' '}
                     <Text style={{color: colors.componentTxtColor}}>
-                      6 days
+                      1 day(s)
                     </Text>{' '}
                     is{' '}
                     <Text style={{color: colors.componentTxtColor}}>
-                      ₦6000 per day.
+                      ₦{Math.round((getBudget() - getSpent()) / 1)} per day.
                     </Text>{' '}
                     Spend Wisely.
                   </Text>
@@ -241,7 +248,7 @@ export default function Home({navigation}) {
             }
             showsVerticalScrollIndicator={false}
             style={{paddingTop: 15}}
-            data={overViewData}
+            data={MyCategories.slice(0, 2)}
             renderItem={data => <HomeBlocks props={data.item} />}
           />
           <Modal

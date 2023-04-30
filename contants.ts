@@ -123,6 +123,8 @@ export interface categories {
   name: string;
   backgroundColor: string;
   icon: any;
+  spent: number;
+  budget: number;
 }
 
 export const overViewData: overview[] = [
@@ -173,43 +175,59 @@ export const Categories: categories[] = [
     name: 'Grocery',
     backgroundColor: '#F95A2C',
     icon: solid('basket-shopping'),
+    spent: 0,
+    budget: 0,
   },
   {
     name: 'Shopping',
     backgroundColor: '#44D7A8',
     icon: solid('cart-shopping'),
+    spent: 0,
+    budget: 0,
   },
   {
     name: 'Travel',
     backgroundColor: '#FFBD12',
     icon: solid('plane-departure'),
+    spent: 0,
+    budget: 0,
   },
   {
     name: 'Food',
     backgroundColor: '#1947E5',
     icon: solid('utensils'),
+    spent: 0,
+    budget: 0,
   },
   /*  */
   {
     name: 'Gym',
     backgroundColor: '#89cbc0',
     icon: solid('dumbbell'),
+    spent: 0,
+    budget: 0,
   },
   {
     name: 'Home',
     backgroundColor: '#b7b6db',
     icon: solid('house'),
+    spent: 0,
+    budget: 0,
   },
   {
     name: 'Car',
     backgroundColor: '#eedc69',
     icon: solid('car'),
+    spent: 0,
+    budget: 0,
   },
 
   {
     name: 'Health',
     backgroundColor: '#1947E5',
     icon: regular('hospital'),
+    spent: 0,
+    budget: 0,
   },
 
   /*  */
@@ -217,5 +235,46 @@ export const Categories: categories[] = [
     name: 'Other',
     backgroundColor: '#474A57',
     icon: solid('ellipsis'),
+    spent: 0,
+    budget: 0,
   },
 ];
+
+export const MyCategories: categories[] = [
+  {
+    name: 'Grocery',
+    backgroundColor: '#F95A2C',
+    icon: solid('basket-shopping'),
+    spent: 500,
+    budget: 5000,
+  },
+  {
+    name: 'Shopping',
+    backgroundColor: '#44D7A8',
+    icon: solid('cart-shopping'),
+    spent: 3000,
+    budget: 10000,
+  },
+  {
+    name: 'Travel',
+    backgroundColor: '#FFBD12',
+    icon: solid('plane-departure'),
+    spent: 30000,
+    budget: 100000,
+  },
+];
+
+export function getBudget() {
+  let res: number = 0;
+  MyCategories.forEach(element => {
+    res += element.budget;
+  });
+  return res;
+}
+export function getSpent() {
+  let res: number = 0;
+  MyCategories.forEach(element => {
+    res += element.spent;
+  });
+  return res;
+}

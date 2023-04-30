@@ -11,7 +11,13 @@ import {
   ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
-import {BasicStyles, Categories, colors, overViewData} from '../contants';
+import {
+  BasicStyles,
+  Categories,
+  colors,
+  getBudget,
+  overViewData,
+} from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {regular, solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import CircularProgress from 'react-native-circular-progress-indicator';
@@ -19,6 +25,7 @@ import BudgetCategories from './BudgetCategories';
 import AddCategory from './AddCategory';
 import moment from 'moment';
 import DeleteAllData from './DeleteAllData';
+import { getSpent, MyCategories } from '../contants';
 
 export default function Budget({setBudgetModal}) {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
@@ -127,7 +134,7 @@ alert(lastday); */
                 color: colors.textColor,
               },
             ]}>
-            ₦{7000 * 4}/month
+            ₦{getBudget()}/month
           </Text>
           <View
             style={[
@@ -169,7 +176,7 @@ alert(lastday); */
                 Balance:
                 <Text style={{fontFamily: 'Montserrat-Regular'}}>
                   {' '}
-                  ₦20000/₦28000
+                  ₦{getBudget() - getSpent()}/₦{getBudget()}
                 </Text>
               </Text>
               <Text
@@ -203,7 +210,7 @@ alert(lastday); */
             </View>
 
             <CircularProgress
-              value={(20000 / 33000) * 100}
+              value={(getSpent() / getBudget()) * 100}
               valueSuffix={'%'}
               inActiveStrokeColor={'black'}
               progressValueColor={colors.themeColor}
@@ -247,7 +254,7 @@ alert(lastday); */
 
           <View style={styles.moneyGrid}>
             <FlatList
-              data={overViewData}
+              data={MyCategories}
               numColumns={2}
               renderItem={data => (
                 <BudgetCategories

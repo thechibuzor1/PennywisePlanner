@@ -32,7 +32,7 @@ export default function BudgetCategories({
         borderBottomWidth: selectedCategory === props.name ? 2 : 4,
         padding: 16,
         margin: 5,
-
+        height: 180,
         borderColor: colors.textColor,
         justifyContent: 'center',
         alignItems: 'center',
@@ -71,7 +71,12 @@ export default function BudgetCategories({
             <Text
               style={[
                 BasicStyles.header,
-                {fontSize: 17, lineHeight: 24, color: colors.textColor},
+                {
+                  fontSize: 17,
+                  lineHeight: 24,
+                  color: colors.textColor,
+                  textAlign: 'left',
+                },
               ]}>
               {props.name}
             </Text>
@@ -85,7 +90,7 @@ export default function BudgetCategories({
                   fontFamily: 'Montserrat-Regular',
                 },
               ]}>
-              {props.budget}/M
+              ₦{props.budget}/M
             </Text>
           </View>
           <Progress.Bar

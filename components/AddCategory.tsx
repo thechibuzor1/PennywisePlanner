@@ -10,7 +10,13 @@ import {
   Modal,
 } from 'react-native';
 import React, {useState} from 'react';
-import {BasicStyles, Categories, colors, overViewData} from '../contants';
+import {
+  BasicStyles,
+  Categories,
+  colors,
+  overViewData,
+  MyCategories,
+} from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import HomeBlocks from './HomeBlocks';
@@ -20,6 +26,15 @@ export default function AddCategory({setAdd}) {
   const [active, setActive] = useState<string>('out');
   const [allocate, setAllocate] = useState<boolean>(false);
   const [alloData, setAlloData] = useState({});
+
+  function getAvailableCategories() {
+    //people.filter((person) => person.gender == 'm')
+    let myCatogoryNames = [];
+    MyCategories.forEach(ele => myCatogoryNames.push(ele.name));
+    return Categories.filter(n => !myCatogoryNames.includes(n.name));
+  }
+  let availableCategories = getAvailableCategories();
+
   return (
     <View style={BasicStyles.modalBgCon}>
       <TouchableOpacity
@@ -158,7 +173,7 @@ export default function AddCategory({setAdd}) {
         </Modal>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={BasicStyles.moneyGrid}>
-            {Categories.map((item, i) => (
+            {availableCategories.map((item, i) => (
               <AddCategoriesBlocks
                 setAlloData={setAlloData}
                 setAllocate={setAllocate}
