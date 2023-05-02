@@ -11,13 +11,20 @@ import {
   ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
-import { BasicStyles, colors, getSpent, overViewData, MyCategories } from '../contants';
+import {
+  BasicStyles,
+  colors,
+  getSpent,
+  overViewData,
+  MyCategories,
+} from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {BarChart, PieChart} from 'react-native-gifted-charts';
 import {Divider} from 'react-native-elements';
 
-export default function Stats({navigation}) {
+export default function Stats({navigation, route}) {
+  const data = route.params.data;
   const RenderLegend = ({props}) => {
     return (
       <View style={{flexDirection: 'row', margin: 12, alignItems: 'center'}}>
@@ -432,7 +439,7 @@ export default function Stats({navigation}) {
                 BasicStyles.header,
                 {fontSize: 21, lineHeight: 28, color: colors.textColor},
               ]}>
-              ₦{getSpent()}
+              ₦{getSpent(data)}
             </Text>
           </View>
         </View>
@@ -515,7 +522,7 @@ export default function Stats({navigation}) {
           style={{marginTop: 25, paddingLeft: 16}}
           horizontal
           showsHorizontalScrollIndicator={false}
-          data={MyCategories}
+          data={data}
           renderItem={data => <Blocks props={data.item} />}
         />
 

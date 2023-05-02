@@ -50,6 +50,7 @@ export default function Home({navigation}) {
   return (
     <SafeAreaProvider>
       <Drawer
+        data={data}
         navigation={navigation}
         open={openDrawer}
         toggleDrawer={toggleDrawer}>

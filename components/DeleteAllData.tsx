@@ -33,7 +33,7 @@ export default function DeleteAllData(props) {
             fontFamily: 'Montserrat-Regular',
             color: colors.themeColor,
           }}>
-          Once you delete this you are not alllowed to restore.
+          Once you delete this you are not allowed to restore.
         </Text>
 
         <View
@@ -65,6 +65,7 @@ export default function DeleteAllData(props) {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
+            onPress={() => props.function()}
             activeOpacity={0.7}
             style={{
               padding: 16,

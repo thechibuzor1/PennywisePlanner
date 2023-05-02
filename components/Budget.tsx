@@ -26,11 +26,27 @@ import AddCategory from './AddCategory';
 import moment from 'moment';
 import DeleteAllData from './DeleteAllData';
 import {getSpent, MyCategories} from '../contants';
+import Allocate from './Allocate';
 
 export default function Budget({setBudgetModal, data, setData}) {
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState({});
   const [add, setAdd] = useState<boolean>(false);
+  const [allocate, setAllocate] = useState<boolean>(false);
   const [deleteAllData, setDeleteAllData] = useState<boolean>(false);
+
+  function deleteCategory() {
+    const clonedData = [...data];
+    clonedData.forEach(ele => {
+      if (ele.name === selectedCategory?.name) {
+        let index = clonedData.indexOf(ele);
+        clonedData.splice(index, 1);
+      }
+    });
+    setData(clonedData);
+    setDeleteAllData(false);
+    setSelectedCategory({});
+  }
+
   /* var ld = Date.today().clearTime().moveToLastDayOfMonth();
 var lastday = ld.toString("MM/dd/yyyy");
 alert(lastday); */
@@ -47,10 +63,31 @@ alert(lastday); */
       <Modal
         animated
         animationType="slide"
+        visible={allocate}
+        transparent
+        onRequestClose={() => setAllocate(false)}>
+        {
+          <Allocate
+            alloData={selectedCategory}
+            setAlloData={setSelectedCategory}
+            setAllocate={setAllocate}
+            setData={setData}
+            data={data}
+          />
+        }
+      </Modal>
+      <Modal
+        animated
+        animationType="slide"
         visible={deleteAllData}
         transparent
         onRequestClose={() => setDeleteAllData(false)}>
-        {<DeleteAllData setDeleteAll={setDeleteAllData} />}
+        {
+          <DeleteAllData
+            function={deleteCategory}
+            setDeleteAll={setDeleteAllData}
+          />
+        }
       </Modal>
       <SafeAreaView
         style={[BasicStyles.container, {backgroundColor: colors.background}]}>
@@ -256,12 +293,13 @@ alert(lastday); */
             <FlatList
               data={data}
               numColumns={2}
-              renderItem={data => (
+              renderItem={dat => (
                 <BudgetCategories
                   setDeleteAllData={setDeleteAllData}
-                  props={data.item}
+                  props={dat.item}
                   data={data}
                   setData={setData}
+                  setAllocate={setAllocate}
                   setSelectedCategory={setSelectedCategory}
                   selectedCategory={selectedCategory}
                 />

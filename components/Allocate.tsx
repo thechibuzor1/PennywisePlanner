@@ -25,7 +25,8 @@ export default function Allocate(props) {
     let newData = props.alloData;
     newData.budget = Number(selectedAmount);
     clonedData.push(newData);
-    props.setData(clonedData);
+    let uniq = [...new Set(clonedData)];
+    props.setData(uniq);
   }
 
   return (

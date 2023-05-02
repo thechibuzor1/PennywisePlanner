@@ -78,7 +78,11 @@ const Drawer = props => {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => props.navigation.navigate('Stats')}
+              onPress={() =>
+                props.navigation.navigate('Stats', {
+                  data: props.data,
+                })
+              }
               activeOpacity={0.5}
               style={{marginTop: 20, marginBottom: 20}}>
               <Text

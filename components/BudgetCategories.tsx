@@ -14,24 +14,37 @@ export default function BudgetCategories({
   setSelectedCategory,
   selectedCategory,
   setDeleteAllData,
+  setAllocate,
 }) {
-  function handlePress(name: string) {
-    if (name === selectedCategory) {
-      setSelectedCategory('');
+  function handlePress(props) {
+    if (props.name === selectedCategory.name) {
+      setSelectedCategory({});
       return;
     }
-    setSelectedCategory(props.name);
+    setSelectedCategory(props);
   }
+  /* function deleteCategory(props) {
+    const clonedData = [...data];
+    clonedData.forEach(ele => {
+      if (ele.name === props.name) {
+        let index = clonedData.indexOf(ele);
+        console.log(index);
+        clonedData.splice(index, 1);
+        setData(clonedData);
+        setSelectedCategory({});
+      }
+    });
+  } */
 
   return (
     <TouchableOpacity
-      onPress={() => handlePress(props.name)}
+      onPress={() => handlePress(props)}
       activeOpacity={0.8}
       style={{
         flex: 1,
         borderRadius: 16,
         borderWidth: 2,
-        borderBottomWidth: selectedCategory === props.name ? 2 : 4,
+        borderBottomWidth: selectedCategory.name === props.name ? 2 : 4,
         padding: 16,
         margin: 5,
         height: 180,
@@ -39,13 +52,13 @@ export default function BudgetCategories({
         justifyContent: 'center',
         alignItems: 'center',
         opacity:
-          selectedCategory === ''
+          Object.keys(selectedCategory).length === 0
             ? 1
-            : selectedCategory === props.name
+            : selectedCategory.name === props.name
             ? 1
             : 0.5,
       }}>
-      {selectedCategory !== props.name ? (
+      {selectedCategory.name !== props.name ? (
         <>
           <View
             style={{
@@ -105,7 +118,10 @@ export default function BudgetCategories({
         </>
       ) : (
         <View>
-          <TouchableOpacity activeOpacity={0.5} style={{}}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => setAllocate(true)}
+            style={{}}>
             <FontAwesomeIcon
               icon={solid('pen-to-square')}
               size={35}
