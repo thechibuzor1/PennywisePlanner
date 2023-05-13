@@ -1,27 +1,25 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import React, { useState } from 'react';
 import {
-  SafeAreaView,
   FlatList,
-  StyleSheet,
+  SafeAreaView,
+  ScrollView,
   Text,
   TouchableOpacity,
-  View,
-  ScrollView,
+  View
 } from 'react-native';
-import React, {useState} from 'react';
+import { Divider } from 'react-native-elements';
+import { BarChart, PieChart } from 'react-native-gifted-charts';
 import {
   BasicStyles,
   colors,
   getSpent,
-  overViewData,
-  MyCategories,
+  overViewData
 } from '../contants';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
-import {BarChart, PieChart} from 'react-native-gifted-charts';
-import {Divider} from 'react-native-elements';
 
 export default function Stats({navigation, route}) {
   const data = route.params.data;

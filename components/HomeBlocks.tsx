@@ -75,12 +75,13 @@ export default function HomeBlocks({props}: any) {
 
 const styles = StyleSheet.create({
   con: {
-    marginLeft: 15,
-    marginRight: 15,
+    marginLeft: 10,
+    marginRight: 10,
     marginBottom: 30,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+  
   },
   iconBg: {
     marginRight: 15,

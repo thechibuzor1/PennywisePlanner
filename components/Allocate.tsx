@@ -27,6 +27,9 @@ export default function Allocate(props) {
     clonedData.push(newData);
     let uniq = [...new Set(clonedData)];
     props.setData(uniq);
+    props.setAlloData({});
+    props.setAllocate(false);
+    props.setAdd(false);
   }
 
   return (

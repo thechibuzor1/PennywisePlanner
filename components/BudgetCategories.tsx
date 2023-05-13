@@ -113,6 +113,7 @@ export default function BudgetCategories({
             height={3}
             color={colors.themeColor}
             unfilledColor={'white'}
+            width={100}
             style={{marginTop: 10, marginBottom: 5}}
           />
         </>

@@ -1,22 +1,17 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable eqeqeq */
-import {
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  useColorScheme,
-  View,
-  Dimensions,
-} from 'react-native';
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import React from 'react';
+import {
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import MenuDrawer from 'react-native-side-drawer';
-import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
-import {BasicStyles, bgColor, colors} from '../contants';
+import { BasicStyles, colors } from '../contants';
 
 const Drawer = props => {
   const overlay = true;

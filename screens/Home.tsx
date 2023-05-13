@@ -1,36 +1,34 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import React, { useState } from 'react';
 import {
-  StatusBar,
-  Text,
-  View,
-  useColorScheme,
   Dimensions,
-  TouchableOpacity,
   FlatList,
-  StyleSheet,
   Modal,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
-import React, {useState} from 'react';
-import {
-  BasicStyles,
-  overViewData,
-  colors,
-  MyCategories,
-  getBudget,
-  getSpent,
-  categories,
-} from '../contants';
 import * as Progress from 'react-native-progress';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
-import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import Add from '../components/Add';
+import Budget from '../components/Budget';
+import Categories from '../components/Categories';
 import Drawer from '../components/Drawer';
 import HomeBlocks from '../components/HomeBlocks';
-import Add from '../components/Add';
-import Categories from '../components/Categories';
-import Budget from '../components/Budget';
+import {
+  BasicStyles,
+  MyCategories,
+  categories,
+  colors,
+  getBudget,
+  getSpent,
+} from '../contants';
 
 export default function Home({navigation}) {
   /* const isDarkMode = useColorScheme() === 'dark'; */

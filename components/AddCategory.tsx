@@ -188,6 +188,7 @@ export default function AddCategory({setAdd, data, setData}) {
               setAllocate={setAllocate}
               setData={setData}
               data={data}
+              setAdd={setAdd}
             />
           }
         </Modal>

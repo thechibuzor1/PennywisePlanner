@@ -73,6 +73,7 @@ alert(lastday); */
             setAllocate={setAllocate}
             setData={setData}
             data={data}
+            setAdd={setAdd}
           />
         }
       </Modal>
@@ -187,7 +188,7 @@ alert(lastday); */
               },
               BasicStyles.spaceBtw,
             ]}>
-            <View>
+            <View style={{flex: 1}}>
               <Text
                 style={[
                   BasicStyles.header,

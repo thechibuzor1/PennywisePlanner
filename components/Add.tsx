@@ -274,7 +274,7 @@ export default function Add({setAdd, setData, data}) {
                 backgroundColor: colors.themeColor,
                 borderRadius: 16,
                 borderWidth: 2,
-                width: 400,
+
                 alignSelf: 'center',
                 margin: 16,
                 borderColor: colors.textColor,
@@ -289,6 +289,7 @@ export default function Add({setAdd, setData, data}) {
                   alignSelf: 'center',
                   fontSize: 21,
                   lineHeight: 28,
+                  marginHorizontal: 40,
                 },
               ]}>
               Add

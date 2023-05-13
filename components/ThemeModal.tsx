@@ -55,10 +55,7 @@ export default function ThemeModal({setShowThemeModal}) {
     <View style={BasicStyles.modalBgCon}>
       <SafeAreaView
         style={{
-          width: 400,
-          margin: 5,
           marginBottom: 0,
-          alignSelf: 'center',
           backgroundColor: colors.background,
           borderTopRightRadius: 16,
           borderTopLeftRadius: 16,

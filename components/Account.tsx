@@ -26,8 +26,6 @@ export default function Account({setAccountModal}) {
           padding: 16,
           borderTopRightRadius: 16,
           borderTopLeftRadius: 16,
-          maxWidth: 400,
-          alignSelf: 'center',
           flex: 0.3,
           paddingBottom: 0,
           borderColor: colors.textColor,
