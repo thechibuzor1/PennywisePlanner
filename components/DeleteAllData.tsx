@@ -20,7 +20,7 @@ export default function DeleteAllData(props) {
         <Text
           style={{
             color: colors.textColor,
-            fontSize: 22,
+            fontSize: 20,
             fontFamily: 'Montserrat-ExtraBold',
             marginBottom: 10,
             marginTop: 10,
@@ -77,7 +77,6 @@ export default function DeleteAllData(props) {
             <Text
               style={{
                 color: '#F5F5F7',
-
                 fontFamily: 'Montserrat-Bold',
               }}>
               Delete

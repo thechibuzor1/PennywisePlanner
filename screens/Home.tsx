@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
-import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import React, { useState } from 'react';
+import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import React, {useState} from 'react';
 import {
   Dimensions,
   FlatList,
@@ -12,10 +12,10 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
 import * as Progress from 'react-native-progress';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import Add from '../components/Add';
 import Budget from '../components/Budget';
 import Categories from '../components/Categories';
@@ -23,12 +23,15 @@ import Drawer from '../components/Drawer';
 import HomeBlocks from '../components/HomeBlocks';
 import {
   BasicStyles,
+  HistoryData,
   MyCategories,
   categories,
   colors,
+  demoHistory,
   getBudget,
   getSpent,
 } from '../contants';
+import moment from 'moment';
 
 export default function Home({navigation}) {
   /* const isDarkMode = useColorScheme() === 'dark'; */
@@ -40,6 +43,7 @@ export default function Home({navigation}) {
   const [budgetModal, setBudgetModal] = useState<boolean>(false);
 
   const [data, setData] = useState<categories[]>(MyCategories);
+  const [history, setHistory] = useState<HistoryData[]>(demoHistory);
 
   const toggleDrawer = () => {
     setDrawerOpen(!openDrawer);
@@ -48,6 +52,7 @@ export default function Home({navigation}) {
   return (
     <SafeAreaProvider>
       <Drawer
+        history={history}
         data={data}
         navigation={navigation}
         open={openDrawer}
@@ -69,7 +74,7 @@ export default function Home({navigation}) {
             style={{
               marginLeft: 15,
               marginRight: 15,
-              marginTop: 30,
+              marginTop: 5,
               marginBottom: 5,
             }}>
             <View style={BasicStyles.spaceBtw}>
@@ -77,7 +82,7 @@ export default function Home({navigation}) {
                 onPress={toggleDrawer}
                 activeOpacity={0.5}
                 style={{
-                  marginBottom: 5,
+                  paddingBottom: 8,
                   padding: 16,
                   paddingLeft: 0,
                 }}>
@@ -92,7 +97,7 @@ export default function Home({navigation}) {
                 onPress={() => setBudgetModal(true)}
                 activeOpacity={0.5}
                 style={{
-                  marginBottom: 5,
+                  paddingBottom: 8,
                   padding: 16,
                   paddingRight: 0,
                 }}>
@@ -110,7 +115,6 @@ export default function Home({navigation}) {
                 {
                   color: colors.textColor,
                   fontFamily: 'Montserrat-Regular',
-                  fontSize: 36,
                   lineHeight: 40,
                 },
               ]}>
@@ -127,16 +131,18 @@ export default function Home({navigation}) {
                 BasicStyles.header,
                 {color: colors.textColor, fontSize: 40, marginTop: 5},
               ]}>
-              ₦{getBudget(data) - getSpent(data)}
+              ₦{(getBudget(data) - getSpent(data)).toLocaleString()}
             </Text>
 
             <Progress.Bar
-              progress={getSpent(data) / getBudget(data)}
+              progress={
+                data.length !== 0 ? getSpent(data) / getBudget(data) : 0
+              }
               height={3}
               color={colors.themeColor}
               unfilledColor={'white'}
               width={width - 30}
-              style={{marginTop: 30}}
+              style={{marginTop: 15}}
             />
 
             <View style={BasicStyles.spaceBtw}>
@@ -144,14 +150,14 @@ export default function Home({navigation}) {
                 Spent:{' '}
                 <Text
                   style={[BasicStyles.subheader, {color: colors.textColor}]}>
-                  ₦{getSpent(data)}
+                  ₦{getSpent(data).toLocaleString()}
                 </Text>
               </Text>
               <Text style={[BasicStyles.subheader, {color: colors.themeColor}]}>
                 Budget:{' '}
                 <Text
                   style={[BasicStyles.subheader, {color: colors.textColor}]}>
-                  ₦{getBudget(data)}
+                  ₦{getBudget(data).toLocaleString()}
                 </Text>
               </Text>
             </View>
@@ -163,7 +169,7 @@ export default function Home({navigation}) {
             style={[
               BasicStyles.plusIcon,
               {
-                display: add ? 'none' : 'flex',
+                display: data.length !== 0 ? (add ? 'none' : 'flex') : 'none',
                 backgroundColor: colors.background,
                 borderColor: colors.textColor,
               },
@@ -211,7 +217,7 @@ export default function Home({navigation}) {
                     ]}>
                     Your Budget for the next{' '}
                     <Text style={{color: colors.componentTxtColor}}>
-                      1 day(s)
+                      {moment().endOf('month').diff(moment(), 'days')} days
                     </Text>{' '}
                     is{' '}
                     <Text style={{color: colors.componentTxtColor}}>
@@ -227,7 +233,7 @@ export default function Home({navigation}) {
                     {
                       marginLeft: 15,
                       marginRight: 15,
-                      marginTop: 30,
+
                       marginBottom: 15,
                     },
                   ]}>
@@ -251,7 +257,7 @@ export default function Home({navigation}) {
             }
             showsVerticalScrollIndicator={false}
             style={{paddingTop: 15}}
-            data={data.slice(0, 2)}
+            data={data.slice(0, 3)}
             renderItem={data => <HomeBlocks props={data.item} />}
           />
           <Modal
@@ -260,7 +266,15 @@ export default function Home({navigation}) {
             visible={add}
             transparent
             onRequestClose={() => setAdd(false)}>
-            {<Add data={data} setData={setData} setAdd={setAdd} />}
+            {
+              <Add
+                data={data}
+                setData={setData}
+                setAdd={setAdd}
+                history={history}
+                setHistory={setHistory}
+              />
+            }
           </Modal>
           <Modal
             animated
@@ -300,7 +314,6 @@ const styles = StyleSheet.create({
     margin: 15,
     borderRadius: 16,
     alignSelf: 'center',
-    marginTop: 30,
     alignItems: 'center',
     justifyContent: 'center',
     /* shadowColor: '#1D1D1F',

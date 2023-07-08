@@ -25,9 +25,9 @@ export default function MoneySquares(props: any) {
       <Text
         style={[
           BasicStyles.header,
-          {fontSize: 17, lineHeight: 24, color: colors.textColor, padding: 16},
+          {fontSize: 15, lineHeight: 24, color: colors.textColor, padding: 16},
         ]}>
-        ₦{props.amount}
+        ₦{Number(props.amount).toLocaleString()}
       </Text>
     </TouchableOpacity>
   );

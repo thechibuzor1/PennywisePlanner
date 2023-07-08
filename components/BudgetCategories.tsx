@@ -62,51 +62,55 @@ export default function BudgetCategories({
         <>
           <View
             style={{
-              borderWidth: 2,
-              borderRadius: 30,
-              marginTop: 5,
               alignSelf: 'flex-start',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: props.backgroundColor,
             }}>
-            <FontAwesomeIcon
-              icon={props.icon}
-              size={35}
-              style={{margin: 7}}
-              color={colors.textColor}
-            />
-          </View>
-          <View
-            style={{
-              marginTop: 15,
-              alignSelf: 'flex-start',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={[
-                BasicStyles.header,
-                {
-                  fontSize: 17,
-                  lineHeight: 24,
-                  color: colors.textColor,
-                  textAlign: 'left',
-                },
-              ]}>
-              {props.name}
-            </Text>
-            <Text
-              style={[
-                BasicStyles.header,
-                {
-                  fontSize: 17,
-                  lineHeight: 24,
-                  color: colors.textColor,
-                  fontFamily: 'Montserrat-Regular',
-                },
-              ]}>
-              ₦{props.budget}/M
-            </Text>
+            <View
+              style={{
+                alignSelf: 'flex-start',
+                borderWidth: 2,
+                borderRadius: 30,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: props.backgroundColor,
+              }}>
+              <FontAwesomeIcon
+                icon={props.icon}
+                size={25}
+                style={{margin: 7}}
+                color={colors.textColor}
+              />
+            </View>
+            <View
+              style={{
+                marginTop: 15,
+
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text
+                style={[
+                  BasicStyles.header,
+                  {
+                    fontSize: 15,
+                    lineHeight: 24,
+                    color: colors.textColor,
+                  },
+                ]}>
+                {props.name}
+              </Text>
+              <Text
+                style={[
+                  BasicStyles.header,
+                  {
+                    fontSize: 15,
+                    lineHeight: 24,
+                    color: colors.textColor,
+                    fontFamily: 'Montserrat-Regular',
+                  },
+                ]}>
+                ₦{props.budget.toLocaleString()}/M
+              </Text>
+            </View>
           </View>
           <Progress.Bar
             progress={Number(props.spent) / Number(props.budget)}

@@ -33,7 +33,7 @@ export const BasicStyles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    fontSize: 36,
+    fontSize: 30,
     fontFamily: 'Montserrat-ExtraBold',
     lineHeight: 40,
   },
@@ -127,6 +127,67 @@ export interface categories {
   spent: number;
   budget: number;
 }
+
+export interface HistoryData {
+  name: string;
+  backgroundColor: string;
+  icon: any;
+  amount: string;
+  date: string;
+  isCurrentWeek?: boolean;
+}
+
+export const demoHistory: HistoryData[] = [
+  {
+    name: 'Grocery',
+    amount: '9000',
+    backgroundColor: '#F95A2C',
+    icon: solid('basket-shopping'),
+    date: '3 Jul 2023',
+  },
+  {
+    name: 'Grocery',
+    amount: '1000',
+    backgroundColor: '#F95A2C',
+    icon: solid('basket-shopping'),
+    date: '2 Jul 2023',
+  },
+  {
+    name: 'Grocery',
+    amount: '1000',
+    backgroundColor: '#F95A2C',
+    icon: solid('basket-shopping'),
+    date: '8 Jul 2023',
+  },
+  {
+    name: 'Grocery',
+    amount: '700',
+    backgroundColor: '#F95A2C',
+    icon: solid('basket-shopping'),
+    date: '2 Jul 2023',
+  },
+  {
+    name: 'Grocery',
+    amount: '9700',
+    backgroundColor: '#F95A2C',
+    icon: solid('basket-shopping'),
+    date: '4 Jul 2023',
+  },
+  {
+    name: 'Shopping',
+    backgroundColor: '#44D7A8',
+    icon: solid('cart-shopping'),
+    date: '20 May 2023',
+    amount: '15000',
+  },
+  {
+    amount: '25000',
+    name: 'Travel',
+    backgroundColor: '#FFBD12',
+    icon: solid('plane-departure'),
+    date: '12 May 2023',
+  },
+];
 
 export const overViewData: overview[] = [
   {
@@ -295,15 +356,19 @@ export const MyCategories: categories[] = [
 
 export function getBudget(data: categories[]) {
   let res: number = 0;
-  data.forEach(element => {
-    res += element.budget;
-  });
+  data.length !== 0
+    ? data.forEach(element => {
+        res += element.budget;
+      })
+    : (res = 0);
   return res;
 }
 export function getSpent(data: categories[]) {
   let res: number = 0;
-  data.forEach(element => {
-    res += element.spent;
-  });
+  data.length !== 0
+    ? data.forEach(element => {
+        res += element.spent;
+      })
+    : (res = 0);
   return res;
 }

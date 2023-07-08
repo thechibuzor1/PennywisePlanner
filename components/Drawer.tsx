@@ -1,17 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable eqeqeq */
-import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import React from 'react';
-import {
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {Text, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import MenuDrawer from 'react-native-side-drawer';
-import { BasicStyles, colors } from '../contants';
+import {BasicStyles, colors} from '../contants';
 
 const Drawer = props => {
   const overlay = true;
@@ -65,7 +61,7 @@ const Drawer = props => {
                   BasicStyles.header,
                   {
                     color: colors.themeColor,
-                    fontSize: 44,
+                    fontSize: 40,
                     lineHeight: 54,
                   },
                 ]}>
@@ -76,6 +72,7 @@ const Drawer = props => {
               onPress={() =>
                 props.navigation.navigate('Stats', {
                   data: props.data,
+                  history: props.history,
                 })
               }
               activeOpacity={0.5}
@@ -85,7 +82,7 @@ const Drawer = props => {
                   BasicStyles.header,
                   {
                     color: colors.textColor,
-                    fontSize: 44,
+                    fontSize: 40,
                     lineHeight: 54,
                   },
                 ]}>
@@ -101,7 +98,7 @@ const Drawer = props => {
                   BasicStyles.header,
                   {
                     color: colors.textColor,
-                    fontSize: 44,
+                    fontSize: 40,
                     lineHeight: 54,
                   },
                 ]}>

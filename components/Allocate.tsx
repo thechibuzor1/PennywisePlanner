@@ -70,39 +70,44 @@ export default function Allocate(props) {
         <View
           style={{
             borderRadius: 16,
-
             padding: 16,
-
+            paddingBottom: 8,
+            alignSelf: 'flex-start',
             margin: 5,
             borderColor: colors.textColor,
             justifyContent: 'center',
             alignItems: 'center',
+            alignContent: 'center',
           }}>
           <View
             style={{
+              alignSelf: 'center',
               borderWidth: 2,
               borderRadius: 30,
-              alignSelf: 'flex-start',
               alignItems: 'center',
               justifyContent: 'center',
               backgroundColor: props.alloData.backgroundColor,
             }}>
             <FontAwesomeIcon
               icon={props.alloData.icon}
-              size={35}
+              size={30}
               style={{margin: 7}}
               color={colors.textColor}
             />
           </View>
           <View
             style={{
-              alignSelf: 'flex-start',
+              alignSelf: 'center',
               alignItems: 'center',
             }}>
             <Text
               style={[
                 BasicStyles.header,
-                {fontSize: 17, lineHeight: 24, color: colors.textColor},
+                {
+                  fontSize: 15,
+                  lineHeight: 24,
+                  color: colors.textColor,
+                },
               ]}>
               {props.alloData.name}
             </Text>
@@ -116,12 +121,12 @@ export default function Allocate(props) {
               color: colors.textColor,
 
               marginLeft: 15,
-              fontSize: 24,
-              marginBottom: 15,
+              fontSize: 20,
+              marginBottom: 25,
               lineHeight: 28,
             },
           ]}>
-          How much?
+          Set category budget
         </Text>
 
         <ScrollView showsVerticalScrollIndicator={false}>

@@ -31,7 +31,7 @@ export default function HomeBlocks({props}: any) {
           <Text
             style={[
               BasicStyles.header,
-              {fontSize: 21, lineHeight: 28, color: colors.textColor},
+              {fontSize: 15, lineHeight: 24, color: colors.textColor},
             ]}>
             {props.name}
           </Text>
@@ -40,7 +40,7 @@ export default function HomeBlocks({props}: any) {
               BasicStyles.header,
               {fontSize: 15, lineHeight: 24, color: colors.themeColor},
             ]}>
-            Left: <Text style={{color: '#1D1D1F'}}>₦{props.budget - props.spent}</Text>
+            Left: <Text style={{color: '#1D1D1F'}}>₦{(props.budget - props.spent).toLocaleString()}</Text>
           </Text>
         </View>
         <Progress.Bar
@@ -49,7 +49,7 @@ export default function HomeBlocks({props}: any) {
           color={colors.themeColor}
           unfilledColor={'white'}
           width={width - 100}
-          style={{marginTop: 10}}
+          style={{marginTop: 5}}
         />
         <View style={BasicStyles.spaceBtw}>
           <Text
@@ -57,7 +57,7 @@ export default function HomeBlocks({props}: any) {
               BasicStyles.header,
               {fontSize: 15, lineHeight: 24, color: colors.themeColor},
             ]}>
-            Spent: <Text style={{color: colors.textColor}}>₦{props.spent}</Text>
+            Spent: <Text style={{color: colors.textColor}}>₦{props.spent.toLocaleString()}</Text>
           </Text>
           <Text
             style={[
@@ -65,7 +65,7 @@ export default function HomeBlocks({props}: any) {
               {fontSize: 15, lineHeight: 24, color: colors.themeColor},
             ]}>
             Budget:{' '}
-            <Text style={{color: colors.textColor}}>₦{props.budget}</Text>
+            <Text style={{color: colors.textColor}}>₦{props.budget.toLocaleString()}</Text>
           </Text>
         </View>
       </View>

@@ -92,15 +92,15 @@ alert(lastday); */
       </Modal>
       <SafeAreaView
         style={[BasicStyles.container, {backgroundColor: colors.background}]}>
-        <View style={{marginTop: 30, paddingBottom: 15, marginLeft: 15}}>
+        <View style={{marginTop: 20, paddingBottom: 15, marginLeft: 15}}>
           <Text
             style={[
               BasicStyles.header,
               {
                 color: colors.textColor,
                 fontFamily: 'Montserrat-Regular',
-                fontSize: 44,
-                lineHeight: 54,
+                fontSize: 40,
+                lineHeight: 50,
               },
             ]}>
             Budget
@@ -109,10 +109,9 @@ alert(lastday); */
             style={[
               BasicStyles.header,
               {
-                marginTop: 5,
                 color: colors.textColor,
-                fontSize: 44,
-                lineHeight: 54,
+                fontSize: 40,
+                lineHeight: 45,
               },
             ]}>
             HQ
@@ -144,7 +143,7 @@ alert(lastday); */
               style={[
                 BasicStyles.header,
                 {
-                  fontSize: 27,
+                  fontSize: 25,
                   lineHeight: 32,
                   color: colors.textColor,
                 },
@@ -166,13 +165,13 @@ alert(lastday); */
               BasicStyles.header,
               {
                 marginTop: 15,
-                fontSize: 21,
+                fontSize: 20,
                 lineHeight: 24,
                 marginBottom: 5,
                 color: colors.textColor,
               },
             ]}>
-            ₦{getBudget(data)}/month
+            ₦{getBudget(data).toLocaleString()}/month
           </Text>
           <View
             style={[
@@ -193,7 +192,7 @@ alert(lastday); */
                 style={[
                   BasicStyles.header,
                   {
-                    fontSize: 17,
+                    fontSize: 15,
                     lineHeight: 24,
                     marginBottom: 5,
                     color: colors.textColor,
@@ -205,7 +204,7 @@ alert(lastday); */
                 style={[
                   BasicStyles.header,
                   {
-                    fontSize: 17,
+                    fontSize: 15,
                     lineHeight: 24,
                     marginBottom: 5,
                     color: colors.textColor,
@@ -214,14 +213,14 @@ alert(lastday); */
                 Balance:
                 <Text style={{fontFamily: 'Montserrat-Regular'}}>
                   {' '}
-                  ₦{getBudget(data) - getSpent(data)}/₦{getBudget(data)}
+                  ₦{(getBudget(data) - getSpent(data)).toLocaleString()}/₦{getBudget(data).toLocaleString()}
                 </Text>
               </Text>
               <Text
                 style={[
                   BasicStyles.header,
                   {
-                    fontSize: 17,
+                    fontSize: 15,
                     lineHeight: 24,
                     marginBottom: 5,
                     color: colors.textColor,
@@ -233,7 +232,7 @@ alert(lastday); */
                 style={[
                   BasicStyles.header,
                   {
-                    fontSize: 17,
+                    fontSize: 15,
                     lineHeight: 24,
                     marginBottom: 5,
                     color: colors.textColor,
@@ -248,7 +247,9 @@ alert(lastday); */
             </View>
 
             <CircularProgress
-              value={(getSpent(data) / getBudget(data)) * 100}
+              value={
+                data.length !== 0 ? (getSpent(data) / getBudget(data)) * 100 : 0
+              }
               valueSuffix={'%'}
               inActiveStrokeColor={'black'}
               progressValueColor={colors.themeColor}
@@ -271,7 +272,7 @@ alert(lastday); */
               style={[
                 BasicStyles.header,
                 {
-                  fontSize: 27,
+                  fontSize: 25,
                   lineHeight: 32,
                   color: colors.textColor,
                 },
@@ -290,24 +291,30 @@ alert(lastday); */
             </TouchableOpacity>
           </View>
 
-          <View style={styles.moneyGrid}>
-            <FlatList
-              data={data}
-              numColumns={2}
-              renderItem={dat => (
-                <BudgetCategories
-                  setDeleteAllData={setDeleteAllData}
-                  props={dat.item}
+          {data.length !== 0 ? (
+            <>
+              <View style={styles.moneyGrid}>
+                <FlatList
                   data={data}
-                  setData={setData}
-                  setAllocate={setAllocate}
-                  setSelectedCategory={setSelectedCategory}
-                  selectedCategory={selectedCategory}
+                  numColumns={2}
+                  renderItem={dat => (
+                    <BudgetCategories
+                      setDeleteAllData={setDeleteAllData}
+                      props={dat.item}
+                      data={data}
+                      setData={setData}
+                      setAllocate={setAllocate}
+                      setSelectedCategory={setSelectedCategory}
+                      selectedCategory={selectedCategory}
+                    />
+                  )}
+                  keyExtractor={item => item.name}
                 />
-              )}
-              keyExtractor={item => item.name}
-            />
-          </View>
+              </View>
+            </>
+          ) : (
+            <></>
+          )}
 
           {/*   {edit && (
             <>

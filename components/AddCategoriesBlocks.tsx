@@ -53,13 +53,17 @@ export default function AddCategoriesBlocks({props, setAllocate, setAlloData}) {
       <View
         style={{
           marginTop: 15,
-          alignSelf: 'flex-start',
           alignItems: 'center',
         }}>
         <Text
           style={[
             BasicStyles.header,
-            {fontSize: 17, lineHeight: 24, color: colors.textColor},
+            {
+              fontSize: 17,
+              textAlign: 'center',
+              lineHeight: 24,
+              color: colors.textColor,
+            },
           ]}>
           {props.name}
         </Text>

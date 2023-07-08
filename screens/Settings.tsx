@@ -78,7 +78,7 @@ export default function Settings({navigation}) {
               marginTop: 10,
               textAlign: 'center',
               alignSelf: 'center',
-              fontSize: 27,
+              fontSize: 25,
               lineHeight: 32,
             },
           ]}>

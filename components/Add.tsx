@@ -11,50 +11,54 @@ import {
   View,
 } from 'react-native';
 import React, {useState} from 'react';
-import {BasicStyles, overViewData, colors, MyCategories} from '../contants';
+import {
+  BasicStyles,
+  overViewData,
+  colors,
+  MyCategories,
+  HistoryData,
+} from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import MoneySquares from './MoneySquares';
+import moment from 'moment';
 
-export default function Add({setAdd, setData, data}) {
+export default function Add({setAdd, setData, data, history, setHistory}) {
   /*  const [active, setActive] = useState<string>('out'); */
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState();
   const [selectedAmount, setSelectedAmount] = useState<string>('');
 
   const Blocks = ({props}) => (
     <TouchableOpacity
-      onPress={() => setSelectedCategory(props.name)}
+      onPress={() => setSelectedCategory(props)}
       activeOpacity={0.8}
       style={{
         flex: 1,
         borderRadius: 16,
         borderWidth: 2,
-        borderBottomWidth: selectedCategory === props.name ? 2 : 4,
+        borderBottomWidth: selectedCategory?.name === props.name ? 2 : 4,
         padding: 32,
         margin: 5,
-
-        backgroundColor: props.backgroundColor,
-        borderColor: colors.textColor,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: props.backgroundColor,
+        borderColor: colors.textColor,
+
         opacity:
-          selectedCategory === ''
+          selectedCategory === undefined
             ? 1
-            : selectedCategory === props.name
+            : selectedCategory?.name === props.name
             ? 1
             : 0.5,
       }}>
-      <FontAwesomeIcon
-        icon={props.icon}
-        size={35}
-        style={{marginTop: 15}}
-        color={colors.textColor}
-      />
-      <View style={{marginTop: 15}}>
+      <View
+        style={{justifyContent: 'center', alignItems: 'center', margin: 15}}>
+        <FontAwesomeIcon icon={props.icon} size={30} color={colors.textColor} />
+
         <Text
           style={[
             BasicStyles.header,
-            {fontSize: 17, lineHeight: 24, color: colors.componentTxtColor},
+            {fontSize: 15, lineHeight: 24, color: colors.componentTxtColor},
           ]}>
           {props.name}
         </Text>
@@ -63,30 +67,41 @@ export default function Add({setAdd, setData, data}) {
   );
 
   function saveAdd() {
+    const clonedHistory = [...history];
+    const newHistory: HistoryData = {
+      name: selectedCategory?.name,
+      amount: selectedAmount,
+      date: moment().format('D MMM YYYY'),
+      icon: selectedCategory?.icon,
+      backgroundColor: selectedCategory?.backgroundColor,
+    };
+    clonedHistory.unshift(newHistory);
     const clonedData = [...data];
     clonedData.forEach(item => {
-      if (item.name === selectedCategory) {
+      if (item.name === selectedCategory?.name) {
         item.spent += Number(selectedAmount);
       }
     });
     setData(clonedData);
-    setSelectedCategory('');
+    setHistory(clonedHistory);
+    setSelectedCategory(undefined);
     setSelectedAmount('');
+    setAdd(false);
   }
 
   return (
     <View style={BasicStyles.modalBgCon}>
       <SafeAreaView
         style={[BasicStyles.container, {backgroundColor: colors.background}]}>
-        <View style={{marginTop: 30, paddingBottom: 15, marginLeft: 15}}>
+        <View style={{marginTop: 20, paddingBottom: 15, marginLeft: 15}}>
           <Text
             style={[
               BasicStyles.header,
               {
                 color: colors.textColor,
                 fontFamily: 'Montserrat-Regular',
-                fontSize: 44,
-                lineHeight: 54,
+                fontSize: 40,
+                lineHeight: 50,
               },
             ]}>
             Add
@@ -97,8 +112,8 @@ export default function Add({setAdd, setData, data}) {
               {
                 marginTop: 5,
                 color: colors.textColor,
-                fontSize: 44,
-                lineHeight: 54,
+                fontSize: 40,
+                lineHeight: 50,
               },
             ]}>
             to logs
@@ -196,7 +211,7 @@ export default function Add({setAdd, setData, data}) {
               BasicStyles.header,
               {
                 margin: 15,
-                fontSize: 27,
+                fontSize: 25,
                 lineHeight: 32,
                 color: colors.textColor,
               },
@@ -220,7 +235,7 @@ export default function Add({setAdd, setData, data}) {
               BasicStyles.header,
               {
                 margin: 15,
-                fontSize: 27,
+                fontSize: 25,
                 lineHeight: 32,
                 color: colors.textColor,
               },
@@ -228,19 +243,40 @@ export default function Add({setAdd, setData, data}) {
             How much?
           </Text>
 
-          <TextInput
-            keyboardType="number-pad"
-            value={selectedAmount}
-            onChangeText={text =>
-              setSelectedAmount(text.replace(/[^0-9]/g, ''))
-            }
-            placeholder="Enter amount"
-            placeholderTextColor={colors.textColor}
-            style={[
-              styles.textInput,
-              {color: colors.textColor, borderColor: colors.textColor},
-            ]}
-          />
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Text
+              style={[
+                BasicStyles.header,
+                {
+                  color: colors.textColor,
+                  fontFamily: 'Montserrat-Regular',
+                  marginLeft: 15,
+                  fontSize: 28,
+                  marginRight: 5,
+                  lineHeight: 28,
+                },
+              ]}>
+              ₦
+            </Text>
+            <TextInput
+              keyboardType="number-pad"
+              value={selectedAmount}
+              onChangeText={text =>
+                setSelectedAmount(text.replace(/[^0-9]/g, ''))
+              }
+              placeholder="Enter amount"
+              placeholderTextColor={colors.textColor}
+              style={[
+                styles.textInput,
+                {color: colors.textColor, borderColor: colors.textColor},
+              ]}
+            />
+          </View>
 
           <View style={styles.moneyGrid}>
             <MoneySquares
@@ -263,10 +299,21 @@ export default function Add({setAdd, setData, data}) {
               setSelected={setSelectedAmount}
               amount={'5000'}
             />
+            <MoneySquares
+              selected={selectedAmount}
+              setSelected={setSelectedAmount}
+              amount={'10000'}
+            />
+            <MoneySquares
+              selected={selectedAmount}
+              setSelected={setSelectedAmount}
+              amount={'20000'}
+            />
           </View>
 
           <TouchableOpacity
             onPress={saveAdd}
+            disabled={selectedCategory === undefined || selectedAmount === ''}
             activeOpacity={0.8}
             style={[
               styles.btn,
@@ -274,7 +321,10 @@ export default function Add({setAdd, setData, data}) {
                 backgroundColor: colors.themeColor,
                 borderRadius: 16,
                 borderWidth: 2,
-
+                opacity:
+                  selectedCategory === undefined || selectedAmount === ''
+                    ? 0.5
+                    : 1,
                 alignSelf: 'center',
                 margin: 16,
                 borderColor: colors.textColor,
@@ -287,7 +337,7 @@ export default function Add({setAdd, setData, data}) {
                   color: colors.textColor,
                   textAlign: 'center',
                   alignSelf: 'center',
-                  fontSize: 21,
+                  fontSize: 20,
                   lineHeight: 28,
                   marginHorizontal: 40,
                 },

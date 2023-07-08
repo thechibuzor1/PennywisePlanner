@@ -63,9 +63,9 @@ export default function Categories({setShowCategoriesodal, data}) {
               BasicStyles.header,
               {
                 color: colors.textColor,
-                marginTop: 5,
+                 
                 marginLeft: 15,
-                fontSize: 24,
+                fontSize: 22,
                 lineHeight: 28,
               },
             ]}>
@@ -74,7 +74,7 @@ export default function Categories({setShowCategoriesodal, data}) {
         </View>
 
         <ScrollView
-          style={{paddingTop: 16}}
+          style={{paddingTop: 0}}
           showsVerticalScrollIndicator={false}>
           {data.map((item, i) => (
             <HomeBlocks key={i} props={item} />
