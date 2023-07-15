@@ -18,6 +18,7 @@ import {BarChart, PieChart} from 'react-native-gifted-charts';
 import {
   BasicStyles,
   HistoryData,
+  categories,
   colors,
   demoHistory,
   getSpent,
@@ -63,61 +64,144 @@ export default function Stats({navigation, route}) {
   /* console.log(groupedData); */
 
   // Output the current week's data
- /*  console.log(currentWeekData); */
+  /*  console.log(currentWeekData); */
 
+  // Function to group history data by weeks and update the barData list with daily amounts
+  function groupDataByWeeks(
+    data: HistoryData[],
+    barData: {value: number; frontColor: string}[],
+  ): void {
+    const currentDate = moment();
+    const currentWeekNumber = currentDate.isoWeek().toString();
+    const dailyAmounts: number[] = [0, 0, 0, 0, 0, 0, 0]; // Array to store daily amounts (Sunday to Saturday)
 
+    data.forEach(item => {
+      const weekNumber = moment(item.date, 'D MMM YYYY').isoWeek().toString();
 
+      if (weekNumber === currentWeekNumber) {
+        const dayOfWeek = moment(item.date, 'D MMM YYYY').isoWeekday();
+        dailyAmounts[dayOfWeek - 1] += parseInt(item.amount, 10); // Increment the daily amount
+      }
+    });
 
- 
- // Function to group history data by weeks and update the barData list with daily amounts
- function groupDataByWeeks(data: HistoryData[], barData: { value: number; frontColor: string }[]): void {
-   const currentDate = moment();
-   const currentWeekNumber = currentDate.isoWeek().toString();
-   const dailyAmounts: number[] = [0, 0, 0, 0, 0, 0, 0]; // Array to store daily amounts (Sunday to Saturday)
- 
-   data.forEach((item) => {
-     const weekNumber = moment(item.date, 'D MMM YYYY').isoWeek().toString();
- 
-     if (weekNumber === currentWeekNumber) {
-       const dayOfWeek = moment(item.date, 'D MMM YYYY').isoWeekday();
-       dailyAmounts[dayOfWeek - 1] += parseInt(item.amount, 10); // Increment the daily amount
-     }
-   });
- 
-   dailyAmounts.forEach((amount, index) => {
-     barData[index].value = amount; // Update the value in barData with the daily amount
-   });
- }
- // Define the initial barData list with placeholders
- const barData = [
-  { value: 0, frontColor: '#E9E7FC' },
-  { value: 0, frontColor: '#FFF4CC' },
-  { value: 0, frontColor: '#F5F5F7' },
-  { value: 0, frontColor: '#FFF3F8' },
-  { value: 0, frontColor: '#D6FCF7' },
-  { value: 0, frontColor: '#F5F5F7' },
-  { value: 0, frontColor: '#F5F5F7' },
-];
- 
- // Group the history data by weeks and update the barData list with daily amounts
- groupDataByWeeks(history, barData);
- 
- // Output the updated barData list
- 
- 
+    dailyAmounts.forEach((amount, index) => {
+      barData[index].value = amount; // Update the value in barData with the daily amount
+    });
+  }
+  // Define the initial barData list with placeholders
+  const barData = [
+    {value: 0, frontColor: '#E9E7FC'},
+    {value: 0, frontColor: '#FFF4CC'},
+    {value: 0, frontColor: '#F5F5F7'},
+    {value: 0, frontColor: '#FFF3F8'},
+    {value: 0, frontColor: '#D6FCF7'},
+    {value: 0, frontColor: '#F5F5F7'},
+    {value: 0, frontColor: '#F5F5F7'},
+  ];
 
+  // Group the history data by weeks and update the barData list with daily amounts
+  groupDataByWeeks(history, barData);
+  const daysOfWeek = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
+  ];
 
+  const dayWithLargestValue = barData.reduce((prev, current, currentIndex) => {
+    if (current.value > barData[prev].value) {
+      return currentIndex;
+    } else {
+      return prev;
+    }
+  }, 0);
 
+  const dayOfWeekWithLargestValue = daysOfWeek[dayWithLargestValue];
 
+  // Output the updated barData list
 
+  // ... Previous code ...
 
+  const [selectedData, setSelectedData] = useState<HistoryData[]>(history); // Initial selected data is empty
 
+  // Handler for the button to set data for this week
+  const handleThisWeekClick = () => {
+    const startOfWeek = moment().utc().startOf('week');
+    const endOfWeek = moment().utc().endOf('week');
 
+    const thisWeekData = history.filter(category => {
+      const categoryDate = moment(category.date, 'D MMM YYYY').utc();
+      return categoryDate.isBetween(startOfWeek, endOfWeek, undefined, '[]');
+    });
 
+    setSelectedData(thisWeekData);
+  };
 
+  // Handler for the button to set data for this month
+  const handleThisMonthClick = () => {
+    const startOfMonth = moment().utc().startOf('month');
+    const endOfMonth = moment().utc().endOf('month');
 
+    const thisMonthData = history.filter(category => {
+      const categoryDate = moment(category.date, 'D MMM YYYY').utc();
+      return categoryDate.isBetween(startOfMonth, endOfMonth, undefined, '[]');
+    });
 
+    setSelectedData(thisMonthData);
+  };
 
+  // Handler for the button to set data for this year
+  const handleThisYearClick = () => {
+    const startOfYear = moment().utc().startOf('year');
+    const endOfYear = moment().utc().endOf('year');
+    const thisYearData = history.filter(category => {
+      const categoryDate = moment(category.date, 'D MMM YYYY').utc();
+      return categoryDate.isBetween(startOfYear, endOfYear, undefined, '[]');
+    });
+
+    setSelectedData(thisYearData);
+  };
+
+  const handleAllDataClick = () => {
+    setSelectedData(history);
+  };
+
+  const pieData = selectedData.reduce(
+    (
+      accumulator: {
+        [name: string]: {value: number; color: string; name: string};
+      },
+      category,
+    ) => {
+      const {name, amount, backgroundColor} = category;
+      if (accumulator[name]) {
+        accumulator[name].value += Number(amount);
+      } else {
+        accumulator[name] = {
+          value: Number(amount),
+          color: backgroundColor,
+          name,
+        };
+      }
+      return accumulator;
+    },
+    {},
+  );
+
+  const pieChartData = Object.values(pieData);
+
+  const categoryWithHighestSpent =
+    pieChartData.length !== 0
+      ? pieChartData.reduce((prev, current) =>
+          current.value > prev.value ? current : prev,
+        )
+      : null;
+
+  const categoryNameWithHighestSpent =
+    pieChartData.length !== 0 ? categoryWithHighestSpent?.name : null;
 
   const RenderLegend = ({props}) => {
     return (
@@ -144,7 +228,7 @@ export default function Stats({navigation, route}) {
       </View>
     );
   };
- /*  const barData = [
+  /*  const barData = [
     {value: 0, frontColor: '#E9E7FC'},
     {value: 400, frontColor: '#FFF4CC'},
     {value: 800, frontColor: '#F5F5F7'},
@@ -154,12 +238,12 @@ export default function Stats({navigation, route}) {
     {value: 0, frontColor: '#F5F5F7'},
   ]; */
 
-  const pieData = [
+  /* const pieData = [
     {value: 240, color: '#F95A2C', name: 'Grocery'},
     {value: 925, color: '#44D7A8', name: 'Shopping'},
     {value: 120, color: '#FFBD12', name: 'Travel'},
     {value: 921, color: '#1947E5', name: 'Food'},
-  ];
+  ]; */
 
   const [active, setActive] = useState<string>('1w');
   const [textInfo, setTextInfo] = useState<string>('this week');
@@ -243,7 +327,10 @@ export default function Stats({navigation, route}) {
           Statistics
         </Text>
         <TouchableOpacity
-          onPress={() => setShowPie(!showPie)}
+          onPress={() => {
+            setShowPie(!showPie);
+            handleThisWeekClick();
+          }}
           activeOpacity={0.5}
           style={{
             position: 'absolute',
@@ -280,7 +367,7 @@ export default function Stats({navigation, route}) {
                 strokeColor={colors.textColor}
                 strokeWidth={2}
                 donut
-                data={pieData}
+                data={pieChartData}
                 innerCircleColor={colors.textColor}
                 innerCircleBorderWidth={2}
                 innerCircleBorderColor={colors.textColor}
@@ -296,7 +383,7 @@ export default function Stats({navigation, route}) {
                   flexWrap: 'wrap',
                   padding: 16,
                 }}>
-                {pieData.map(item => (
+                {pieChartData.map(item => (
                   <RenderLegend key={item.value} props={item} />
                 ))}
               </View>
@@ -329,8 +416,8 @@ export default function Stats({navigation, route}) {
               textAlign: 'center',
             }}>
             {showPie
-              ? ` Your highest expense ${textInfo} is Shopping.`
-              : 'You spent the most this week on wednesday.'}
+              ? `Your highest expense ${textInfo} is ${categoryNameWithHighestSpent}.`
+              : `You spent the most this week on ${dayOfWeekWithLargestValue}.`}
           </Text>
         </View>
 
@@ -344,6 +431,7 @@ export default function Stats({navigation, route}) {
             <TouchableOpacity
               activeOpacity={0.5}
               onPress={() => {
+                handleThisWeekClick();
                 setActive('1w');
                 setTextInfo('this week');
               }}
@@ -368,6 +456,7 @@ export default function Stats({navigation, route}) {
             <TouchableOpacity
               activeOpacity={0.5}
               onPress={() => {
+                handleThisMonthClick();
                 setActive('1m');
                 setTextInfo('this month');
               }}
@@ -392,6 +481,7 @@ export default function Stats({navigation, route}) {
             <TouchableOpacity
               activeOpacity={0.5}
               onPress={() => {
+                handleThisYearClick();
                 setActive('1y');
                 setTextInfo('this year');
               }}
@@ -416,6 +506,7 @@ export default function Stats({navigation, route}) {
             <TouchableOpacity
               activeOpacity={0.5}
               onPress={() => {
+                handleAllDataClick();
                 setActive('all');
                 setTextInfo('all in all');
               }}
