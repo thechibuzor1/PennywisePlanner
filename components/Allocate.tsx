@@ -9,24 +9,31 @@ import {
   View,
 } from 'react-native';
 import React, {useState} from 'react';
-import {BasicStyles, Categories, colors, overViewData} from '../contants';
+import {BasicStyles, Categories, overViewData} from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import HomeBlocks from './HomeBlocks';
 import AddCategoriesBlocks from './AddCategoriesBlocks';
 import {TextInput} from 'react-native-gesture-handler';
 import MoneySquares from './MoneySquares';
+import {useDispatch, useSelector} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Allocate(props) {
+  const colors = useSelector(state => state.themeReducer.data);
   const [selectedAmount, setSelectedAmount] = useState<string>('');
+  const dispatch = useDispatch();
+  const data = useSelector(state => state.dataReducers.data);
 
-  function allocateNewCategory() {
-    const clonedData = [...props.data];
+  async function allocateNewCategory() {
+    const clonedData = [...data];
     let newData = props.alloData;
     newData.budget = Number(selectedAmount);
     clonedData.push(newData);
     let uniq = [...new Set(clonedData)];
-    props.setData(uniq);
+    dispatch({type: 'SET_DATA', payload: uniq});
+    const jsonValue = JSON.stringify(uniq);
+    await AsyncStorage.setItem('data', jsonValue);
     props.setAlloData({});
     props.setAllocate(false);
     props.setAdd(false);

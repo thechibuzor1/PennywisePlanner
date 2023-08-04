@@ -19,17 +19,20 @@ import {
   BasicStyles,
   HistoryData,
   categories,
-  colors,
   demoHistory,
   getSpent,
   overViewData,
 } from '../contants';
 import HistoryBlocks from '../components/HistoryBlocks';
 import moment from 'moment';
+import {getHistoryTotal} from '../contants';
+import MessageBox from '../components/MessageBox';
+import {useSelector} from 'react-redux';
 
-export default function Stats({navigation, route}) {
-  const data = route.params.data;
-  const history = route.params.history;
+export default function Stats({navigation}) {
+  const data = useSelector(state => state.dataReducers.data);
+  const history = useSelector(state => state.historyReducer.data);
+  const colors = useSelector(state => state.themeReducer.data);
 
   // Function to group history data by weeks and return the current week's data
   /* function groupDataByWeeks(
@@ -384,7 +387,7 @@ export default function Stats({navigation, route}) {
                   padding: 16,
                 }}>
                 {pieChartData.map(item => (
-                  <RenderLegend key={item.value} props={item} />
+                  <RenderLegend key={item.name} props={item} />
                 ))}
               </View>
             </>
@@ -420,7 +423,6 @@ export default function Stats({navigation, route}) {
               : `You spent the most this week on ${dayOfWeekWithLargestValue}.`}
           </Text>
         </View>
-
         <Divider
           width={2}
           color={colors.textColor}
@@ -530,7 +532,6 @@ export default function Stats({navigation, route}) {
             </TouchableOpacity>
           </View>
         )}
-
         <View
           style={[
             {
@@ -570,7 +571,7 @@ export default function Stats({navigation, route}) {
                 BasicStyles.header,
                 {fontSize: 20, lineHeight: 28, color: colors.textColor},
               ]}>
-              ₦{getSpent(data).toLocaleString()}
+              ₦{getHistoryTotal(history).toLocaleString()}
             </Text>
           </View>
         </View>
@@ -609,54 +610,26 @@ export default function Stats({navigation, route}) {
               </Text>
             </View>
           </View> */}
-
-        <View
-          style={{
-            display: closeMessage ? 'none' : 'flex',
-            backgroundColor: colors.background,
-            maxWidth: 350,
-            margin: 15,
-            borderRadius: 16,
-            alignSelf: 'center',
-            marginTop: 30,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderColor: colors.textColor,
-            borderWidth: 2,
-            borderBottomWidth: 4,
-          }}>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            style={{
-              alignSelf: 'flex-end',
-              marginRight: 15,
-              marginTop: 15,
-            }}
-            onPress={() => setCloseMessage(true)}>
-            <FontAwesomeIcon
-              icon={solid('xmark')}
-              size={30}
-              color={colors.textColor}
-            />
-          </TouchableOpacity>
-          <Text
-            style={[
-              BasicStyles.header,
-              {color: colors.textColor, margin: 20, marginTop: 5},
-            ]}>
-            You spent <Text style={{color: colors.themeColor}}>₦1396</Text> less
-            than the previous week.
-          </Text>
-        </View>
-
-        <FlatList
-          style={{marginTop: 25, paddingLeft: 16}}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={data}
-          renderItem={data => <Blocks props={data.item} />}
-        />
-
+        {!closeMessage && (
+          <MessageBox
+            setCloseMessage={setCloseMessage}
+            start={"Stay on track! You're doing great with your"}
+            mid={'savings'}
+            end={'this month.'}
+            
+          />
+        )}
+        {data.length !== 0 && (
+          <FlatList
+            style={{marginTop: 25, paddingLeft: 16}}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={data.sort(
+              (a: categories, b: categories) => b.spent - a.spent,
+            )}
+            renderItem={data => <Blocks props={data.item} />}
+          />
+        )}
         <Text
           style={[
             BasicStyles.header,

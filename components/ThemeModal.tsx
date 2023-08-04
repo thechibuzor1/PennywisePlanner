@@ -9,13 +9,18 @@ import {
   StatusBar,
 } from 'react-native';
 import React, {useState} from 'react';
-import {BasicStyles, colors} from '../contants';
+import {BasicStyles} from '../contants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import RadioForm from 'react-native-simple-radio-button';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
+import {useDispatch, useSelector} from 'react-redux';
 
 export default function ThemeModal({setShowThemeModal}) {
+  const colors = useSelector(state => state.themeReducer.data);
   const [value, setValue] = useState<string>(colors.background);
+  const dispatch = useDispatch();
+
   let initial = 0;
 
   let radio_props = [
@@ -38,17 +43,23 @@ export default function ThemeModal({setShowThemeModal}) {
     }
   });
 
-  function handleThemes(val: string) {
-    colors.background = val;
-    if (val === '#1D1D1F') {
-      colors.textColor = '#F5F5F7';
-      StatusBar.setBarStyle('light-content');
-    } else {
-      colors.textColor = '#1D1D1F';
-      StatusBar.setBarStyle('dark-content');
+  async function handleThemes(val: string) {
+    try {
+      colors.background = val;
+      if (val === '#1D1D1F') {
+        colors.textColor = '#F5F5F7';
+        StatusBar.setBarStyle('light-content');
+      } else {
+        colors.textColor = '#1D1D1F';
+        StatusBar.setBarStyle('dark-content');
+      }
+      dispatch({type: 'SET_THEME', payload: colors});
+      const jsonValue = JSON.stringify(colors);
+      await AsyncStorage.setItem('theme', jsonValue);
+      setValue(val);
+    } catch (e) {
+      console.log(e);
     }
-
-    setValue(val);
   }
 
   return (

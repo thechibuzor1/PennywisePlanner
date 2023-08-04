@@ -12,18 +12,22 @@ import {
 import React, {useState} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
-import {BasicStyles, colors} from '../contants';
+import {BasicStyles} from '../contants';
 import ThemeModal from '../components/ThemeModal';
 import ColorsModal from '../components/ColorsModal';
 import SettinngsBtns from '../components/SettinngsBtns';
 import DeleteAllData from '../components/DeleteAllData';
 import Account from '../components/Account';
+import {useSelector} from 'react-redux';
+import MessageBox from '../components/MessageBox';
 
 export default function Settings({navigation}) {
+  const colors = useSelector(state => state.themeReducer.data);
   const [showThemeModal, setShowThemeModal] = useState<boolean>(false);
   const [showColorsModal, setShowColorsModal] = useState<boolean>(false);
-  const [deleteAllData, setDeleteAllData] = useState<boolean>(false); 
+  const [deleteAllData, setDeleteAllData] = useState<boolean>(false);
   const [accountModal, setAccountModal] = useState<boolean>(false);
+  const [closeMessage, setCloseMessage] = useState<boolean>(false);
   return (
     <SafeAreaView
       style={[BasicStyles.container, {backgroundColor: colors.background}]}>
@@ -114,6 +118,15 @@ export default function Settings({navigation}) {
 
           <SettinngsBtns setModal={setDeleteAllData} name={'Delete all Data'} />
         </View>
+        {!closeMessage && (
+          <MessageBox
+            setCloseMessage={setCloseMessage}
+            start={'Need to save more? Try cutting down on'}
+            mid={'unnecessary'}
+            end={'expenses.'}
+            altStyle={true}
+          />
+        )}
       </ScrollView>
     </SafeAreaView>
   );

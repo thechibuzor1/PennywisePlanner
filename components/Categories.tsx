@@ -9,12 +9,15 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import {BasicStyles, colors, overViewData, MyCategories} from '../contants';
+import {BasicStyles, overViewData} from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import HomeBlocks from './HomeBlocks';
+import {useSelector} from 'react-redux';
 
-export default function Categories({setShowCategoriesodal, data}) {
+export default function Categories({setShowCategoriesodal}) {
+  const data = useSelector(state => state.dataReducers.data);
+  const colors = useSelector(state => state.themeReducer.data);
   return (
     <View style={BasicStyles.modalBgCon}>
       <TouchableOpacity
@@ -63,7 +66,7 @@ export default function Categories({setShowCategoriesodal, data}) {
               BasicStyles.header,
               {
                 color: colors.textColor,
-                 
+
                 marginLeft: 15,
                 fontSize: 22,
                 lineHeight: 28,

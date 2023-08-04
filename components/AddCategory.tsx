@@ -13,9 +13,7 @@ import React, {useEffect, useState} from 'react';
 import {
   BasicStyles,
   Categories,
-  colors,
   overViewData,
-  MyCategories,
   categories,
 } from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -23,10 +21,13 @@ import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import HomeBlocks from './HomeBlocks';
 import AddCategoriesBlocks from './AddCategoriesBlocks';
 import Allocate from './Allocate';
-export default function AddCategory({setAdd, data, setData}) {
+import {useSelector} from 'react-redux';
+export default function AddCategory({setAdd}) {
+  const colors = useSelector(state => state.themeReducer.data);
   const [active, setActive] = useState<string>('daily');
   const [allocate, setAllocate] = useState<boolean>(false);
   const [alloData, setAlloData] = useState({});
+  const data = useSelector(state => state.dataReducers.data);
 
   function getAvailableCategories() {
     let myCatogoryNames: string[] = [];
@@ -186,8 +187,6 @@ export default function AddCategory({setAdd, data, setData}) {
               alloData={alloData}
               setAlloData={setAlloData}
               setAllocate={setAllocate}
-              setData={setData}
-              data={data}
               setAdd={setAdd}
             />
           }

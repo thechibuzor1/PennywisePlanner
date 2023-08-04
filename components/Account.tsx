@@ -8,14 +8,29 @@ import {
   TextInput,
 } from 'react-native';
 import React, {useState} from 'react';
-import {BasicStyles, colors} from '../contants';
+import {BasicStyles} from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {regular, solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {Divider} from 'react-native-elements';
+import {useSelector, useDispatch} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Account({setAccountModal}) {
-  const [displayName, setDisplayName] = useState('Chibuzor');
+  const colors = useSelector(state => state.themeReducer.data);
+  const userName = useSelector(state => state.userReducer.name);
+  const [displayName, setDisplayName] = useState<string>(userName);
   const [edit, setEdit] = useState<boolean>(false);
+  const dispatch = useDispatch();
+
+  async function saveChanges() {
+    try {
+      dispatch({type: 'SET_USERNAME', payload: displayName});
+      await AsyncStorage.setItem('userName', displayName);
+      setEdit(false);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   return (
     <View style={BasicStyles.modalBgCon}>
@@ -45,6 +60,7 @@ export default function Account({setAccountModal}) {
               }}>
               <TouchableOpacity
                 activeOpacity={0.7}
+                onPress={saveChanges}
                 style={{
                   padding: 16,
                   backgroundColor: '#1D1D1F',

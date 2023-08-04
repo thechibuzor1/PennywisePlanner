@@ -10,24 +10,24 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
-import {
-  BasicStyles,
-  overViewData,
-  colors,
-  MyCategories,
-  HistoryData,
-} from '../contants';
+import React, {useEffect, useState} from 'react';
+import {BasicStyles, overViewData, HistoryData} from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import MoneySquares from './MoneySquares';
 import moment from 'moment';
+import PopUp from './PopUp';
+import {useDispatch, useSelector} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Add({setAdd, setData, data, history, setHistory}) {
-  /*  const [active, setActive] = useState<string>('out'); */
+export default function Add({setAdd}) {
+  const colors = useSelector(state => state.themeReducer.data);
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedAmount, setSelectedAmount] = useState<string>('');
-
+  const [popUp, setPopUp] = useState<boolean>(false);
+  const data = useSelector(state => state.dataReducers.data);
+  const history = useSelector(state => state.historyReducer.data);
+  const dispatch = useDispatch();
   const Blocks = ({props}) => (
     <TouchableOpacity
       onPress={() => setSelectedCategory(props)}
@@ -66,28 +66,49 @@ export default function Add({setAdd, setData, data, history, setHistory}) {
     </TouchableOpacity>
   );
 
-  function saveAdd() {
-    const clonedHistory = [...history];
-    const newHistory: HistoryData = {
-      name: selectedCategory?.name,
-      amount: selectedAmount,
-      date: moment().format('D MMM YYYY'),
-      icon: selectedCategory?.icon,
-      backgroundColor: selectedCategory?.backgroundColor,
-    };
-    clonedHistory.unshift(newHistory);
-    const clonedData = [...data];
-    clonedData.forEach(item => {
-      if (item.name === selectedCategory?.name) {
-        item.spent += Number(selectedAmount);
-      }
-    });
-    setData(clonedData);
-    setHistory(clonedHistory);
-    setSelectedCategory(undefined);
-    setSelectedAmount('');
-    setAdd(false);
+  async function saveAdd() {
+    try {
+      const clonedData = [...data];
+      clonedData.forEach(async item => {
+        if (item.name === selectedCategory?.name) {
+          if (item.budget - item.spent >= Number(selectedAmount)) {
+            const clonedHistory = [...history];
+            const newHistory: HistoryData = {
+              name: selectedCategory?.name,
+              amount: selectedAmount,
+              date: moment().format('D MMM YYYY'),
+              icon: selectedCategory?.icon,
+              backgroundColor: selectedCategory?.backgroundColor,
+            };
+            clonedHistory.unshift(newHistory);
+            item.spent += Number(selectedAmount);
+
+            dispatch({type: 'SET_DATA', payload: clonedData});
+            dispatch({type: 'SET_HISTORY', payload: clonedHistory});
+            const jsonData = JSON.stringify(clonedData);
+            const jsonHistory = JSON.stringify(clonedHistory);
+
+            await AsyncStorage.setItem('data', jsonData);
+            await AsyncStorage.setItem('history', jsonHistory);
+            setSelectedCategory(undefined);
+            setSelectedAmount('');
+            setAdd(false);
+          } else {
+            /* console.log("Bruh you're spending more than you budget for..."); */
+            setPopUp(true);
+          }
+        }
+      });
+    } catch (e) {
+      console.log(e);
+    }
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setPopUp(false);
+    }, 3000);
+  }, [popUp]);
 
   return (
     <View style={BasicStyles.modalBgCon}>
@@ -132,6 +153,9 @@ export default function Add({setAdd, setData, data, history, setHistory}) {
             />
           </TouchableOpacity>
         </View>
+        {popUp && (
+          <PopUp text={"Bruh you're spending more than you budget for..."} />
+        )}
 
         {/*  <View
           style={{

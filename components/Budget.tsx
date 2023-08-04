@@ -11,13 +11,7 @@ import {
   ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
-import {
-  BasicStyles,
-  Categories,
-  colors,
-  getBudget,
-  overViewData,
-} from '../contants';
+import {BasicStyles, getBudget, getSpent} from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {regular, solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import CircularProgress from 'react-native-circular-progress-indicator';
@@ -25,26 +19,39 @@ import BudgetCategories from './BudgetCategories';
 import AddCategory from './AddCategory';
 import moment from 'moment';
 import DeleteAllData from './DeleteAllData';
-import {getSpent, MyCategories} from '../contants';
+import {useDispatch, useSelector} from 'react-redux';
 import Allocate from './Allocate';
+import MessageBox from './MessageBox';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Budget({setBudgetModal, data, setData}) {
+export default function Budget({setBudgetModal}) {
+  const colors = useSelector(state => state.themeReducer.data);
+  const dispatch = useDispatch();
+  const data = useSelector(state => state.dataReducers.data);
   const [selectedCategory, setSelectedCategory] = useState({});
   const [add, setAdd] = useState<boolean>(false);
   const [allocate, setAllocate] = useState<boolean>(false);
   const [deleteAllData, setDeleteAllData] = useState<boolean>(false);
+  const [closeMessage, setCloseMessage] = useState<boolean>(false);
 
-  function deleteCategory() {
-    const clonedData = [...data];
-    clonedData.forEach(ele => {
-      if (ele.name === selectedCategory?.name) {
-        let index = clonedData.indexOf(ele);
-        clonedData.splice(index, 1);
-      }
-    });
-    setData(clonedData);
-    setDeleteAllData(false);
-    setSelectedCategory({});
+  async function deleteCategory() {
+    try {
+      const clonedData = [...data];
+      clonedData.forEach(ele => {
+        if (ele.name === selectedCategory?.name) {
+          let index = clonedData.indexOf(ele);
+          clonedData.splice(index, 1);
+        }
+      });
+      dispatch({type: 'SET_DATA', payload: clonedData});
+      const jsonValue = JSON.stringify(clonedData);
+      await AsyncStorage.setItem('data', jsonValue);
+      setDeleteAllData(false);
+      setSelectedCategory({});
+      console.log('deleteCategory COMPLETE');
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   /* var ld = Date.today().clearTime().moveToLastDayOfMonth();
@@ -58,7 +65,7 @@ alert(lastday); */
         visible={add}
         transparent
         onRequestClose={() => setAdd(false)}>
-        {<AddCategory setData={setData} data={data} setAdd={setAdd} />}
+        {<AddCategory setAdd={setAdd} />}
       </Modal>
       <Modal
         animated
@@ -71,8 +78,6 @@ alert(lastday); */
             alloData={selectedCategory}
             setAlloData={setSelectedCategory}
             setAllocate={setAllocate}
-            setData={setData}
-            data={data}
             setAdd={setAdd}
           />
         }
@@ -132,167 +137,179 @@ alert(lastday); */
         </View>
 
         <ScrollView style={{margin: 16}} showsVerticalScrollIndicator={false}>
-          <View
-            style={[
-              {
-                alignItems: 'center',
-              },
-              BasicStyles.spaceBtw,
-            ]}>
-            <Text
-              style={[
-                BasicStyles.header,
-                {
-                  fontSize: 25,
-                  lineHeight: 32,
-                  color: colors.textColor,
-                },
-              ]}>
-              Current budget
-            </Text>
-            <TouchableOpacity
-              activeOpacity={0.5}
-              onPress={() => setDeleteAllData(true)}>
-              <FontAwesomeIcon
-                icon={regular('trash-can')}
-                size={30}
-                color={colors.themeColor}
-              />
-            </TouchableOpacity>
-          </View>
-          <Text
-            style={[
-              BasicStyles.header,
-              {
-                marginTop: 15,
-                fontSize: 20,
-                lineHeight: 24,
-                marginBottom: 5,
-                color: colors.textColor,
-              },
-            ]}>
-            ₦{getBudget(data).toLocaleString()}/month
-          </Text>
-          <View
-            style={[
-              {
-                maxWidth: 400,
-                padding: 16,
-                alignItems: 'center',
-                marginTop: 15,
-                borderWidth: 2,
-                borderBottomWidth: 4,
-
-                borderRadius: 16,
-              },
-              BasicStyles.spaceBtw,
-            ]}>
-            <View style={{flex: 1}}>
-              <Text
-                style={[
-                  BasicStyles.header,
-                  {
-                    fontSize: 15,
-                    lineHeight: 24,
-                    marginBottom: 5,
-                    color: colors.textColor,
-                  },
-                ]}>
-                This month's available
-              </Text>
-              <Text
-                style={[
-                  BasicStyles.header,
-                  {
-                    fontSize: 15,
-                    lineHeight: 24,
-                    marginBottom: 5,
-                    color: colors.textColor,
-                  },
-                ]}>
-                Balance:
-                <Text style={{fontFamily: 'Montserrat-Regular'}}>
-                  {' '}
-                  ₦{(getBudget(data) - getSpent(data)).toLocaleString()}/₦{getBudget(data).toLocaleString()}
-                </Text>
-              </Text>
-              <Text
-                style={[
-                  BasicStyles.header,
-                  {
-                    fontSize: 15,
-                    lineHeight: 24,
-                    marginBottom: 5,
-                    color: colors.textColor,
-                  },
-                ]}>
-                Days remaining before
-              </Text>
-              <Text
-                style={[
-                  BasicStyles.header,
-                  {
-                    fontSize: 15,
-                    lineHeight: 24,
-                    marginBottom: 5,
-                    color: colors.textColor,
-                  },
-                ]}>
-                reset:
-                <Text style={{fontFamily: 'Montserrat-Regular'}}>
-                  {' '}
-                  {moment().endOf('month').diff(moment(), 'days')}{' '}
-                </Text>
-              </Text>
-            </View>
-
-            <CircularProgress
-              value={
-                data.length !== 0 ? (getSpent(data) / getBudget(data)) * 100 : 0
-              }
-              valueSuffix={'%'}
-              inActiveStrokeColor={'black'}
-              progressValueColor={colors.themeColor}
-              maxValue={100}
-              radius={45}
-              clockwise={false}
-              activeStrokeColor={colors.themeColor}
-            />
-          </View>
-
-          <View
-            style={[
-              {
-                alignItems: 'center',
-                marginTop: 30,
-              },
-              BasicStyles.spaceBtw,
-            ]}>
-            <Text
-              style={[
-                BasicStyles.header,
-                {
-                  fontSize: 25,
-                  lineHeight: 32,
-                  color: colors.textColor,
-                },
-              ]}>
-              Categories
-            </Text>
-            <TouchableOpacity
-              onPress={() => setAdd(true)}
-              activeOpacity={0.5}
-              style={{display: add ? 'none' : 'flex'}}>
-              <FontAwesomeIcon
-                icon={solid('plus')}
-                size={30}
-                color={colors.themeColor}
-              />
-            </TouchableOpacity>
-          </View>
-
           {data.length !== 0 ? (
             <>
+              <View
+                style={[
+                  {
+                    alignItems: 'center',
+                  },
+                  BasicStyles.spaceBtw,
+                ]}>
+                <Text
+                  style={[
+                    BasicStyles.header,
+                    {
+                      fontSize: 25,
+                      lineHeight: 32,
+                      color: colors.textColor,
+                    },
+                  ]}>
+                  Current budget
+                </Text>
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  onPress={() => setDeleteAllData(true)}>
+                  <FontAwesomeIcon
+                    icon={regular('trash-can')}
+                    size={30}
+                    color={colors.themeColor}
+                  />
+                </TouchableOpacity>
+              </View>
+              <Text
+                style={[
+                  BasicStyles.header,
+                  {
+                    marginTop: 15,
+                    fontSize: 20,
+                    lineHeight: 24,
+                    marginBottom: 5,
+                    color: colors.textColor,
+                  },
+                ]}>
+                ₦{getBudget(data).toLocaleString()}/month
+              </Text>
+              <View
+                style={[
+                  {
+                    maxWidth: 400,
+                    padding: 16,
+                    alignItems: 'center',
+                    marginTop: 15,
+                    borderWidth: 2,
+                    borderBottomWidth: 4,
+
+                    borderRadius: 16,
+                  },
+                  BasicStyles.spaceBtw,
+                ]}>
+                <View style={{flex: 1}}>
+                  <Text
+                    style={[
+                      BasicStyles.header,
+                      {
+                        fontSize: 15,
+                        lineHeight: 24,
+                        marginBottom: 5,
+                        color: colors.textColor,
+                      },
+                    ]}>
+                    This month's available
+                  </Text>
+                  <Text
+                    style={[
+                      BasicStyles.header,
+                      {
+                        fontSize: 15,
+                        lineHeight: 24,
+                        marginBottom: 5,
+                        color: colors.textColor,
+                      },
+                    ]}>
+                    Balance:
+                    <Text style={{fontFamily: 'Montserrat-Regular'}}>
+                      {' '}
+                      ₦{(getBudget(data) - getSpent(data)).toLocaleString()}/₦
+                      {getBudget(data).toLocaleString()}
+                    </Text>
+                  </Text>
+                  <Text
+                    style={[
+                      BasicStyles.header,
+                      {
+                        fontSize: 15,
+                        lineHeight: 24,
+                        marginBottom: 5,
+                        color: colors.textColor,
+                      },
+                    ]}>
+                    Days remaining before
+                  </Text>
+                  <Text
+                    style={[
+                      BasicStyles.header,
+                      {
+                        fontSize: 15,
+                        lineHeight: 24,
+                        marginBottom: 5,
+                        color: colors.textColor,
+                      },
+                    ]}>
+                    reset:
+                    <Text style={{fontFamily: 'Montserrat-Regular'}}>
+                      {' '}
+                      {moment().endOf('month').diff(moment(), 'days')}{' '}
+                    </Text>
+                  </Text>
+                </View>
+
+                <CircularProgress
+                  value={
+                    data.length !== 0
+                      ? (getSpent(data) / getBudget(data)) * 100
+                      : 0
+                  }
+                  valueSuffix={'%'}
+                  inActiveStrokeColor={'black'}
+                  progressValueColor={colors.themeColor}
+                  maxValue={100}
+                  radius={45}
+                  clockwise={false}
+                  activeStrokeColor={colors.themeColor}
+                />
+              </View>
+
+              {/* {!closeMessage && (
+                <MessageBox
+                  setCloseMessage={setCloseMessage}
+                  start={'Keep in mind your long-term'}
+                  mid={'financial goals'}
+                  end={'while managing your finances.'}
+                />
+              )} */}
+
+              <View
+                style={[
+                  {
+                    alignItems: 'center',
+                    marginTop: 30,
+                  },
+                  BasicStyles.spaceBtw,
+                ]}>
+                <Text
+                  style={[
+                    BasicStyles.header,
+                    {
+                      fontSize: 25,
+                      lineHeight: 32,
+                      color: colors.textColor,
+                    },
+                  ]}>
+                  Categories
+                </Text>
+                <TouchableOpacity
+                  onPress={() => setAdd(true)}
+                  activeOpacity={0.5}
+                  style={{display: add ? 'none' : 'flex'}}>
+                  <FontAwesomeIcon
+                    icon={solid('plus')}
+                    size={30}
+                    color={colors.themeColor}
+                  />
+                </TouchableOpacity>
+              </View>
+
               <View style={styles.moneyGrid}>
                 <FlatList
                   data={data}
@@ -301,8 +318,6 @@ alert(lastday); */
                     <BudgetCategories
                       setDeleteAllData={setDeleteAllData}
                       props={dat.item}
-                      data={data}
-                      setData={setData}
                       setAllocate={setAllocate}
                       setSelectedCategory={setSelectedCategory}
                       selectedCategory={selectedCategory}
@@ -313,7 +328,34 @@ alert(lastday); */
               </View>
             </>
           ) : (
-            <></>
+            <View
+              style={[
+                {
+                  alignItems: 'center',
+                },
+              ]}>
+              <Text
+                style={{
+                  fontFamily: 'Montserrat-Regular',
+                  fontSize: 25,
+                  lineHeight: 32,
+                  color: colors.textColor,
+                  textAlign: 'center',
+                  marginBottom: 10,
+                }}>
+                Select a category
+              </Text>
+              <TouchableOpacity
+                onPress={() => setAdd(true)}
+                activeOpacity={0.5}
+                style={{display: add ? 'none' : 'flex'}}>
+                <FontAwesomeIcon
+                  icon={solid('plus')}
+                  size={30}
+                  color={colors.themeColor}
+                />
+              </TouchableOpacity>
+            </View>
           )}
 
           {/*   {edit && (
@@ -376,6 +418,15 @@ alert(lastday); */
               </View>
             </>
           )} */}
+          {!closeMessage && (
+            <MessageBox
+              setCloseMessage={setCloseMessage}
+              start={"It's important to strike a balance between"}
+              mid={'saving'}
+              end={'and enjoying life.'}
+              altStyle={true}
+            />
+          )}
         </ScrollView>
       </SafeAreaView>
     </View>

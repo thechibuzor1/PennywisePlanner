@@ -3,7 +3,7 @@
 /* eslint-disable prettier/prettier */
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
   FlatList,
@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import * as Progress from 'react-native-progress';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import Add from '../components/Add';
@@ -24,16 +25,18 @@ import HomeBlocks from '../components/HomeBlocks';
 import {
   BasicStyles,
   HistoryData,
-  MyCategories,
   categories,
-  colors,
   demoHistory,
   getBudget,
   getSpent,
+  resetBudget,
 } from '../contants';
 import moment from 'moment';
+import PopUp from '../components/PopUp';
 
 export default function Home({navigation}) {
+  const colors = useSelector(state => state.themeReducer.data);
+  const dispatch = useDispatch();
   /* const isDarkMode = useColorScheme() === 'dark'; */
   const width = Dimensions.get('window').width;
   const [openDrawer, setDrawerOpen] = useState<boolean>(false);
@@ -42,18 +45,24 @@ export default function Home({navigation}) {
   const [showCategoriesodal, setShowCategoriesodal] = useState<boolean>(false);
   const [budgetModal, setBudgetModal] = useState<boolean>(false);
 
-  const [data, setData] = useState<categories[]>(MyCategories);
-  const [history, setHistory] = useState<HistoryData[]>(demoHistory);
-
   const toggleDrawer = () => {
     setDrawerOpen(!openDrawer);
   };
 
+  /* function setDataReduxMock() {
+    dispatch({type: 'SET_DATA', payload: MyCategories});
+    console.log('DISPATCH COMPLETE!');
+  }
+
+  useEffect(() => {
+     resetBudget(data); 
+    setDataReduxMock();
+  }, []); */
+
+  const data = useSelector(state => state.dataReducers.data);
   return (
     <SafeAreaProvider>
       <Drawer
-        history={history}
-        data={data}
         navigation={navigation}
         open={openDrawer}
         toggleDrawer={toggleDrawer}>
@@ -70,13 +79,7 @@ export default function Home({navigation}) {
             backgroundColor={colors.background}
           />
 
-          <View
-            style={{
-              marginLeft: 15,
-              marginRight: 15,
-              marginTop: 5,
-              marginBottom: 5,
-            }}>
+          <View style={styles.headerCon}>
             <View style={BasicStyles.spaceBtw}>
               <TouchableOpacity
                 onPress={toggleDrawer}
@@ -108,7 +111,6 @@ export default function Home({navigation}) {
                 />
               </TouchableOpacity>
             </View>
-
             <Text
               style={[
                 BasicStyles.header,
@@ -121,48 +123,60 @@ export default function Home({navigation}) {
               Hello,
             </Text>
             <Text style={[BasicStyles.header, {color: colors.textColor}]}>
-              Chibuzor
+              {useSelector(state => state.userReducer.name)}
             </Text>
-            <Text style={[BasicStyles.subheader, {color: colors.themeColor}]}>
-              Current Balance
-            </Text>
-            <Text
-              style={[
-                BasicStyles.header,
-                {color: colors.textColor, fontSize: 40, marginTop: 5},
-              ]}>
-              ₦{(getBudget(data) - getSpent(data)).toLocaleString()}
-            </Text>
-
-            <Progress.Bar
-              progress={
-                data.length !== 0 ? getSpent(data) / getBudget(data) : 0
-              }
-              height={3}
-              color={colors.themeColor}
-              unfilledColor={'white'}
-              width={width - 30}
-              style={{marginTop: 15}}
-            />
-
-            <View style={BasicStyles.spaceBtw}>
-              <Text style={[BasicStyles.subheader, {color: colors.themeColor}]}>
-                Spent:{' '}
+            {data.length !== 0 && (
+              <>
                 <Text
-                  style={[BasicStyles.subheader, {color: colors.textColor}]}>
-                  ₦{getSpent(data).toLocaleString()}
+                  style={[BasicStyles.subheader, {color: colors.themeColor}]}>
+                  Current Balance
                 </Text>
-              </Text>
-              <Text style={[BasicStyles.subheader, {color: colors.themeColor}]}>
-                Budget:{' '}
                 <Text
-                  style={[BasicStyles.subheader, {color: colors.textColor}]}>
-                  ₦{getBudget(data).toLocaleString()}
+                  style={[
+                    BasicStyles.header,
+                    {color: colors.textColor, fontSize: 40, marginTop: 5},
+                  ]}>
+                  ₦{(getBudget(data) - getSpent(data)).toLocaleString()}
                 </Text>
-              </Text>
-            </View>
+
+                <Progress.Bar
+                  progress={
+                    data.length !== 0 ? getSpent(data) / getBudget(data) : 0
+                  }
+                  height={3}
+                  color={colors.themeColor}
+                  unfilledColor={'white'}
+                  width={width - 30}
+                  style={{marginTop: 15}}
+                />
+
+                <View style={BasicStyles.spaceBtw}>
+                  <Text
+                    style={[BasicStyles.subheader, {color: colors.themeColor}]}>
+                    Spent:{' '}
+                    <Text
+                      style={[
+                        BasicStyles.subheader,
+                        {color: colors.textColor},
+                      ]}>
+                      ₦{getSpent(data).toLocaleString()}
+                    </Text>
+                  </Text>
+                  <Text
+                    style={[BasicStyles.subheader, {color: colors.themeColor}]}>
+                    Budget:{' '}
+                    <Text
+                      style={[
+                        BasicStyles.subheader,
+                        {color: colors.textColor},
+                      ]}>
+                      ₦{getBudget(data).toLocaleString()}
+                    </Text>
+                  </Text>
+                </View>
+              </>
+            )}
           </View>
-
           <TouchableOpacity
             onPress={() => setAdd(true)}
             activeOpacity={0.5}
@@ -184,97 +198,133 @@ export default function Home({navigation}) {
             />
           </TouchableOpacity>
 
-          <FlatList
-            ListHeaderComponent={
-              <>
-                <View
-                  style={[
-                    styles.messagecon,
-                    {
-                      display: closeMessage ? 'none' : 'flex',
-                      backgroundColor: colors.themeColor,
-                      borderColor: colors.textColor,
-                    },
-                  ]}>
-                  <TouchableOpacity
-                    activeOpacity={0.5}
-                    style={{
-                      alignSelf: 'flex-end',
-                      marginRight: 15,
-                      marginTop: 15,
-                    }}
-                    onPress={() => setCloseMessage(true)}>
-                    <FontAwesomeIcon
-                      icon={solid('xmark')}
-                      size={30}
-                      color={colors.textColor}
-                    />
-                  </TouchableOpacity>
-                  <Text
+          {data.length === 0 ? (
+            <Text
+              style={[
+                BasicStyles.subheader,
+                {
+                  color: colors.textColor,
+                  fontFamily: 'Montserrat-Regular',
+                  marginLeft: 15,
+                  marginRight: 15,
+                  fontSize: 16,
+                  lineHeight: 28,
+                },
+              ]}>
+              Head to budget manger to select categories and allocate amounts.
+            </Text>
+          ) : (
+            <FlatList
+              ListHeaderComponent={
+                <>
+                  <View
                     style={[
-                      BasicStyles.header,
-                      {color: colors.textColor, margin: 20, marginTop: 5},
+                      styles.messagecon,
+                      {
+                        display: closeMessage ? 'none' : 'flex',
+                        backgroundColor: colors.themeColor,
+                        borderColor: colors.textColor,
+                      },
                     ]}>
-                    Your Budget for the next{' '}
-                    <Text style={{color: colors.componentTxtColor}}>
-                      {moment().endOf('month').diff(moment(), 'days')} days
-                    </Text>{' '}
-                    is{' '}
-                    <Text style={{color: colors.componentTxtColor}}>
-                      ₦{Math.round((getBudget(data) - getSpent(data)) / 1)} per
-                      day.
-                    </Text>{' '}
-                    Spend Wisely.
-                  </Text>
-                </View>
-                <View
-                  style={[
-                    BasicStyles.spaceBtw,
-                    {
-                      marginLeft: 15,
-                      marginRight: 15,
+                    <TouchableOpacity
+                      activeOpacity={0.5}
+                      style={{
+                        alignSelf: 'flex-end',
+                        marginRight: 15,
+                        marginTop: 15,
+                      }}
+                      onPress={() => setCloseMessage(true)}>
+                      <FontAwesomeIcon
+                        icon={solid('xmark')}
+                        size={30}
+                        color={colors.textColor}
+                      />
+                    </TouchableOpacity>
 
-                      marginBottom: 15,
-                    },
-                  ]}>
-                  <Text
-                    style={[BasicStyles.subheader, {color: colors.themeColor}]}>
-                    OverView
-                  </Text>
-                  <TouchableOpacity
-                    onPress={() => setShowCategoriesodal(true)}
-                    activeOpacity={0.5}>
+                    {moment().endOf('month').diff(moment(), 'days') !== 0 ? (
+                      <Text
+                        style={[
+                          BasicStyles.header,
+                          {color: colors.textColor, margin: 20, marginTop: 5},
+                        ]}>
+                        Your Budget for the next{' '}
+                        <Text style={{color: colors.componentTxtColor}}>
+                          {moment().endOf('month').diff(moment(), 'days')} days
+                        </Text>{' '}
+                        is{' '}
+                        <Text style={{color: colors.componentTxtColor}}>
+                          ₦
+                          {Math.round(
+                            (getBudget(data) - getSpent(data)) /
+                              moment().endOf('month').diff(moment(), 'days'),
+                          )}{' '}
+                          per day.
+                        </Text>{' '}
+                        Spend Wisely.
+                        {Math.round(
+                          (getBudget(data) - getSpent(data)) /
+                            moment().endOf('month').diff(moment(), 'days'),
+                        ) < 500 && '🤣🤣🤣💔🔥'}
+                      </Text>
+                    ) : (
+                      <Text
+                        style={[
+                          BasicStyles.header,
+                          {color: colors.textColor, margin: 20, marginTop: 5},
+                        ]}>
+                        <Text style={{color: colors.componentTxtColor}}>
+                          Last day
+                        </Text>{' '}
+                        of the month! 🥳🎉🎊
+                      </Text>
+                    )}
+                  </View>
+                  <View
+                    style={[
+                      BasicStyles.spaceBtw,
+                      {
+                        marginLeft: 15,
+                        marginRight: 15,
+
+                        marginBottom: 15,
+                      },
+                    ]}>
                     <Text
                       style={[
                         BasicStyles.subheader,
-                        {color: colors.textColor},
+                        {color: colors.themeColor},
                       ]}>
-                      View all
+                      OverView
                     </Text>
-                  </TouchableOpacity>
-                </View>
-              </>
-            }
-            showsVerticalScrollIndicator={false}
-            style={{paddingTop: 15}}
-            data={data.slice(0, 3)}
-            renderItem={data => <HomeBlocks props={data.item} />}
-          />
+                    <TouchableOpacity
+                      onPress={() => setShowCategoriesodal(true)}
+                      activeOpacity={0.5}>
+                      <Text
+                        style={[
+                          BasicStyles.subheader,
+                          {color: colors.textColor},
+                        ]}>
+                        View all
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </>
+              }
+              showsVerticalScrollIndicator={false}
+              style={{paddingTop: 15}}
+              data={data
+                .sort((a: categories, b: categories) => b.spent - a.spent)
+                .slice(0, 3)}
+              renderItem={data => <HomeBlocks props={data.item} />}
+            />
+          )}
           <Modal
             animated
             animationType="slide"
             visible={add}
             transparent
             onRequestClose={() => setAdd(false)}>
-            {
-              <Add
-                data={data}
-                setData={setData}
-                setAdd={setAdd}
-                history={history}
-                setHistory={setHistory}
-              />
-            }
+            {<Add setAdd={setAdd} />}
           </Modal>
           <Modal
             animated
@@ -282,12 +332,7 @@ export default function Home({navigation}) {
             visible={showCategoriesodal}
             transparent
             onRequestClose={() => setShowCategoriesodal(false)}>
-            {
-              <Categories
-                data={data}
-                setShowCategoriesodal={setShowCategoriesodal}
-              />
-            }
+            {<Categories setShowCategoriesodal={setShowCategoriesodal} />}
           </Modal>
           <Modal
             animated
@@ -295,13 +340,7 @@ export default function Home({navigation}) {
             visible={budgetModal}
             transparent
             onRequestClose={() => setBudgetModal(false)}>
-            {
-              <Budget
-                data={data}
-                setData={setData}
-                setBudgetModal={setBudgetModal}
-              />
-            }
+            {<Budget setBudgetModal={setBudgetModal} />}
           </Modal>
         </SafeAreaView>
       </Drawer>
@@ -309,6 +348,12 @@ export default function Home({navigation}) {
   );
 }
 const styles = StyleSheet.create({
+  headerCon: {
+    marginLeft: 15,
+    marginRight: 15,
+    marginTop: 5,
+    marginBottom: 5,
+  },
   messagecon: {
     maxWidth: 400,
     margin: 15,

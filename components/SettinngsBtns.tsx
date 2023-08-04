@@ -2,14 +2,16 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {BasicStyles, colors} from '../contants';
+import {BasicStyles} from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
+import {useSelector} from 'react-redux';
 interface Btn {
   name: string;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export default function SettinngsBtns(props: Btn) {
+  const colors = useSelector(state => state.themeReducer.data);
   return (
     <TouchableOpacity
       onPress={() => props.setModal(true)}

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import {
@@ -10,13 +11,17 @@ import {
   Alert,
 } from 'react-native';
 import React, {useState} from 'react';
-import {BasicStyles, colors} from '../contants';
+import {BasicStyles} from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import ColorCircles from './ColorCircles';
 import RadioForm from 'react-native-simple-radio-button';
+import {useDispatch, useSelector} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ColorsModal({setShowColorsModal}) {
+  const dispatch = useDispatch();
+  const colors = useSelector(state => state.themeReducer.data);
   const [active, setActive] = useState<string>(colors.themeColor);
 
   const colorsData = [
@@ -41,18 +46,25 @@ export default function ColorsModal({setShowColorsModal}) {
     }
   });
 
-  function handleTextColor(val: string) {
-    if (val !== colors.background) {
-      colors.textColor = val;
+  async function handleTextColor(val: string) {
+    try {
+      if (val !== colors.background) {
+        colors.textColor = val;
 
-      if (val === '#1D1D1F') {
-        StatusBar.setBarStyle('dark-content');
+        if (val === '#1D1D1F') {
+          StatusBar.setBarStyle('dark-content');
+        } else {
+          StatusBar.setBarStyle('light-content');
+        }
+        dispatch({type: 'SET_THEME', payload: colors});
+        const jsonValue = JSON.stringify(colors);
+        await AsyncStorage.setItem('theme', jsonValue);
+        setValue(val);
       } else {
-        StatusBar.setBarStyle('light-content');
+        Alert.alert('The text color matches the background...😐😑😐');
       }
-      setValue(val);
-    } else {
-      Alert.alert('The text color matches the background...😐😑😐');
+    } catch (e) {
+      console.log(e);
     }
   }
   return (

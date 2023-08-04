@@ -1,21 +1,23 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet} from 'react-native';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
+import moment from 'moment';
+import {useDispatch} from 'react-redux';
 
 let bgColor = '#464646';
 
-let colors = {
+/* let colors = {
   background: '#fcf4e7',
   textColor: '#1D1D1F',
   themeColor: '#1947E5',
   componentTxtColor: '#F5F5F7',
   subTextColor: '#1947E5',
 };
-
+ */
 function setBg(value: string) {
   bgColor = value;
 }
-export {bgColor, setBg, colors};
+export {bgColor, setBg};
 
 /* '#fcf4e7' -- offwhite
   #7388b8 -- blue
@@ -109,6 +111,8 @@ export const BasicStyles = StyleSheet.create({
     flexWrap: 'wrap',
   },
 });
+
+const storedMonthAndYear = moment().format('MMM YYYY');
 
 interface overview {
   name: string;
@@ -319,7 +323,7 @@ export const Categories: categories[] = [
   },
 ];
 
-export const MyCategories: categories[] = [
+/* export const MyCategories: categories[] = [
   {
     name: 'Grocery',
     backgroundColor: '#F95A2C',
@@ -353,7 +357,7 @@ export const MyCategories: categories[] = [
     budget: 500,
   },
 ];
-
+ */
 export function getBudget(data: categories[]) {
   let res: number = 0;
   data.length !== 0
@@ -368,6 +372,16 @@ export function getSpent(data: categories[]) {
   data.length !== 0
     ? data.forEach(element => {
         res += element.spent;
+      })
+    : (res = 0);
+  return res;
+}
+
+export function getHistoryTotal(data: HistoryData[]) {
+  let res: number = 0;
+  data.length !== 0
+    ? data.forEach(element => {
+        res += Number(element.amount);
       })
     : (res = 0);
   return res;

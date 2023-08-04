@@ -3,11 +3,13 @@
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {BasicStyles, colors} from '../contants';
+import {BasicStyles} from '../contants';
 import * as Progress from 'react-native-progress';
+import {useSelector} from 'react-redux';
 
 export default function HomeBlocks({props}: any) {
   const width = Dimensions.get('window').width;
+  const colors = useSelector(state => state.themeReducer.data);
   return (
     <View style={styles.con}>
       <View
@@ -40,7 +42,10 @@ export default function HomeBlocks({props}: any) {
               BasicStyles.header,
               {fontSize: 15, lineHeight: 24, color: colors.themeColor},
             ]}>
-            Left: <Text style={{color: '#1D1D1F'}}>₦{(props.budget - props.spent).toLocaleString()}</Text>
+            Left:{' '}
+            <Text style={{color: colors.textColor}}>
+              ₦{(props.budget - props.spent).toLocaleString()}
+            </Text>
           </Text>
         </View>
         <Progress.Bar
@@ -57,7 +62,10 @@ export default function HomeBlocks({props}: any) {
               BasicStyles.header,
               {fontSize: 15, lineHeight: 24, color: colors.themeColor},
             ]}>
-            Spent: <Text style={{color: colors.textColor}}>₦{props.spent.toLocaleString()}</Text>
+            Spent:{' '}
+            <Text style={{color: colors.textColor}}>
+              ₦{props.spent.toLocaleString()}
+            </Text>
           </Text>
           <Text
             style={[
@@ -65,7 +73,9 @@ export default function HomeBlocks({props}: any) {
               {fontSize: 15, lineHeight: 24, color: colors.themeColor},
             ]}>
             Budget:{' '}
-            <Text style={{color: colors.textColor}}>₦{props.budget.toLocaleString()}</Text>
+            <Text style={{color: colors.textColor}}>
+              ₦{props.budget.toLocaleString()}
+            </Text>
           </Text>
         </View>
       </View>
@@ -81,7 +91,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-  
   },
   iconBg: {
     marginRight: 15,

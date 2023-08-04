@@ -7,9 +7,11 @@ import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MenuDrawer from 'react-native-side-drawer';
-import {BasicStyles, colors} from '../contants';
+import {BasicStyles} from '../contants';
+import {useSelector} from 'react-redux';
 
 const Drawer = props => {
+  const colors = useSelector(state => state.themeReducer.data);
   const overlay = true;
   const position = 'left';
 
@@ -69,12 +71,7 @@ const Drawer = props => {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() =>
-                props.navigation.navigate('Stats', {
-                  data: props.data,
-                  history: props.history,
-                })
-              }
+              onPress={() => props.navigation.navigate('Stats')}
               activeOpacity={0.5}
               style={{marginTop: 20, marginBottom: 20}}>
               <Text

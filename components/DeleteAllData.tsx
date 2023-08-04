@@ -2,9 +2,11 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {BasicStyles, colors} from '../contants';
+import {BasicStyles} from '../contants';
+import {useSelector} from 'react-redux';
 
 export default function DeleteAllData(props) {
+  const colors = useSelector(state => state.themeReducer.data);
   return (
     <View style={[BasicStyles.modalBgCon, {justifyContent: 'center'}]}>
       <View

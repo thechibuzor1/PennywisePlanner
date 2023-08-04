@@ -2,9 +2,11 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {BasicStyles, colors} from '../contants';
+import {BasicStyles} from '../contants';
+import {useSelector} from 'react-redux';
 
 export default function MoneySquares(props: any) {
+  const colors = useSelector(state => state.themeReducer.data);
   return (
     <TouchableOpacity
       onPress={() => props.setSelected(props.amount)}

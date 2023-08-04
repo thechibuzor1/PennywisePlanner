@@ -4,15 +4,27 @@ import {StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
-import {colors} from '../contants';
+import {useDispatch, useSelector} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ColorCircles(props) {
+  const colors = useSelector(state => state.themeReducer.data);
+  const dispatch = useDispatch();
+
+  async function handleColor() {
+    try {
+      colors.themeColor = props.color;
+      dispatch({type: 'SET_THEME', payload: colors});
+      const jsonValue = JSON.stringify(colors);
+      await AsyncStorage.setItem('theme', jsonValue);
+      props.setActive(props.color);
+    } catch (e) {
+      console.log(e);
+    }
+  }
   return (
     <TouchableOpacity
-      onPress={() => {
-        colors.themeColor = props.color;
-        props.setActive(props.color);
-      }}
+      onPress={handleColor}
       activeOpacity={0.7}
       style={{
         borderRadius: 30,

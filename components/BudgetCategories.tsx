@@ -2,20 +2,20 @@
 /* eslint-disable react-native/no-inline-styles */
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {BasicStyles, colors} from '../contants';
+import {BasicStyles} from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import * as Progress from 'react-native-progress';
+import {useSelector} from 'react-redux';
 
 export default function BudgetCategories({
-  data,
-  setData,
   props,
   setSelectedCategory,
   selectedCategory,
   setDeleteAllData,
   setAllocate,
 }) {
+  const colors = useSelector(state => state.themeReducer.data);
   function handlePress(props) {
     if (props.name === selectedCategory.name) {
       setSelectedCategory({});
@@ -115,9 +115,9 @@ export default function BudgetCategories({
           <Progress.Bar
             progress={Number(props.spent) / Number(props.budget)}
             height={3}
+            width={100}
             color={colors.themeColor}
             unfilledColor={'white'}
-            width={100}
             style={{marginTop: 10, marginBottom: 5}}
           />
         </>

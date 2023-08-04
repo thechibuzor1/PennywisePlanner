@@ -2,12 +2,14 @@
 /* eslint-disable react-native/no-inline-styles */
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
-import {BasicStyles, colors} from '../contants';
+import {BasicStyles} from '../contants';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import * as Progress from 'react-native-progress';
+import {useSelector} from 'react-redux';
 
 export default function AddCategoriesBlocks({props, setAllocate, setAlloData}) {
+  const colors = useSelector(state => state.themeReducer.data);
   function alloFunction() {
     setAlloData(props);
     setAllocate(true);
